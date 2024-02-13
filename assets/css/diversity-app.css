@@ -1,0 +1,143 @@
+/*\
+|*| General Elements
+\*/
+body {
+	height: 99vh;
+	background-color: #eeeeee;
+}
+
+section {
+	height: 100%;
+	border: 1px solid green;
+	padding: 10px;
+}
+input[type="file"] {
+	display: none;
+}
+
+/*\
+|*| App Utility Classes
+\*/
+.float-right {
+	float: right;
+}
+.float-left	{
+	float: left;
+}
+.shadow {
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+}
+.file-picker-input {
+	border: 1px solid #e5e5e5;
+	margin: 10px 0px 10px 0px;
+	padding: 8px 20px 8px 20px;
+	display: inline-block;
+	border-radius: 3px;
+	background-color: #eeeeee;
+	color: #273854;
+	cursor: pointer;
+	font-size: .8rem;
+	font-weight: bold;
+}
+.code {
+	padding: 0px 4px 0px 0px;
+	display: inline-block;
+	background-color: #eee;
+	font-family: Courier, monospace;
+	color: #333;
+	border-radius: 3px;;
+}
+.cta-layout {
+	width: 100%;
+	table-layout: fixed;
+}
+.cta-layout td {
+	/* border: 1px solid red; */
+	width: 50%;
+}
+
+
+/*\
+|*| Tab UI
+\*/
+tabs {
+	/* border: 1px solid red; */
+	margin: 20px 0px 10px 0px;
+	display: block;
+	border-radius: 3px;
+}
+tabs span {
+	/* border: 1px solid blue; */
+	margin: 0px 2px 0px 0px;
+	padding: 7px 10px;
+	display: inline-block;
+	background-color: #e7e7e7;
+	border-bottom: 2px solid #fff;
+	cursor: pointer;
+	font-size: .8rem;
+}
+tabs span:first-child {
+	border-top-left-radius: 3px;
+}
+
+tabs span:last-child {
+	border-top-right-radius: 3px;
+}
+tabs .active {
+	border-bottom: 2px solid #273854;
+	background-color: #fff;
+}
+
+
+/*\
+|*| Tab Body Content UI
+\*/
+.tab-content {
+	/* border: 1px solid purple; */
+	margin: 20px 0px 0px 0px;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 3px;
+}
+.tab-content .tab-body-title {
+	margin: 0px 0px 0px 0px;
+}
+
+
+
+
+
+
+/*\
+|*| Alpha Roster Table
+\*/
+#alpha-roster-table table {
+	margin: 20px 0 0 0;
+	position: relative;
+	top: 0;
+}
+
+#alpha-roster-table th {
+	position: sticky;
+	top: 0;
+	text-align: left;
+	background-color: #EEE;
+	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+
+/*\
+|*| tbd
+\*/
+
+
+
+
+
+
+
+
+
+/*\
+|*| Application Button UI
+\*/

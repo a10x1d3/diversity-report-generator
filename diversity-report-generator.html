@@ -6,217 +6,217 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">	
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="TwoCast Weather App" content="Angular Gantt | version 1.0">
+<meta name="CMEO | Diversity Report Generator" content="Angular Gantt | version 1.0">
 <meta name="author" content="Alden J. Curnutt">
 
+
 <!--  Tab Info  -->
-<title>TwoCast Weather App</title>
 <link rel="shortcut icon" href="assets/images/DIST/TwoCast-Weather-Favicon.ico">
+<title>CMEO | Diversity Report Generator</title>
+
 
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="assets/js/angular.min.js"></script>
-<script type="text/javascript" src="assets/js/twocast-app.js"></script>
-
-
+<script type="text/javascript" src="assets/js/directives/alpha-roster-import.js"></script>
+<script type="text/javascript" src="assets/js/directives/fltmps-import.js"></script>
+<script type="text/javascript" src="assets/js/diversity-app.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
-<link rel="stylesheet" type="text/css" href="assets/css/twocast-app.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/diversity-app.css" />
 
-</head>
-	<body>
-	<section ng-app="twocast-weather"
-	         ng-controller="twoCastWeatherCtrl"
-			 id="cyclecast-app"
-			 class="light-scheme"
-			 ng-class="{'light-theme': ui.activeTheme == 'light', 'dark-theme': ui.activeTheme == 'dark'}">
+
+</head><body>
+<section ng-app="diversity-report"
+			ng-controller="diversityReportCtrl"
+			id="diversity-app"
+			class="light-scheme">
+
+
+	<h5>CMEO | Diversity Report Generator</h5>
+
+
 	
-		<tabs class="app-border-radius">
-			<span ng-repeat="tab in ui.tabs"
-			      ng-class="{'active': tab.title == ui.activeTab }"
-				  ng-click="setTabTo(tab.title)"
-				  class="b shadow trans2">
-				{{ tab.title }}
-			</span>
-		</tabs>
+	<!--────────────────────────────────────┐
+	 │ Tab UI                               │
+	 └─────────────────────────────────────-->
+	<tabs class="app-border-radius">
+		<span ng-repeat="tab in ui.tabs"
+			  ng-click="activateTab(tab.title)"
+			  ng-class="{'active': tab.title == ui.activeTab }"
+			  class="b trans2 shadow">
+			{{ tab.title }}
+		</span>
+	</tabs>
 
 
+	 
+	<!--────────────────────────────────────┐
+	 │ Tab Body | Alpha Roster              │
+	 └─────────────────────────────────────-->
+	<div ng-show="ui.activeTab == 'Alpha Roster'"
+			id="import-tab"
+			class="tab-content shadow"
+			ng-hidden>
+
+		<p class="tab-body-title b">Load raw command alpha roster<span class="code">.csv</span> file</p>
+
+		<table class="cta-layout">
+			<tr>
+				<td>
+					<p ng-click="logAlphaRoster()">Log AlphaRoster</p>
+				</td>
+				<td>
+					<label for="roster-file-picker"
+						   class="file-picker-input shadow float-right">
+						   <span ng-show="alphaRoster">
+							   Re
+						  </span>
+						   Import
+					</label>
+					<input class=""
+						   id="roster-file-picker"
+						   type="file"
+						   alpha-reader="fileContent"
+						   alpha-file-reader="alphaRoster"
+						   value="Select Alpha Roster"></input>
+				</td>
+			</tr>
+		</table>
 		
-		<div ng-repeat="route in Routes track by $index"
-			 ng-show="ui.activeTab == 'Routes'"
-			 class="tab-body app-border-radius shadow">
+		<div id="alpha-roster-table" ng-show="alphaRoster">
+			
+			<table>
+				<thead>
+					<tr>
+						<td colspan="5">Imported Command Alpha Roster</td>
+					</tr>
+					<tr>
+						<th>Dept</th>
+						<th>Rank / Rate</th>
+						<th>Last Name</th>
+						<th>First name</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<tr ng-repeat="sailor in alphaRoster track by $index">
+					<td>{{ sailor.dept }}</td>
+					<td>
+						<input type="text" ng-model="sailor.rateRank">
+					</td>
+					<td>
+						<input type="text" ng-model="sailor.lastName">
+					</td>
+					<td>
+						<input type="text" ng-model="sailor.firstName">
+					</td>
+					<td>
+						<p ng-click="removeAlphaEntry($index)">Delete ({{ $index }})</p>
+					</td>
+				</tr>
+			</table>
+		</div>
 
-			<ul class="clearfix ul-content">
-				<p>tab 2</p>
+	</div>
+
+
+	
+	<!--────────────────────────────────────┐
+	 │ Tab Body | FLTMPS Import             │
+	 └─────────────────────────────────────-->
+	<div ng-show="ui.activeTab == 'FLTMPS'"
+			id="fltmps-tab"
+			class="tab-content"
+			ng-hidden>
+	
+		<p class="tab-body-title b">Load all raw FLTMPS diversity reports as <span class="code">.csv</span> files</p>
+
+		<table class="cta-layout">
+			<tr>
+				<td>
+					<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-left">Render</p>
+				</td>
+				<td>
+					<label for="fltmps-file-picker"
+						   class="file-picker-input shadow float-right"
+						   ng-click="showFltmpsHTML = false">
+						   <span ng-show="fltmpsObject">
+							Re
+						   </span>
+						   Import
+					</label>
+					
+					<input class=""
+						   id="fltmps-file-picker"
+						   type="file"
+						   multiple
+						   fltmps-reader="fileContent"
+						   fltmps-Object="fltmpsObject"
+						   fltmps-Array="fltmpsArray"
+						   value="Select Alpha Roster">
+					</input>
+				</td>
+			</tr>
+		</table>
+
+		<div ng-show="showFltmpsHTML">
+			<table>
+				<tr>
+					<td colspan="6">Imported FLTMPS Sailors</td>
+				</tr>
+				<tr>
+					<td>Rank / Rate</td>
+					<td>Last Name</td>
+					<td>First Name</td>
+					<td>Gender</td>
+					<td>Diversity Group</td>
+					<td>UIC</td>
+				</tr>
+				<tr ng-repeat="item in fltmpsArray | orderBy: 'lastName'">
+					<td>{{ item.rankRate }}</td>
+					<td>{{ item.lastName }}</td>
+					<td>{{ item.firstName }}</td>
+					<td>{{ item.diversityGroup }}</td>
+					<td>{{ item.genderGroup }}</td>
+					<td>{{ item.uic }}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<!-- Tab Content | Tab 3  -->
+	<div ng-show="ui.activeTab == 'Tab 3'"
+			id="tab-three"
+			class="tab-content"
+			ng-hidden>
+	
+		<div class="tab-body app-border-radius shadow">
+			<ul class="ul-content clearfix">
+				<li class="font-p9rem app-orange-text b">Tab 3</li>
 			</ul>
 		</div>
+	</div>
 
 
-
-		<div class="clearfix app-cta-box" ng-if="forecast && ui.activeTab == 'Routes'">
-			<span ng-click="AddRoute()"
-			      ng-if="forecast"
-			      ng-show="ui.activeTab == 'Routes'"
-			      class="app-cta b app-border-radius shadow pointer clearfix">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219.41 219.41">
-					<path d="M378.45,138.69A109.71,109.71,0,1,1,268.69,248.23,109.72,109.72,0,0,1,378.45,138.69Zm12.06,121.58H443c4.35,0,8.71.05,13.07,0a12,12,0,0,0-.53-24H390.51V218.82q0-23.74,0-47.48a12,12,0,1,0-24,.11q0,31.65,0,63.3v1.54H321.87c-6.91,0-13.83,0-20.74,0a12,12,0,0,0,.29,24q31.83,0,63.66,0h1.45v33.36c0,10.59,0,21.18,0,31.77a12,12,0,0,0,24-.23q0-31.65,0-63.3Z" transform="translate(-268.69 -138.69)"/>
-				</svg>
-				<span>
-					Add Route
-				</span>
-			</span>
-		</div>
-
-		<div ng-if="ui.activeTab == 'Routes'" class="app-cta-box clearfix tcenter">
-			<span class="app-cta inline font-p7rem">
-				<span ng-if="!forecast">No Forecast</span>
-				<span>&nbsp;&nbsp;</span>
-				<span ng-click="FetchData()" class="link">
-					<span class="cursor b">(</span>
-					<span class="cursor b" ng-if="forecast">Re-</span>
-					<span class="cursor b">Fetch API Data)</span>
-				</span>
-			</span>
-		</div>
-
-
-		<div ng-show="ui.activeTab == 'Clothing'"
-			 id="clothing"
-			 class="tab-content">
-		
-			<div class="tab-body app-border-radius shadow">
-				<ul class="ul-content clearfix">
-					<li class="font-p9rem app-orange-text b">Clothing Table</li>
-				</ul>
-				
-				<table>
-					<tr>
-						<td class="title"></td>
-						<td class="article valign-m">
-							<table>
-								<tr>
-									<td class="article-icon">
-										<img src="assets/images/app-icons/rain-dark.svg" 
-										     ng-if="ui.activeTheme == 'light'"    
-										     class="icon-15x15 valign-m">
-										<img src="assets/images/app-icons/rain-light.svg"
-										     ng-if="ui.activeTheme == 'dark'"
-											 class="icon-15x15 valign-m">
-									</td>
-									<td class="article-name b">
-										<p>Article</p>
-									</td>
-									<td class="article-limit tright b">
-										<p>Min<sup>°F</sup></p>
-									</td>
-									<td class="article-limit tright b">
-										<p>Max<sup>°F</sup></p>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr ng-repeat="eachCategory in clothing" >
-						<td class="title valign-m" ng-class="">
-							<img ng-src="{{ eachCategory.darkSVG }}" ng-if="ui.activeTheme == 'dark'" class="icon-45x45">
-							<img ng-src="{{ eachCategory.lightSVG }}" ng-if="ui.activeTheme == 'light'" class="icon-45x45">
-						</td>
-						<td class="article valign-m font-p9rem">
-							<table class="tmp">
-								<tr ng-repeat="eachArticle in eachCategory.clothing">
-									<td class="article-icon">
-										<img src="assets/images/app-icons/rain-dark.svg"
-										     ng-if="ui.activeTheme == 'light' && eachArticle.isRainArticle"
-											 class="icon-15x15 valign-m">
-										<img src="assets/images/app-icons/rain-light.svg"
-										     ng-if="ui.activeTheme == 'dark' && eachArticle.isRainArticle"
-											 class="icon-15x15 valign-m" >
-									</td>
-									<td  class="article-name font-p8rem">
-										<p>
-											{{ eachArticle.name }}
-										</p>
-									</td>
-									<td  class="article-limit tright font-p8rem">
-										<p>{{ eachArticle.min }}°</p>
-									</td>
-									<td class="article-limit tright font-p8rem">
-										<p>{{ eachArticle.max }}°</p>
-									</td>
-								</tr>
-							</table>							
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-
-		<div ng-show="ui.activeTab == 'API Fields'">
-			<div class="tab-body app-border-radius shadow">
-				<ul class="ul-content clearfix">
-					<li class="font-p9rem app-orange-text b">API Fields</li>
-				</ul>
-
-				<table>
-					<tr>
-						<td class="title article-field tright app-dark-grey-text b consolas">Field</td>
-						<td class="title b consolas">Value</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">key</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.key" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">baseURL</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.baseURL" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">callType</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.callType" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">lat</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.lat" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">long</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.long" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">exclude</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.exclude" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">units</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow consolas" ng-model="api.units" />
-						</td>
-					</tr>
-					<tr>
-						<td class="article tright consolas">cnt</td>
-						<td class="article">
-							<input type="text" class="app-border-radius shadow" ng-model="api.cnt" />
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		
-	</section>
-
+	<!-- Tab Content | Tab 4  -->
+	<div ng-show="ui.activeTab == 'Tab 4'"
+			id="a"
+			class="tab-content"
+			ng-hidden>
 	
+		<div class="tab-body app-border-radius shadow">
+			<ul class="ul-content clearfix">
+				<li class="font-p9rem app-orange-text b">Tab 4</li>
+			</ul>
+		</div>
+	</div>
+	
+</section>
 
-</body>
-</html>
+</body></html>
