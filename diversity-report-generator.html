@@ -78,14 +78,15 @@
 						   id="roster-file-picker"
 						   type="file"
 						   alpha-reader="fileContent"
-						   alpha-file-reader="alphaRoster"
+						   alpha-Array="alphaArray"
+						   department-array="departmentArray"
 						   value="Select Alpha Roster"></input>
 				</td>
 			</tr>
 		</table>
 		
-		<div id="alpha-roster-table" ng-show="alphaRoster">
-			
+		<div id="alpha-roster-table" ng-show="alphaArray">
+			<p>{{ departmentArray }}</p>
 			<table>
 				<thead>
 					<tr>
@@ -99,8 +100,14 @@
 						<th>Remove</th>
 					</tr>
 				</thead>
-				<tr ng-repeat="sailor in alphaRoster track by $index">
-					<td>{{ sailor.dept }}</td>
+				<tr ng-repeat="sailor in alphaArray track by $index">
+					<td>
+						<select name=""
+								id=""
+								ng-options="dept for dept in departmentArray"
+								ng-model="sailor.dept">
+						</select>
+					</td>
 					<td>
 						<input type="text" ng-model="sailor.rateRank">
 					</td>

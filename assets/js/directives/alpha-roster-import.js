@@ -8,7 +8,8 @@ app.directive('alphaReader', function ()
     return {
         scope:
         {
-            fileReader: "=alphaFileReader",
+            alphaArray: "=alphaArray",
+            departmentArray: "=departmentArray"
         },
         link: function (scope, element)
         {
@@ -27,19 +28,19 @@ app.directive('alphaReader', function ()
                         
                         scope.$apply(function ()
                         {
-                            var alphaRoster = [];
-                            console.log(typeof (alphaRoster));
-                            contents.forEach(sailor => {
-                                // console.log(sailor);
+                            var localAlphaArray = [];
+                            var localDepartmentArray = [];
 
+                            contents.forEach(sailor => {
+                                
                                 if ( sailor.includes('\r') )
                                 {
                                     sailor = sailor.replace('\r', '');
                                 }
 
-
+                                
                                 sailor = sailor.split(',');
-                                alphaRoster.push(
+                                localAlphaArray.push(
                                     {
                                         "dept": sailor[0],
                                         "rateRank": sailor[1],
@@ -47,11 +48,24 @@ app.directive('alphaReader', function ()
                                         "lastName": sailor[2].toUpperCase(),
                                         "firstName": sailor[3].toUpperCase()
                                     }
-                                );
+                                    );
+                                    
+                                    if (localDepartmentArray.indexOf(sailor[0]) < 0)
+                                    {
+                                        
+                                        console.log('hit index of: ' + localDepartmentArray.indexOf(sailor[0]));
+                                        localDepartmentArray.push(sailor[0]);
+                                    }
+
+                                // console.log('localDeptArray' + localDepartmentArray + 'with dept:' + sailor[0]);
+                                // console.log('running');
+
                             });
-                            alphaRoster.sort((a, b) => (a.lastName > b.lastName) ? 1 : ((b.lastName > a.lastName) ? -1 : 0))
-                            scope.fileReader = alphaRoster;
-                            console.log(scope.fileReader);
+                            
+                            localAlphaArray.sort((a, b) => (a.lastName > b.lastName) ? 1 : ((b.lastName > a.lastName) ? -1 : 0))
+                            scope.alphaArray = localAlphaArray;
+                            scope.departmentArray = localDepartmentArray;
+                            console.log(scope.alphaArray);
                         });
                     };
 

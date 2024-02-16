@@ -10,7 +10,7 @@ app.controller('diversityReportCtrl', function ($scope) {
 	//│ Controller Variables                 │
 	//└──────────────────────────────────────┘
 	$scope.showFltmpsHTML = false;
-	
+	$scope.departmentArray = [];
 
 
 	//┌──────────────────────────────────────┐
