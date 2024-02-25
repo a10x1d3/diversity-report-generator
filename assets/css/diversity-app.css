@@ -14,6 +14,43 @@ section {
 input[type="file"] {
 	display: none;
 }
+table {
+	margin: 20px 0 0 0;
+	position: relative;
+	top: 0;
+}
+
+th {
+	position: sticky;
+	top: 0;
+	text-align: left;
+	background-color: #EEE;
+	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+tr
+{
+	height: 30px;
+}
+tr:nth-child(even) {
+	background-color: #fafafa;
+}
+tr:nth-child(even) td:first-child {
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+tr:nth-child(even) td:last-child {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+td {
+	vertical-align: middle;
+}
+td input {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
 
 /*\
 |*| App Utility Classes
@@ -75,6 +112,7 @@ tabs span {
 	border-bottom: 2px solid #fff;
 	cursor: pointer;
 	font-size: .8rem;
+	color: #777;
 }
 tabs span:first-child {
 	border-top-left-radius: 3px;
@@ -86,7 +124,13 @@ tabs span:last-child {
 tabs .active {
 	border-bottom: 2px solid #273854;
 	background-color: #fff;
+	color: #333;
 }
+tabs .muted {
+	border-bottom-color: #eee;
+	color: #ccc;
+}
+
 
 
 /*\
@@ -109,21 +153,9 @@ tabs .active {
 
 
 /*\
-|*| Alpha Roster Table
+|*| Table Ui
 \*/
-#alpha-roster-table table {
-	margin: 20px 0 0 0;
-	position: relative;
-	top: 0;
-}
 
-#alpha-roster-table th {
-	position: sticky;
-	top: 0;
-	text-align: left;
-	background-color: #EEE;
-	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
-}
 
 
 /*\

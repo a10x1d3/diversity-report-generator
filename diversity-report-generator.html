@@ -41,11 +41,11 @@
 	 │ Tab UI                               │
 	 └─────────────────────────────────────-->
 	<tabs class="app-border-radius">
-		<span ng-repeat="tab in ui.tabs"
-			  ng-click="activateTab(tab.title)"
-			  ng-class="{'active': tab.title == ui.activeTab }"
+		<span ng-repeat="(tab, content) in ui.tabs"
+			  ng-click="setTabState(tab)"
+			  ng-class="content.state"
 			  class="b trans2 shadow">
-			{{ tab.title }}
+			{{ content.title }}
 		</span>
 	</tabs>
 
@@ -54,7 +54,7 @@
 	<!--────────────────────────────────────┐
 	 │ Tab Body | Alpha Roster              │
 	 └─────────────────────────────────────-->
-	<div ng-show="ui.activeTab == 'Alpha Roster'"
+	<div ng-show="ui.activeTab == 'alphaRoster'"
 			id="import-tab"
 			class="tab-content shadow"
 			ng-hidden>
@@ -68,7 +68,8 @@
 				</td>
 				<td>
 					<label for="roster-file-picker"
-						   class="file-picker-input shadow float-right">
+						   class="file-picker-input shadow float-right"
+						   ng-click="unmuteTab('fltmpsRoster')">
 						   <span ng-show="alphaRoster">
 							   Re
 						  </span>
@@ -86,7 +87,7 @@
 		</table>
 		
 		<div id="alpha-roster-table" ng-show="alphaArray">
-			<p>{{ departmentArray }}</p>
+			<!-- <p>{{ departmentArray }}</p> -->
 			<table>
 				<thead>
 					<tr>
@@ -131,7 +132,7 @@
 	<!--────────────────────────────────────┐
 	 │ Tab Body | FLTMPS Import             │
 	 └─────────────────────────────────────-->
-	<div ng-show="ui.activeTab == 'FLTMPS'"
+	<div ng-show="ui.activeTab == 'fltmpsRoster'"
 			id="fltmps-tab"
 			class="tab-content"
 			ng-hidden>
@@ -172,20 +173,34 @@
 					<td colspan="6">Imported FLTMPS Sailors</td>
 				</tr>
 				<tr>
-					<td>Rank / Rate</td>
-					<td>Last Name</td>
-					<td>First Name</td>
-					<td>Gender</td>
-					<td>Diversity Group</td>
-					<td>UIC</td>
+					<th>Rank / Rate</th>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th>Gender</th>
+					<th>Diversity Group</th>
+					<th>UIC</th>
 				</tr>
-				<tr ng-repeat="item in fltmpsArray | orderBy: 'lastName'">
-					<td>{{ item.rankRate }}</td>
-					<td>{{ item.lastName }}</td>
-					<td>{{ item.firstName }}</td>
-					<td>{{ item.diversityGroup }}</td>
-					<td>{{ item.genderGroup }}</td>
-					<td>{{ item.uic }}</td>
+				<tr ng-repeat="initial in initialArray">
+					<td colspan="6">
+						<table>
+							<tr>
+								<th colspan="6">
+									{{ initial }}
+								</th>
+							</tr>
+							<tr ng-repeat="iten in fltmpsObject[initial]">
+								<td>{{ iten.rankRate }}</td>
+								<td>{{ iten.lastName }}</td>
+								<td>{{ iten.firstName }}</td>
+								<td>{{ iten.diversityGroup }}</td>
+								<td>{{ iten.genderGroup }}</td>
+								<td>{{ iten.uic }}</td>
+							</tr>
+						</table>
+					</td>
+					<!-- <tr ng-repeat="item in fltmpsObject[initial]">
+						<td>{{ item.rankRate }}</td>
+					</tr> -->
 				</tr>
 			</table>
 		</div>

@@ -11,21 +11,59 @@ app.controller('diversityReportCtrl', function ($scope) {
 	//└──────────────────────────────────────┘
 	$scope.showFltmpsHTML = false;
 	$scope.departmentArray = [];
+	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 
 	//┌──────────────────────────────────────┐
 	//│ Tab UI Functions                     │
 	//└──────────────────────────────────────┘
 	$scope.ui = {
-		activeTab: 'Alpha Roster',
-		tabs: [ 
-			{ title: 'Alpha Roster' },
-			{ title: 'FLTMPS' },
-			{ title: 'Tab 3' },
-			{ title: 'Tab 4' }
-		]
+		activeTab: 'alphaRoster',
+		tabs: { 
+			alphaRoster: {
+				title: 'Alpha Roster',
+				state: 'active'
+			},
+			fltmpsRoster: {
+				title: 'FLTMPS',
+				state: 'inactive'
+			},
+			diversityRoster: {
+				title: 'Tab 3',
+				state: 'muted'
+			},
+			diversityReport: {
+				title: 'Tab 4',
+				state: 'muted'
+			}
+		}
 	};
-	$scope.activateTab = function (tab) { $scope.ui.activeTab = tab; };
+
+	$scope.setTabState = function (tab)
+	{
+		var currentActiveTab = $scope.ui.activeTab;
+		
+		if ($scope.ui.activeTab == tab)
+		{
+			console.log('tab alredy active');
+			return;
+		}
+
+		if ($scope.ui.tabs[tab].state == 'muted')
+		{
+			console.log('tab is muted; NOOP');
+			return;
+		}
+
+		$scope.ui.tabs[tab].state = 'active';
+		$scope.ui.activeTab = tab;
+		$scope.ui.tabs[currentActiveTab].state = 'inactive';
+	};
+
+	$scope.unmuteTab = function(tab)
+	{
+		$scope.ui.tabs[tab].state = 'inactive';
+	};
 
 
 
@@ -50,6 +88,8 @@ app.controller('diversityReportCtrl', function ($scope) {
 	$scope.renderFltmpsHTML = function () {
 		$scope.f = $scope.fltmpsRoster;
 		$scope.showFltmpsHTML = true;
+
+		$scope.unmuteTab('diversityRoster');
 	};
 
 
