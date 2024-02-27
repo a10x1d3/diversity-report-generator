@@ -9,7 +9,7 @@ app.directive('fltmpsReader', function ()
         scope:
         {
             fltmpsObject: "=fltmpsObject",
-            fltmpsArray: "=fltmpsArray"
+            fltmpsInitialArray: "=fltmpsInitialArray"
         },
         link: function (scope, element)
         {
@@ -19,7 +19,7 @@ app.directive('fltmpsReader', function ()
                 // console.log(files);
 
                 var localFltmpsObject = {};
-                var localFltmpsArray = [];
+                var localFltmpsInitialArray = [];
                 
                 if (files.length)
                 {
@@ -85,6 +85,12 @@ app.directive('fltmpsReader', function ()
                                     localFltmpsObject[lastInitial] = new Array;
                                 }
 
+                                if (localFltmpsInitialArray.indexOf(lastInitial) < 0) {
+
+                                    console.log('index hit of: ' + localFltmpsInitialArray.indexOf(lastInitial));
+                                    localFltmpsInitialArray.push(lastInitial);
+                                }
+
                                 var recordObject = {
                                     "rankRate": rankRate,
                                     "lastName": lastName,
@@ -95,15 +101,16 @@ app.directive('fltmpsReader', function ()
                                 };
 
                                 localFltmpsObject[lastInitial].push(recordObject);
-                                localFltmpsArray.push(recordObject);
                                 
                             }); // END contents.forEach
-
+                            
+                            localFltmpsInitialArray.sort();
+                            
                         }; // END r.onload
-
+                        
                         r.readAsText(files[index]);
                         console.log(localFltmpsObject);
-                    
+
                     } // END for (const [index, [key, value]] of Object.entries(Object.entries(files)))
 
                 }; // END if (files.length)
@@ -111,7 +118,8 @@ app.directive('fltmpsReader', function ()
                 scope.$apply(function ()
                 {
                     scope.fltmpsObject = localFltmpsObject;
-                    scope.fltmpsArray = localFltmpsArray;
+                    scope.fltmpsInitialArray = localFltmpsInitialArray;
+                    console.log(scope.fltmpsInitialArray);
                 }); // END scope.$apply
                 
             }); // END element.on('change')

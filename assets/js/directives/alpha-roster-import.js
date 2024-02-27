@@ -8,7 +8,8 @@ app.directive('alphaReader', function ()
     return {
         scope:
         {
-            alphaArray: "=alphaArray",
+            alphaObject: "=alphaObject",
+            alphaInitialArray: "=alphaInitialArray",
             departmentArray: "=departmentArray"
         },
         link: function (scope, element)
@@ -17,7 +18,9 @@ app.directive('alphaReader', function ()
             {
                 var files = changeEvent.target.files;
                 // console.log(files);
-                
+
+                var localAlphaObject = {};
+                var localAlphaInitialArray = [];
             
                 if (files.length)
                 {
@@ -32,7 +35,12 @@ app.directive('alphaReader', function ()
                             var localDepartmentArray = [];
 
                             contents.forEach(sailor => {
-                                
+                                var dept = '';
+                                var rateRank = '';
+                                var lastInitial = '';
+                                var lastName = '';
+                                var firstName = '';
+
                                 if ( sailor.includes('\r') )
                                 {
                                     sailor = sailor.replace('\r', '');
@@ -40,32 +48,46 @@ app.directive('alphaReader', function ()
 
                                 
                                 sailor = sailor.split(',');
-                                localAlphaArray.push(
-                                    {
-                                        "dept": sailor[0],
-                                        "rateRank": sailor[1],
-                                        "lastInitial": sailor[2][0],
-                                        "lastName": sailor[2].toUpperCase(),
-                                        "firstName": sailor[3].toUpperCase()
-                                    }
-                                    );
-                                    
-                                    if (localDepartmentArray.indexOf(sailor[0]) < 0)
-                                    {
-                                        
-                                        console.log('hit index of: ' + localDepartmentArray.indexOf(sailor[0]));
-                                        localDepartmentArray.push(sailor[0]);
-                                    }
+                                dept = sailor[0];
+                                rateRank = sailor[1];
+                                lastInitial = sailor[2][0];
+                                lastName = sailor[2].toUpperCase();
+                                firstName = sailor[3].toUpperCase();
 
-                                // console.log('localDeptArray' + localDepartmentArray + 'with dept:' + sailor[0]);
-                                // console.log('running');
+                                var recordObject = {
+                                        "dept": dept,
+                                        "rateRank": rateRank,
+                                        "lastInitial": lastInitial,
+                                        "lastName": lastName,
+                                        "firstName": firstName
+                                }
+
+                                if ( !localAlphaObject[lastInitial] )
+                                {
+                                    localAlphaObject[lastInitial] = new Array;
+                                }
+                                localAlphaObject[lastInitial].push(recordObject);
+
+                                if ( localAlphaInitialArray.indexOf(lastInitial) < 0 )
+                                {
+                                    localAlphaInitialArray.push(lastInitial);
+                                }
+                                    
+                                if (localDepartmentArray.indexOf(sailor[0]) < 0)
+                                {
+                                    
+                                    console.log('hit index of: ' + localDepartmentArray.indexOf(sailor[0]));
+                                    localDepartmentArray.push(sailor[0]);
+                                }
+
 
                             });
-                            
-                            localAlphaArray.sort((a, b) => (a.lastName > b.lastName) ? 1 : ((b.lastName > a.lastName) ? -1 : 0))
-                            scope.alphaArray = localAlphaArray;
+
+                            localAlphaInitialArray.sort();
+                            scope.alphaInitialArray = localAlphaInitialArray;
+                            scope.alphaObject = localAlphaObject;
                             scope.departmentArray = localDepartmentArray;
-                            console.log(scope.alphaArray);
+                            
                         });
                     };
 

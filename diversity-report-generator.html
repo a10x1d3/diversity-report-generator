@@ -79,15 +79,16 @@
 						   id="roster-file-picker"
 						   type="file"
 						   alpha-reader="fileContent"
-						   alpha-Array="alphaArray"
+						   alpha-Object="alphaObject"
+						   alpha-Initial-Array="alphaInitialArray"
 						   department-array="departmentArray"
 						   value="Select Alpha Roster"></input>
 				</td>
 			</tr>
 		</table>
 		
-		<div id="alpha-roster-table" ng-show="alphaArray">
-			<!-- <p>{{ departmentArray }}</p> -->
+		<div id="alpha-roster-table" ng-show="alphaObject">
+			<!-- <p>{{ alphaInitialArray }}</p> -->
 			<table>
 				<thead>
 					<tr>
@@ -101,25 +102,34 @@
 						<th>Remove</th>
 					</tr>
 				</thead>
-				<tr ng-repeat="sailor in alphaArray track by $index">
-					<td>
-						<select name=""
-								id=""
-								ng-options="dept for dept in departmentArray"
-								ng-model="sailor.dept">
-						</select>
-					</td>
-					<td>
-						<input type="text" ng-model="sailor.rateRank">
-					</td>
-					<td>
-						<input type="text" ng-model="sailor.lastName">
-					</td>
-					<td>
-						<input type="text" ng-model="sailor.firstName">
-					</td>
-					<td>
-						<p ng-click="removeAlphaEntry($index)">Delete ({{ $index }})</p>
+				<tr ng-repeat="initial in alphaInitialArray">
+					<td colspan="5">
+						<table>
+							<tr>
+								<th colspan="5">
+									{{ initial }}
+								</th>
+							</tr>
+							<tr ng-repeat="item in alphaObject[initial]">
+								<td>
+									<select name=""
+											id=""
+											ng-options="dept for dept in departmentArray"
+											ng-model="item.dept">
+									</select>
+								</td>
+								<td>
+									<input type="text" ng-model="item.rateRank">
+								</td>
+								<td>
+									<input type="text" ng-model="item.lastName">
+								</td>
+								<td>
+									<input type="text" ng-model="item.firstName">
+								</td>
+								<td>delete</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 			</table>
@@ -160,7 +170,7 @@
 						   multiple
 						   fltmps-reader="fileContent"
 						   fltmps-Object="fltmpsObject"
-						   fltmps-Array="fltmpsArray"
+						   fltmps-Initial-Array="fltmpsInitialArray"
 						   value="Select Alpha Roster">
 					</input>
 				</td>
@@ -180,7 +190,7 @@
 					<th>Diversity Group</th>
 					<th>UIC</th>
 				</tr>
-				<tr ng-repeat="initial in initialArray">
+				<tr ng-repeat="initial in fltmpsInitialArray">
 					<td colspan="6">
 						<table>
 							<tr>
