@@ -67,12 +67,14 @@ app.controller('diversityReportCtrl', function ($scope) {
 
 
 
+
 	//┌──────────────────────────────────────┐
 	//│ Alpha Roster Import Tab Functions    │
 	//└──────────────────────────────────────┘
-	$scope.removeAlphaEntry = function (index) {
+	$scope.removeAlphaEntry = function (lastInitial, index) {
+		console.log(lastInitial);
 		console.log(index);
-		$scope.alphaRoster.splice(index, 1);
+		$scope.alphaObject[lastInitial].splice(index, 1);
 	}
 
 	$scope.logAlphaRoster = function ()

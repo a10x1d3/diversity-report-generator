@@ -64,13 +64,13 @@
 		<table class="cta-layout">
 			<tr>
 				<td>
-					<p ng-click="logAlphaRoster()">Log AlphaRoster</p>
+					<p ng-click="logAlphaRoster()" class="button-primary">Log AlphaRoster</p>
 				</td>
 				<td>
 					<label for="roster-file-picker"
 						   class="file-picker-input shadow float-right"
 						   ng-click="unmuteTab('fltmpsRoster')">
-						   <span ng-show="alphaRoster">
+						   <span ng-show="alphaObject">
 							   Re
 						  </span>
 						   Import
@@ -89,45 +89,48 @@
 		
 		<div id="alpha-roster-table" ng-show="alphaObject">
 			<!-- <p>{{ alphaInitialArray }}</p> -->
-			<table>
+			<table class="data-table shadow">
 				<thead>
 					<tr>
-						<td colspan="5">Imported Command Alpha Roster</td>
-					</tr>
-					<tr>
-						<th>Dept</th>
-						<th>Rank / Rate</th>
-						<th>Last Name</th>
-						<th>First name</th>
-						<th>Remove</th>
+						<th class="dept-col column-header">Dept</th>
+						<th class="rank-rate-col column-header">Rank / Rate</th>
+						<th class="last-name-col column-header">Last Name</th>
+						<th class="first-name-col column-header">First name</th>
+						<th class="row-action-col column-header"></th>
 					</tr>
 				</thead>
-				<tr ng-repeat="initial in alphaInitialArray">
-					<td colspan="5">
-						<table>
-							<tr>
-								<th colspan="5">
+				<tr ng-repeat="initial in alphaInitialArray" ng-if="alphaObject[initial].length">
+					<td colspan="5" class="sub-table-container">
+						<table class="data-sub-table">
+							<tr class="initial-header">
+								<th class="initial-col">
 									{{ initial }}
+									<!-- <span class="float-right">Top</span> -->
 								</th>
 							</tr>
-							<tr ng-repeat="item in alphaObject[initial]">
-								<td>
+							<tr ng-repeat="item in alphaObject[initial]" class="data-row trans2">
+								<td class="dept-col data-cell trans2">
 									<select name=""
 											id=""
 											ng-options="dept for dept in departmentArray"
 											ng-model="item.dept">
 									</select>
 								</td>
-								<td>
+								<td class="rank-rate-col data-cell trans2">
 									<input type="text" ng-model="item.rateRank">
 								</td>
-								<td>
+								<td class="last-name-col data-cell trans2">
 									<input type="text" ng-model="item.lastName">
 								</td>
-								<td>
+								<td class="first-name-col data-cell trans2">
 									<input type="text" ng-model="item.firstName">
 								</td>
-								<td>delete</td>
+								<td class="row-action-col data-cell trans2" ng-click="removeAlphaEntry(initial, $index)">
+									<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384">
+										<path class="cls-1 trans2"
+											  d="m192,0C85.96,0,0,85.96,0,192s85.96,192,192,192,192-85.96,192-192S298.04,0,192,0Zm106.06,252.8c12.49,12.5,12.49,32.76,0,45.26-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.13-22.63-9.37l-60.8-60.8-60.8,60.8c-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.12-22.63-9.37c-12.49-12.5-12.49-32.76.01-45.26l60.8-60.8-60.8-60.8c-12.5-12.5-12.5-32.76-.01-45.26,12.5-12.49,32.76-12.49,45.26,0l60.8,60.8,60.8-60.8c12.5-12.49,32.76-12.49,45.26,0,12.49,12.5,12.49,32.76,0,45.26l-60.8,60.8,60.8,60.8Z" />
+									</svg>
+								</td>
 							</tr>
 						</table>
 					</td>
@@ -144,7 +147,7 @@
 	 └─────────────────────────────────────-->
 	<div ng-show="ui.activeTab == 'fltmpsRoster'"
 			id="fltmps-tab"
-			class="tab-content"
+			class="tab-content shadow"
 			ng-hidden>
 	
 		<p class="tab-body-title b">Load all raw FLTMPS diversity reports as <span class="code">.csv</span> files</p>
