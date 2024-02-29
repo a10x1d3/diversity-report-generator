@@ -89,7 +89,7 @@
 		
 		<div id="alpha-roster-table" ng-show="alphaObject">
 			<!-- <p>{{ alphaInitialArray }}</p> -->
-			<table class="data-table shadow">
+			<table class="data-parent-table shadow">
 				<thead>
 					<tr>
 						<th class="dept-col column-header">Dept</th>
@@ -100,8 +100,8 @@
 					</tr>
 				</thead>
 				<tr ng-repeat="initial in alphaInitialArray" ng-if="alphaObject[initial].length">
-					<td colspan="5" class="sub-table-container">
-						<table class="data-sub-table">
+					<td colspan="5" class="data-table-container">
+						<table class="data-table">
 							<tr class="initial-header">
 								<th class="initial-col">
 									{{ initial }}
@@ -117,13 +117,13 @@
 									</select>
 								</td>
 								<td class="rank-rate-col data-cell trans2">
-									<input type="text" ng-model="item.rateRank">
+									<input type="text" ng-model="item.rateRank" class="input">
 								</td>
 								<td class="last-name-col data-cell trans2">
-									<input type="text" ng-model="item.lastName">
+									<input type="text" ng-model="item.lastName" class="input">
 								</td>
 								<td class="first-name-col data-cell trans2">
-									<input type="text" ng-model="item.firstName">
+									<input type="text" ng-model="item.firstName" class="input">
 								</td>
 								<td class="row-action-col data-cell trans2" ng-click="removeAlphaEntry(initial, $index)">
 									<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384">

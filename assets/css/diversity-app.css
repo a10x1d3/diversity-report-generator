@@ -33,18 +33,6 @@ tr
 {
 	height: 30px;
 }
-tr:nth-child(even) {
-	/* background-color: #fafafa; */
-}
-tr:nth-child(even) td:first-child {
-	/* border-top-left-radius: 3px; */
-	/* border-bottom-left-radius: 3px; */
-}
-
-tr:nth-child(even) td:last-child {
-	/* border-top-right-radius: 3px; */
-	/* border-bottom-right-radius: 3px; */
-}
 td {
 	vertical-align: middle;
 }
@@ -53,6 +41,8 @@ td input {
 	border: none;
 	cursor: pointer;
 }
+
+
 
 /*\
 |*| App Utility Classes
@@ -107,6 +97,7 @@ td input {
 	font-size: .8rem;
 	font-weight: bold;
 }
+
 
 
 /*\
@@ -168,87 +159,96 @@ tabs .muted {
 /*\
 |*| Table Ui
 \*/
-.data-table {
-	table-layout: fixed;
-}
-.data-table .data-sub-table {
-	width: 100%;
-}
-.data-table .sub-table-container {
-	border-left: 1px solid #eee;
-}
-.data-table thead th {
-	border-top: 1px solid #eee;
-}
-.data-table thead th:first-child {
-	border-left: 1px solid #eee;
-	border-top-left-radius: 3px;
-}
-.data-table thead th:last-child {
+.data-parent-table { table-layout: fixed; }
+.data-parent-table .data-table { width: 100%; }
+.data-parent-table .data-table-container {
 	border-right: 1px solid #eee;
+	border-left: 1px solid #eee;
 }
+.data-parent-table thead th { border-top: 1px solid #eee; }
+.data-parent-table thead th:first-child { border-left: 1px solid #eee; }
+.data-parent-table thead th:last-child { border-right: 1px solid #eee; }
 
-.data-table .column-header {
+.data-parent-table .column-header {
 	padding: 0px 5px 0px 5px;
-	/* display: inline-block; */
-	/* border-left: 1px solid #eee; */
 	height: 30px;
 	line-height: 30px;
 	background-color: #f7f9fc;
 }
-.data-table .data-row:hover td {
-	background: #e5ecf8;
-}
-.data-table .data-row:hover svg path {
-	fill: #fff;
-}
-
-.data-table .data-cell  {
+.data-parent-table .data-row:hover td { background: #f8f9fc; }
+.data-parent-table .data-row:hover svg path { fill: #c9d4f6; }
+.data-parent-table .data-cell  {
 	padding: 0px 5px 0px 5px;
 	display: inline-block;
 	line-height: 30px;
 }
-.data-table .initial-header th {
+.data-parent-table .initial-header th {
 	padding: 0px 0px 0px 5px;
 	background-color: #f7f9fc;
 }
-.data-table .data-cell input {
-	line-height: 25px;
+.data-parent-table input {
+	line-height: 20px;
+	border: 2px solid #f8f9fc;
+	border-radius: 3px;
+	-o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+	transition: .2s
+}
+.data-parent-table input:hover {
+	border: 2px solid #c9d4f6;
 }
 
-.data-table .dept-col {
-	width: 80px;
+.data-parent-table input[type=text]:focus {
+	outline: none;
+	border: 2px solid #006fff;
+	background-color: #fff;
 }
-.data-table .rank-rate-col {
+.data-parent-table select {
+	margin: 4px 0px 0px 0px;
+	width: 84px;
+	display: inline-block;
+	outline: none;
+	line-height: 21px;
+	height: 25px;
+	border: 2px solid #f8f9fc;
+	border-radius: 3px;
+	-o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+	transition: .2s
+	-moz-appearance: none;
+		/* Firefox */
+		-webkit-appearance: none;
+		/* Safari and Chrome */
+		appearance: none;
+}
+.data-parent-table select:hover {
+	border: 2px solid #c9d4f6;
+}
+.data-parent-table select:focus {
+	border: 2px solid #006fff;
+}
+
+.data-parent-table .dept-col { width: 80px; }
+.data-parent-table .rank-rate-col {
 	padding: 0px 0px 0px 5px;
-	width: 115px;
+	width: 120px;
 }
-.data-table .rank-rate-col input {
-	width: 110px;
-}
-.data-table .last-name-col {
-	width: 180px;
-}
-.data-table .last-name-col input {
-	width: 175px;
-}
-.data-table .first-name-col {
-	width: 180px;
-}
-.data-table .row-action-col a {
-	color: red;
-}
-.data-table .row-action-col svg {
+.data-parent-table .last-name-col { width: 180px; }
+.data-parent-table .first-name-col { width: 180px; }
+.data-parent-table .rank-rate-col input { width: 110px; }
+.data-parent-table .last-name-col input { width: 175px; }
+.data-parent-table .row-action-col a { color: red; }
+.data-parent-table .row-action-col svg {
 	margin: 0px 0px -5px 0px;
 	height: 20px;
 	cursor: pointer;
 }
-.data-table .row-action-col svg path {
-	fill: #fff;
-}
-.data-table .row-action-col svg:hover path {
-	fill: #ff593e;
-}
+.data-parent-table .row-action-col svg path { fill: #fff; }
+.data-parent-table .row-action-col svg:hover path { fill: #ff593e; }
 
 
 
