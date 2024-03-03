@@ -16,13 +16,16 @@
 
 
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="assets/js/angular.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/angular.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/ngDialog.js"></script>
 <script type="text/javascript" src="assets/js/directives/alpha-roster-import.js"></script>
 <script type="text/javascript" src="assets/js/directives/fltmps-import.js"></script>
 <script type="text/javascript" src="assets/js/diversity-app.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/ngDialog/ngDialog.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/ngDialog/ngDialog-theme-default.css" />
 <link rel="stylesheet" type="text/css" href="assets/css/diversity-app.css" />
 
 
@@ -33,7 +36,7 @@
 			class="light-scheme">
 
 
-	<h5>CMEO | Diversity Report Generator</h5>
+	<h5 id="app-title">CMEO | Diversity Report Generator</h5>
 
 
 	
@@ -46,6 +49,9 @@
 			  ng-class="content.state"
 			  class="b trans2 shadow">
 			{{ content.title }}
+			<span ng-show="content.title == 'Alpha Roster' && alphaObject" class="tab-record-count">
+				{{ alphaObject.recordCount }}
+			</span>	
 		</span>
 	</tabs>
 
@@ -61,34 +67,48 @@
 
 		<p class="tab-body-title b">Load raw command alpha roster<span class="code">.csv</span> file</p>
 
-		<table class="cta-layout">
-			<tr>
-				<td>
-					<p ng-click="logAlphaRoster()" class="button-primary">Log AlphaRoster</p>
-				</td>
-				<td>
-					<label for="roster-file-picker"
-						   class="file-picker-input shadow float-right"
-						   ng-click="unmuteTab('fltmpsRoster')">
-						   <span ng-show="alphaObject">
-							   Re
-						  </span>
-						   Import
-					</label>
-					<input class=""
-						   id="roster-file-picker"
-						   type="file"
-						   alpha-reader="fileContent"
-						   alpha-Object="alphaObject"
-						   alpha-Initial-Array="alphaInitialArray"
-						   department-array="departmentArray"
-						   value="Select Alpha Roster"></input>
-				</td>
-			</tr>
-		</table>
+		<div class="cta-layout clearfix">
+			<p class="cta-label float-left">Alpha Roster Actions</p>
+
+			<label for="roster-file-picker"
+			class="file-picker-input cta-action button button-primary shadow float-right"
+			ng-click="unmuteTab('fltmpsRoster')">
+					<span ng-show="alphaObject">
+						Re
+					</span>
+					Import
+				</label>
+				<input class=""
+				id="roster-file-picker"
+				type="file"
+				alpha-reader="fileContent"
+				alpha-Object="alphaObject"
+				alpha-Initial-Array="alphaInitialArray"
+				department-array="departmentArray"
+				value="Select Alpha Roster"></input>
+			<p ng-show="alphaObject"
+			   ng-click="addAlphaRecord()"
+			   class="cta-action float-right button button-secondary">Add Record</p>
+			
+			<p ng-click="logAlphaRoster()"
+			   ng-show="alphaObject"
+			   class="cta-action button button-secondary float-right">Log AlphaRoster</p>
+			
+			<hr class="cta-action-separator clearfix" 
+				ng-show="alphaObject">
+
+			<p class="cta-label float-left" 
+			   ng-show="alphaObject">Alpha Roster Filters</p>
+		</div>
 		
 		<div id="alpha-roster-table" ng-show="alphaObject">
-			<!-- <p>{{ alphaInitialArray }}</p> -->
+			
+			<ul class="initial-anchor-list">
+				<li ng-repeat="initial in alphaInitialArray">
+					<a href="#alpha-initial-{{ initial }}" class="trans2">{{ initial }}</a>
+				</li>
+			</ul>
+
 			<table class="data-parent-table shadow">
 				<thead>
 					<tr>
@@ -103,9 +123,9 @@
 					<td colspan="5" class="data-table-container">
 						<table class="data-table">
 							<tr class="initial-header">
-								<th class="initial-col">
+								<th class="initial-col" id="alpha-initial-{{initial}}">
 									{{ initial }}
-									<!-- <span class="float-right">Top</span> -->
+									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
 							</tr>
 							<tr ng-repeat="item in alphaObject[initial]" class="data-row trans2">
@@ -137,7 +157,6 @@
 				</tr>
 			</table>
 		</div>
-
 	</div>
 
 
@@ -155,11 +174,9 @@
 		<table class="cta-layout">
 			<tr>
 				<td>
-					<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-left">Render</p>
-				</td>
-				<td>
+					<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-left cta-action button button-primary">Render</p>
 					<label for="fltmps-file-picker"
-						   class="file-picker-input shadow float-right"
+						   class="file-picker-input cta-action shadow float-right button button-primary"
 						   ng-click="showFltmpsHTML = false">
 						   <span ng-show="fltmpsObject">
 							Re
@@ -251,6 +268,63 @@
 			</ul>
 		</div>
 	</div>
+
+
+
+	<!--───────────────────────────────────────┐
+	 │ Dialog Body | New Alpha Roster Record   │
+	 └────────────────────────────────────────-->
+	<div id="new-alpha-record-dialog"
+		 class="ngdialog ngdialog-theme-default ngDialog-content"
+		 ng-show="newAlphaRecordObject.displayDialog"
+		 role="document">
+		<div class="ngdialog-overlay"></div>
+		<div class="ngdialog-content">
+			<h4>Add new Alpha Roster record</h4>
+			<button class="ngdialog-close trans2"
+					ng-click="closeAlphaRecordDialog()"></button>
+	
+			<table class="dialog-table">
+				<tr>
+					<td class="column-header">Dept</td>
+					<td>
+						<select ng-options="dept for dept in departmentArray"
+								ng-model="newAlphaRecordObject.dept">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="column-header">Rate / Rank</td>
+					<td>
+						<input type="text" 
+							   ng-model="newAlphaRecordObject.rankRate">
+					</td>
+				</tr>
+				<tr>
+					<td class="column-header">Last Name</td>
+					<td>
+						<input type="text"
+							   ng-model="newAlphaRecordObject.lastName">
+					</td>
+				</tr>
+				<tr>
+					<td class="column-header">First Name</td>
+					<td>
+						<input type="text"
+							   ng-model="newAlphaRecordObject.firstName">
+					</td>
+				</tr>
+			</table>
+
+			<div class="dialog-actions clearfix">
+				<p class="button button-primary shadow float-right">Add Record</p>
+			</div>
+			<p>{{ newAlphaRecordObject }}</p>
+		</div>
+	</div>
+
+
+
 	
 </section>
 
