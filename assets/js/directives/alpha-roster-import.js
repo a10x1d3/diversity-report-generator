@@ -19,7 +19,7 @@ app.directive('alphaReader', function ()
                 var files = changeEvent.target.files;
                 // console.log(files);
 
-                var localAlphaObject = {};
+                var localAlphaObject = { recordCount: 0 };
                 var localAlphaInitialArray = [];
             
                 if (files.length)
@@ -67,6 +67,7 @@ app.directive('alphaReader', function ()
                                     localAlphaObject[lastInitial] = new Array;
                                 }
                                 localAlphaObject[lastInitial].push(recordObject);
+                                localAlphaObject.recordCount += 1;
 
                                 if ( localAlphaInitialArray.indexOf(lastInitial) < 0 )
                                 {
@@ -75,8 +76,6 @@ app.directive('alphaReader', function ()
                                     
                                 if (localDepartmentArray.indexOf(sailor[0]) < 0)
                                 {
-                                    
-                                    console.log('hit index of: ' + localDepartmentArray.indexOf(sailor[0]));
                                     localDepartmentArray.push(sailor[0]);
                                 }
 

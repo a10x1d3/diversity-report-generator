@@ -1,18 +1,20 @@
-var app = angular.module('diversity-report', ['alpha-roster-import', 'fltmps-import']);
+var app = angular.module('diversity-report', ['ngDialog', 'alpha-roster-import', 'fltmps-import']);
 
 // Table column resizing
 // https://unpkg.com/browse/angular-table-resize@2.0.1/demo/ 
 
 
-app.controller('diversityReportCtrl', function ($scope) {
+app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	//┌──────────────────────────────────────┐
 	//│ Controller Variables                 │
 	//└──────────────────────────────────────┘
+	$scope.newAlphaRecordObject = {
+		displayDialog: false
+	};
 	$scope.showFltmpsHTML = false;
 	$scope.departmentArray = [];
 	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
 
 	//┌──────────────────────────────────────┐
 	//│ Tab UI Functions                     │
@@ -79,9 +81,23 @@ app.controller('diversityReportCtrl', function ($scope) {
 
 	$scope.logAlphaRoster = function ()
 	{
-		console.log($scope.alphaRoster);
+		console.log($scope.alphaObject);
 	}
 	
+
+	$scope.addAlphaRecord = function()
+	{
+		console.log('executing record entry');
+		// var deptOptions = $scope.setDeptOptionsHTML();
+		$scope.newAlphaRecordObject.displayDialog = true;
+	};
+
+	$scope.closeAlphaRecordDialog = function()
+	{
+		console.log('Exiting new Alpha Roster Record dialog');
+		$scope.newAlphaRecordObject.displayDialog = false
+	};
+
 
 
 	//┌──────────────────────────────────────┐
