@@ -71,23 +71,25 @@
 			<p class="cta-label float-left">Alpha Roster Actions</p>
 
 			<label for="roster-file-picker"
-			class="file-picker-input cta-action button button-primary shadow float-right"
-			ng-click="unmuteTab('fltmpsRoster')">
-					<span ng-show="alphaObject">
-						Re
-					</span>
+				   class="file-picker-input cta-action button button-primary shadow float-right"
+				   ng-click="unmuteTab('fltmpsRoster')">
+				<span ng-show="alphaObject">
+					Re
+				</span>
 					Import
-				</label>
-				<input class=""
-				id="roster-file-picker"
-				type="file"
-				alpha-reader="fileContent"
-				alpha-Object="alphaObject"
-				alpha-Initial-Array="alphaInitialArray"
-				department-array="departmentArray"
-				value="Select Alpha Roster"></input>
+			</label>
+			<input class=""
+				   id="roster-file-picker"
+				   type="file"
+				   alpha-reader="fileContent"
+				   alpha-Object="alphaObject"
+				   alpha-Initial-Array="alphaInitialArray"
+				   department-array="departmentArray"
+				   value="Select Alpha Roster">
+			</input>
+			
 			<p ng-show="alphaObject"
-			   ng-click="addAlphaRecord()"
+			   ng-click="openAlphaRecordDialog()"
 			   class="cta-action float-right button button-secondary">Add Record</p>
 			
 			<p ng-click="logAlphaRoster()"
@@ -105,7 +107,9 @@
 			
 			<ul class="initial-anchor-list">
 				<li ng-repeat="initial in alphaInitialArray">
-					<a href="#alpha-initial-{{ initial }}" class="trans2">{{ initial }}</a>
+					<a href="#alpha-initial-{{ initial }}"
+					   ng-if="alphaObject[initial].length"
+					   class="trans2">{{ initial }}</a>
 				</li>
 			</ul>
 
@@ -113,13 +117,14 @@
 				<thead>
 					<tr>
 						<th class="dept-col column-header">Dept</th>
-						<th class="rank-rate-col column-header">Rank / Rate</th>
+						<th class="rank-rate-col column-header">Rate / Rank</th>
 						<th class="last-name-col column-header">Last Name</th>
 						<th class="first-name-col column-header">First name</th>
 						<th class="row-action-col column-header"></th>
 					</tr>
 				</thead>
-				<tr ng-repeat="initial in alphaInitialArray" ng-if="alphaObject[initial].length">
+				<tr ng-repeat="initial in alphaInitialArray" 
+					ng-if="alphaObject[initial].length">
 					<td colspan="5" class="data-table-container">
 						<table class="data-table">
 							<tr class="initial-header">
@@ -286,7 +291,7 @@
 	
 			<table class="dialog-table">
 				<tr>
-					<td class="column-header">Dept</td>
+					<td class="column-header float-right">Dept</td>
 					<td>
 						<select ng-options="dept for dept in departmentArray"
 								ng-model="newAlphaRecordObject.dept">
@@ -294,21 +299,21 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="column-header">Rate / Rank</td>
+					<td class="column-header float-right">Rate / Rank</td>
 					<td>
 						<input type="text" 
-							   ng-model="newAlphaRecordObject.rankRate">
+							   ng-model="newAlphaRecordObject.rateRank">
 					</td>
 				</tr>
 				<tr>
-					<td class="column-header">Last Name</td>
+					<td class="column-header float-right">Last Name</td>
 					<td>
 						<input type="text"
 							   ng-model="newAlphaRecordObject.lastName">
 					</td>
 				</tr>
 				<tr>
-					<td class="column-header">First Name</td>
+					<td class="column-header float-right">First Name</td>
 					<td>
 						<input type="text"
 							   ng-model="newAlphaRecordObject.firstName">
@@ -317,9 +322,10 @@
 			</table>
 
 			<div class="dialog-actions clearfix">
-				<p class="button button-primary shadow float-right">Add Record</p>
+				<p ng-click="addAlphaRecord()" class="button button-primary shadow float-right">Add Record</p>
+				<p ng-click="closeAlphaRecordDialog()" class="button float-right m-r-10">Cancel</p>
 			</div>
-			<p>{{ newAlphaRecordObject }}</p>
+			<!-- <p>{{ newAlphaRecordObject }}</p> -->
 		</div>
 	</div>
 

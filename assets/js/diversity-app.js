@@ -84,18 +84,52 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		console.log($scope.alphaObject);
 	}
 	
-
-	$scope.addAlphaRecord = function()
+	$scope.openAlphaRecordDialog = function()
 	{
 		console.log('executing record entry');
 		// var deptOptions = $scope.setDeptOptionsHTML();
 		$scope.newAlphaRecordObject.displayDialog = true;
 	};
-
+	
 	$scope.closeAlphaRecordDialog = function()
 	{
 		console.log('Exiting new Alpha Roster Record dialog');
+
+		$scope.newAlphaRecordObject.dept = null;
+		$scope.newAlphaRecordObject.rateRank = null;
+		$scope.newAlphaRecordObject.lastInitial = null;
+		$scope.newAlphaRecordObject.lastName = null;
+		$scope.newAlphaRecordObject.firstName = null;
+
 		$scope.newAlphaRecordObject.displayDialog = false
+	};
+
+	$scope.addAlphaRecord = function() {
+		console.log($scope.newAlphaRecordObject);
+		if (!$scope.newAlphaRecordObject.dept || !$scope.newAlphaRecordObject.rateRank || !$scope.newAlphaRecordObject.lastName || !$scope.newAlphaRecordObject.firstName )
+		{
+			console.log("Add Alpha Record form incomplete; returning");
+
+			return;
+		}
+		
+		var recordObject = {
+			"dept": $scope.newAlphaRecordObject.dept,
+			"rateRank": $scope.newAlphaRecordObject.rateRank,
+			"lastInitial": $scope.newAlphaRecordObject.lastName[0].toUpperCase(),
+			"lastName": $scope.newAlphaRecordObject.lastName,
+			"firstName": $scope.newAlphaRecordObject.firstName
+		};
+
+		if ( !$scope.alphaObject[recordObject.lastInitial] )
+		{
+			$scope.alphaObject[recordObject.lastInitial] = new Array;
+			$scope.alphaInitialArray.push(recordObject.lastInitial);
+			$scope.alphaInitialArray.sort();
+		}
+		$scope.alphaObject[recordObject.lastInitial].push(recordObject);
+
+		$scope.closeAlphaRecordDialog();
 	};
 
 

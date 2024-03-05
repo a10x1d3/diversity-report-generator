@@ -37,6 +37,7 @@ td {
 	vertical-align: middle;
 }
 input {
+	padding: 0 0 0 5px;
 	line-height: 20px;
 	border: 2px solid #f8f9fc;
 	border-radius: 3px;
@@ -55,6 +56,7 @@ input[type=text]:focus {
 	background-color: #fff;
 }
 select {
+	padding: 0 0 0 5px;
 	display: inline-block;
 	outline: none;
 	line-height: 21px;
@@ -69,9 +71,11 @@ select {
 	-moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
+	background-color: #fff;
 }
 select:hover {
 	border: 2px solid #c9d4f6;
+	background-color: #fff;
 }
 select:focus {
 	border: 2px solid #006fff;
@@ -104,7 +108,7 @@ select:focus {
 	border-radius: 3px;;
 }
 .button {
-	margin: 10px 0px 10px 0px;
+	margin: 10px 10px 10px 0px;
 	padding: 8px 20px 8px 20px;
 	display: inline-block;
 	border-radius: 3px;
@@ -136,6 +140,7 @@ select:focus {
 	height: 30px;
 	line-height: 30px;
 	font-weight: bold;
+	font-size: .9rem;
 }
 
 
@@ -178,7 +183,7 @@ tabs .muted {
 	color: #ccc;
 }
 tabs .tab-record-count {
-	padding: 0px 4px 2px 4px;
+	padding: 0px 4px 1px 4px;
 	display: inline;
 	border: 1px solid #cc0f67;
 	border-radius: 3px;
@@ -268,6 +273,7 @@ tabs .active .tab-record-count {
 	background-color: #f7f9fc;
 }
 .data-parent-table .data-row:hover td { background: #f8f9fc; }
+.data-parent-table .data-row:hover input { background: #f8f9fc; }
 .data-parent-table .data-row:hover select { background: #f8f9fc; }
 
 .data-parent-table .data-row:hover svg path { fill: #c9d4f6; }
@@ -326,6 +332,12 @@ tabs .active .tab-record-count {
 /*\
 |*| Dialog UI
 \*/
+.ngdialog-content .ng-empty {
+	border: 2px solid pink;
+}
+.ngdialog-content .ng-not-empty {
+	border: 2px solid #b9edb9;
+}
 #new-alpha-record-dialog .ngdialog-content {
 	width: 400px;
 }
@@ -349,7 +361,8 @@ tabs .active .tab-record-count {
 	width: 80px;
 }
 #new-alpha-record-dialog .dialog-actions {
-	border: 1px solid black;
+	/* border: 1px solid black; */
+	margin: 20px 0px 0px 0px;
 }
 
 
