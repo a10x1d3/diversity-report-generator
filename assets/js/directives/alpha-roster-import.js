@@ -51,8 +51,8 @@ app.directive('alphaReader', function ()
                                 dept = sailor[0];
                                 rateRank = sailor[1];
                                 lastInitial = sailor[2][0];
-                                lastName = sailor[2].toUpperCase();
-                                firstName = sailor[3].toUpperCase();
+                                lastName = sailor[2].toUpperCase().trim();
+                                firstName = sailor[3].toUpperCase().trim();
 
                                 var recordObject = {
                                         "dept": dept,
@@ -85,7 +85,7 @@ app.directive('alphaReader', function ()
                             localAlphaInitialArray.sort();
                             scope.alphaInitialArray = localAlphaInitialArray;
                             scope.alphaObject = localAlphaObject;
-                            scope.departmentArray = localDepartmentArray;
+                            scope.departmentArray = localDepartmentArray.sort();
                             
                         });
                     };

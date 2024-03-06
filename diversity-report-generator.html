@@ -96,11 +96,30 @@
 			   ng-show="alphaObject"
 			   class="cta-action button button-secondary float-right">Log AlphaRoster</p>
 			
-			<hr class="cta-action-separator clearfix" 
-				ng-show="alphaObject">
+			<hr class="cta-action-separator clearfix" ng-show="alphaObject">
 
-			<p class="cta-label float-left" 
-			   ng-show="alphaObject">Alpha Roster Filters</p>
+			<p class="cta-label float-left" ng-show="alphaObject">Dept Filters</p>
+			
+			<div class="filter-group float-right clearfix">
+				<p class="filter float-right trans2"
+				   ng-repeat="dept in departmentArray"
+				   ng-click="setAlphaDeptFilter(dept)"
+				   ng-class="{'active': alphaDeptFilters.includes(dept)}">
+					{{ dept }}
+				</p>
+			</div>
+		
+			<hr class="cta-action-separator clearfix" ng-show="alphaObject">
+			
+			<p class="cta-label float-left" ng-show="alphaObject">Name Filters</p>
+			<!-- {{ alphaDeptFilters }} -->
+			<div class="filter-group float-right clearfix" ng-show="alphaObject">
+				<p class="filter float-right ctrans2"
+				   ng-click="setAlphaNameSpaceFilter()"
+				   ng-class="{'active': filterAlphaNameSpace}">
+				   	Name has whitespace
+				</p>
+			</div>
 		</div>
 		
 		<div id="alpha-roster-table" ng-show="alphaObject">
@@ -133,7 +152,7 @@
 									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
 							</tr>
-							<tr ng-repeat="item in alphaObject[initial]" class="data-row trans2">
+							<tr ng-repeat="item in alphaObject[initial] | filter:deptFilter | filter: nameSpaceFilter" class="data-row trans2">
 								<td class="dept-col data-cell trans2">
 									<select name=""
 											id=""

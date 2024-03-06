@@ -15,6 +15,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.showFltmpsHTML = false;
 	$scope.departmentArray = [];
 	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+	$scope.alphaDeptFilters = [];
+	$scope.filterAlphaNameSpace = false;
 
 	//┌──────────────────────────────────────┐
 	//│ Tab UI Functions                     │
@@ -132,6 +134,55 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.closeAlphaRecordDialog();
 	};
 
+	$scope.setAlphaDeptFilter = function(dept)
+	{
+		console.log('toggling dept filter: ' + dept);
+
+		if ($scope.alphaDeptFilters.includes(dept))
+		{
+			var index = $scope.alphaDeptFilters.indexOf(dept);
+			console.log('removing' + dept + ' from filters from index of ' + index);
+			$scope.alphaDeptFilters.splice(index, 1);
+			return;
+		}
+
+		$scope.alphaDeptFilters.push(dept);
+	};
+
+	$scope.setAlphaNameSpaceFilter = function()
+	{
+		$scope.filterAlphaNameSpace = !$scope.filterAlphaNameSpace;
+	}
+
+
+	$scope.deptFilter = function (item)
+	{
+		if ( $scope.alphaDeptFilters.length == 0 )
+		{
+			return true;
+		}
+
+		if ($scope.alphaDeptFilters.includes(item.dept)) {
+			return true; // this will be listed in the results
+		}
+
+		return false; // otherwise it won't be within the results
+	};
+
+	$scope.nameSpaceFilter = function(item) {
+		if (!$scope.filterAlphaNameSpace)
+		{
+			return true;
+		}
+
+		if ( item.lastName.indexOf(' ') > -1 )
+		{
+			return true;
+		}
+
+		return false;
+	};
+
 
 
 	//┌──────────────────────────────────────┐
@@ -143,7 +194,5 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 		$scope.unmuteTab('diversityRoster');
 	};
-
-
 
 });

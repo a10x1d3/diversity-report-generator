@@ -224,6 +224,26 @@ tabs .active .tab-record-count {
 }
 
 
+
+/*\
+|*| CTA Filter UI
+\*/
+.filter {
+	padding: 0px 3px 0px 3px;
+	margin: 0px 0px 0px 5px;
+	border: 2px solid #f7f9fc;
+	border-radius: 10px;
+	background-color: #f7f9fc;
+	cursor: pointer;
+	font-size: .9rem;
+}
+.filter.active {
+	background-color: #ff1282;
+	border: 2px solid #ff1282;
+	color: #fff;
+}
+
+
 /*\
 |*| Tab Body Content UI
 \*/
