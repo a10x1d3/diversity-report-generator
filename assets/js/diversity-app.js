@@ -7,7 +7,7 @@ var app = angular.module('diversity-report', ['ngDialog', 'alpha-roster-import',
 app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	//┌──────────────────────────────────────┐
-	//│ Controller Variables                 │
+	//│ Controller Functions & Variables     │
 	//└──────────────────────────────────────┘
 	$scope.newAlphaRecordObject = {
 		displayDialog: false
@@ -16,7 +16,21 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.departmentArray = [];
 	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 	$scope.alphaDeptFilters = [];
-	$scope.filterAlphaNameSpace = false;
+	$scope.filterAlphaNameSpecialChar = false;
+	$scope.filterAlphaRRSpecialChar = false;
+	$scope.alphaNumRegex = new RegExp(/[\W_]+/g);
+
+
+	byLastName = function(lastNameA, lastNameB)
+	{
+		if (lastNameA.lastName < lastNameB.lastName) {
+			return -1;
+		}
+		if (lastNameA.lastName > lastNameB.lastName) {
+			return 1;
+		}
+		return 0;
+	}
 
 	//┌──────────────────────────────────────┐
 	//│ Tab UI Functions                     │
@@ -49,13 +63,11 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		
 		if ($scope.ui.activeTab == tab)
 		{
-			console.log('tab alredy active');
 			return;
 		}
 
 		if ($scope.ui.tabs[tab].state == 'muted')
 		{
-			console.log('tab is muted; NOOP');
 			return;
 		}
 
@@ -76,8 +88,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//│ Alpha Roster Import Tab Functions    │
 	//└──────────────────────────────────────┘
 	$scope.removeAlphaEntry = function (lastInitial, index) {
-		console.log(lastInitial);
-		console.log(index);
 		$scope.alphaObject[lastInitial].splice(index, 1);
 	}
 
@@ -88,15 +98,11 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	
 	$scope.openAlphaRecordDialog = function()
 	{
-		console.log('executing record entry');
-		// var deptOptions = $scope.setDeptOptionsHTML();
 		$scope.newAlphaRecordObject.displayDialog = true;
 	};
 	
 	$scope.closeAlphaRecordDialog = function()
 	{
-		console.log('Exiting new Alpha Roster Record dialog');
-
 		$scope.newAlphaRecordObject.dept = null;
 		$scope.newAlphaRecordObject.rateRank = null;
 		$scope.newAlphaRecordObject.lastInitial = null;
@@ -110,17 +116,15 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		console.log($scope.newAlphaRecordObject);
 		if (!$scope.newAlphaRecordObject.dept || !$scope.newAlphaRecordObject.rateRank || !$scope.newAlphaRecordObject.lastName || !$scope.newAlphaRecordObject.firstName )
 		{
-			console.log("Add Alpha Record form incomplete; returning");
-
 			return;
 		}
 		
 		var recordObject = {
 			"dept": $scope.newAlphaRecordObject.dept,
-			"rateRank": $scope.newAlphaRecordObject.rateRank,
+			"rateRank": $scope.newAlphaRecordObject.rateRank.toUpperCase(),
 			"lastInitial": $scope.newAlphaRecordObject.lastName[0].toUpperCase(),
-			"lastName": $scope.newAlphaRecordObject.lastName,
-			"firstName": $scope.newAlphaRecordObject.firstName
+			"lastName": $scope.newAlphaRecordObject.lastName.toUpperCase(),
+			"firstName": $scope.newAlphaRecordObject.firstName.toUpperCase()
 		};
 
 		if ( !$scope.alphaObject[recordObject.lastInitial] )
@@ -129,19 +133,18 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			$scope.alphaInitialArray.push(recordObject.lastInitial);
 			$scope.alphaInitialArray.sort();
 		}
+		
 		$scope.alphaObject[recordObject.lastInitial].push(recordObject);
+		$scope.alphaObject[recordObject.lastInitial].sort(byLastName);
 
 		$scope.closeAlphaRecordDialog();
 	};
 
 	$scope.setAlphaDeptFilter = function(dept)
 	{
-		console.log('toggling dept filter: ' + dept);
-
 		if ($scope.alphaDeptFilters.includes(dept))
 		{
 			var index = $scope.alphaDeptFilters.indexOf(dept);
-			console.log('removing' + dept + ' from filters from index of ' + index);
 			$scope.alphaDeptFilters.splice(index, 1);
 			return;
 		}
@@ -149,39 +152,80 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.alphaDeptFilters.push(dept);
 	};
 
+	$scope.setAlphaRRFilter = function()
+	{
+		$scope.filterAlphaRRSpecialChar = !$scope.filterAlphaRRSpecialChar;
+	};
+
+	$scope.setAlphaNameSpecialChar = function ()
+	{
+		$scope.filterAlphaNameSpecialChar = !$scope.filterAlphaNameSpecialChar;
+	}
+
 	$scope.setAlphaNameSpaceFilter = function()
 	{
 		$scope.filterAlphaNameSpace = !$scope.filterAlphaNameSpace;
 	}
 
 
-	$scope.deptFilter = function (item)
+	$scope.alphaFilter = function (item)
 	{
-		if ( $scope.alphaDeptFilters.length == 0 )
+		if ( $scope.alphaDeptFilters.length == 0 &&
+			 !$scope.filterAlphaNameText &&
+			 !$scope.filterAlphaNameSpecialChar &&
+			 !$scope.filterAlphaRRSpecialChar )
 		{
+			item.deptMatch = false;
+			item.rrMatch = false;
+			item.lastNameMatch = false;
+			item.firstNameMatch = false;
 			return true;
 		}
 
-		if ($scope.alphaDeptFilters.includes(item.dept)) {
-			return true; // this will be listed in the results
+		if ($scope.alphaDeptFilters.includes(item.dept))
+		{
+			item.deptMatch = true;
+			return true;
+		}
+	
+		if ($scope.filterAlphaNameText && item.lastName.includes($scope.filterAlphaNameText.toUpperCase()))
+		{
+			item.lastNameMatch = true;
+			return true;
 		}
 
-		return false; // otherwise it won't be within the results
+		if ($scope.filterAlphaNameText && item.firstName.includes($scope.filterAlphaNameText.toUpperCase()))
+		{
+			item.firstNameMatch = true;
+			return true;
+		}
+
+		if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.lastName))
+		{
+			item.lastNameMatch = true;
+			return true;
+		}
+
+		if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.firstName))
+		{
+			item.firstNameMatch = true;
+			return true;
+		}
+
+		if ($scope.filterAlphaRRSpecialChar && $scope.alphaNumRegex.test(item.rateRank) )
+		{
+			item.rrMatch = true;
+			return true;
+		}
+
+		item.deptMatch = false;
+		item.rrMatch = false;
+		item.lastNameMatch = false;
+		item.firstNameMatch = false;
+		return false;	
 	};
 
-	$scope.nameSpaceFilter = function(item) {
-		if (!$scope.filterAlphaNameSpace)
-		{
-			return true;
-		}
-
-		if ( item.lastName.indexOf(' ') > -1 )
-		{
-			return true;
-		}
-
-		return false;
-	};
+	
 
 
 

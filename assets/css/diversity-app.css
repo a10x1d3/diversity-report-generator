@@ -229,7 +229,7 @@ tabs .active .tab-record-count {
 |*| CTA Filter UI
 \*/
 .filter {
-	padding: 0px 3px 0px 3px;
+	padding: 0px 8px 0px 8px;
 	margin: 0px 0px 0px 5px;
 	border: 2px solid #f7f9fc;
 	border-radius: 10px;
@@ -242,6 +242,18 @@ tabs .active .tab-record-count {
 	border: 2px solid #ff1282;
 	color: #fff;
 }
+.filter input {
+	border-radius: 10px;
+	height: .8rem;
+	background-color: #fefefe;
+	text-transform: uppercase;
+}
+.filter.active input {
+	background-color: #ff4099;
+	border-color: #ff4099;
+	color: #fff;
+}
+
 
 
 /*\
@@ -345,7 +357,13 @@ tabs .active .tab-record-count {
 }
 .data-parent-table .row-action-col svg path { fill: #fff; }
 .data-parent-table .row-action-col svg:hover path { fill: #ff1282; }
+.data-parent-table select.match {
+	border-color: #ff1282;
+}
 
+.data-parent-table input.match {
+	border-color: #ff1282;
+}
 
 
 
@@ -379,6 +397,9 @@ tabs .active .tab-record-count {
 }
 #new-alpha-record-dialog select {
 	width: 80px;
+}
+#new-alpha-record-dialog input {
+	text-transform: uppercase;
 }
 #new-alpha-record-dialog .dialog-actions {
 	/* border: 1px solid black; */

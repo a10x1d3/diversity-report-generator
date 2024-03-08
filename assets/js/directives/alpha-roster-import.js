@@ -48,8 +48,8 @@ app.directive('alphaReader', function ()
 
                                 
                                 sailor = sailor.split(',');
-                                dept = sailor[0];
-                                rateRank = sailor[1];
+                                dept = sailor[0].trim();
+                                rateRank = sailor[1].trim();
                                 lastInitial = sailor[2][0];
                                 lastName = sailor[2].toUpperCase().trim();
                                 firstName = sailor[3].toUpperCase().trim();
@@ -59,7 +59,8 @@ app.directive('alphaReader', function ()
                                         "rateRank": rateRank,
                                         "lastInitial": lastInitial,
                                         "lastName": lastName,
-                                        "firstName": firstName
+                                        "firstName": firstName,
+                                        "match": false
                                 }
 
                                 if ( !localAlphaObject[lastInitial] )
@@ -83,6 +84,22 @@ app.directive('alphaReader', function ()
                             });
 
                             localAlphaInitialArray.sort();
+
+                            function byLastName(lastNameA, lastNameB)
+                            {
+                                if (lastNameA.lastName < lastNameB.lastName) {
+                                    return -1;
+                                }
+                                if (lastNameA.lastName > lastNameB.lastName) {
+                                    return 1;
+                                }
+                                return 0;
+                            }
+
+                            localAlphaInitialArray.forEach(initial => {
+                                localAlphaObject[initial].sort(byLastName);
+                            });
+
                             scope.alphaInitialArray = localAlphaInitialArray;
                             scope.alphaObject = localAlphaObject;
                             scope.departmentArray = localDepartmentArray.sort();
