@@ -4,7 +4,7 @@
 body {
 	height: 99vh;
 	background-color: #eeeeee;
-	font-family: 'Segoe UI Semibold', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 section {
@@ -16,7 +16,6 @@ input[type="file"] {
 	display: none;
 }
 table {
-	/* margin: 20px 0 0 0; */
 	position: relative;
 	top: 0;
 }
@@ -25,8 +24,6 @@ th {
 	position: sticky;
 	top: 0;
 	text-align: left;
-	/* background-color: #EEE; */
-	/* box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); */
 	vertical-align: middle;
 }
 tr
@@ -45,7 +42,8 @@ input {
 	-ms-transition: .2s;
 	-moz-transition: .2s;
 	-webkit-transition: .2s;
-	transition: .2s
+	transition: .2s;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 input:hover {
 	border: 2px solid #c9d4f6;
@@ -124,16 +122,9 @@ select:focus {
 	color: #fff;
 }
 .button-secondary {
-	/* margin: 10px 0px 10px 0px; */
-	/* padding: 8px 20px 8px 20px; */
-	/* display: inline-block; */
 	border: 1px solid #ccc;
-	/* border-radius: 3px; */
 	background: #f9f9f9;
 	color: #333;
-	/* font-size: .8rem; */
-	/* font-weight: bold; */
-	/* cursor: pointer; */
 }
 .column-header {
 	padding: 0px 5px 0px 5px;
@@ -150,13 +141,11 @@ select:focus {
 |*| Tab UI
 \*/
 tabs {
-	/* border: 1px solid red; */
 	margin: 40px 0px 10px 0px;
 	display: block;
 	border-radius: 3px;
 }
 tabs span {
-	/* border: 1px solid blue; */
 	margin: 0px 2px 0px 0px;
 	padding: 10px 10px;
 	display: inline-block;
@@ -169,7 +158,6 @@ tabs span {
 tabs span:first-child {
 	border-top-left-radius: 3px;
 }
-
 tabs span:last-child {
 	border-top-right-radius: 3px;
 }
@@ -188,7 +176,6 @@ tabs .tab-record-count {
 	border: 1px solid #cc0f67;
 	border-radius: 3px;
 	color: #cc0f67;
-	/* background-color: #cc0f67	; */
 	font-size: 0.65rem;
 }
 tabs .active .tab-record-count {
@@ -228,9 +215,12 @@ tabs .active .tab-record-count {
 /*\
 |*| CTA Filter UI
 \*/
+.filter-group {
+	max-width: 80%;
+}
 .filter {
 	padding: 0px 8px 0px 8px;
-	margin: 0px 0px 0px 5px;
+	margin: 2px 0px 3px 5px;
 	border: 2px solid #f7f9fc;
 	border-radius: 10px;
 	background-color: #f7f9fc;
@@ -259,7 +249,7 @@ tabs .active .tab-record-count {
 /*\
 |*| Tab Body Content UI
 \*/
-#alpha-roster-table {
+.roster-table {
 	margin: 20px 0px 0px 0px;
 }
 .tab-content {
@@ -307,7 +297,7 @@ tabs .active .tab-record-count {
 .data-parent-table .data-row:hover td { background: #f8f9fc; }
 .data-parent-table .data-row:hover input { background: #f8f9fc; }
 .data-parent-table .data-row:hover select { background: #f8f9fc; }
-
+.data-parent-table .data-row:hover p { border-color: #f8f9fc; }
 .data-parent-table .data-row:hover svg path { fill: #c9d4f6; }
 .data-parent-table .data-cell  {
 	padding: 0px 5px 0px 5px;
@@ -322,25 +312,13 @@ tabs .active .tab-record-count {
 	margin: 0 5px 0 0;
 	font-size: .8rem;
 	color: #c9d4f6;
+	font-weight: bold;
 }
-.data-parent-table .initial-header:hover a { color: #006fff; }
-/* .data-parent-table input {
-	line-height: 20px;
-	border: 2px solid #f8f9fc;
-	border-radius: 3px;
-	-o-transition: .2s;
-	-ms-transition: .2s;
-	-moz-transition: .2s;
-	-webkit-transition: .2s;
-	transition: .2s
-} */
-
+.data-parent-table .initial-header a:hover { color: #ff1282; }
 .data-parent-table select {
 	margin: 4px 0px 0px 0px;
 	width: 84px;
 }
-
-
 .data-parent-table .dept-col { width: 80px; }
 .data-parent-table .rank-rate-col {
 	padding: 0px 0px 0px 5px;
@@ -360,10 +338,25 @@ tabs .active .tab-record-count {
 .data-parent-table select.match {
 	border-color: #ff1282;
 }
-
 .data-parent-table input.match {
 	border-color: #ff1282;
 }
+.data-parent-table .data-cell p {
+	padding: 0px 0px 0px 2px;
+	border: 2px solid #fff;
+	border-radius: 3px;
+	height: 22px;
+	line-height: 22px;
+}
+.data-parent-table .data-cell.match p {
+	border-color: #ff1282;
+}
+
+
+#fltmps-roster .rank-rate-col {	width: 90px; }
+#fltmps-roster .gender-col { width: 60px; }
+#fltmps-roster .diversity-group-col { width: 360px; }
+#fltmps-roster .uic-col { width: 55px; }
 
 
 
@@ -402,7 +395,6 @@ tabs .active .tab-record-count {
 	text-transform: uppercase;
 }
 #new-alpha-record-dialog .dialog-actions {
-	/* border: 1px solid black; */
 	margin: 20px 0px 0px 0px;
 }
 

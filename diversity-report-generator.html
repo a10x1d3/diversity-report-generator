@@ -51,7 +51,10 @@
 			{{ content.title }}
 			<span ng-show="content.title == 'Alpha Roster' && alphaObject" class="tab-record-count">
 				{{ alphaObject.recordCount }}
-			</span>	
+			</span>
+			<span ng-show="content.title == 'FLTMPS' && fltmpsObject && showFltmpsHTML" class="tab-record-count">
+				{{ fltmpsObject.recordCount }}
+			</span>
 		</span>
 	</tabs>
 
@@ -113,7 +116,7 @@
 				ng-click="setAlphaRRFilter()"
 				ng-class="{ 'active': filterAlphaRRSpecialChar }"
 				ng-show="alphaObject">
-					Rank: Special Characters 
+					Rank: Special Characters
 				</p>
 			</div>
 		
@@ -136,7 +139,7 @@
 			</div>
 		</div>
 		
-		<div id="alpha-roster-table" ng-show="alphaObject">
+		<div class="roster-table" ng-show="alphaObject">
 			
 			<ul class="initial-anchor-list">
 				<li ng-repeat="initial in alphaInitialArray">
@@ -180,11 +183,11 @@
 									<input type="text" ng-model="item.rateRank" class="input" ng-class="{'match': item.rrMatch}">
 								</td>
 								<td class="last-name-col data-cell trans2">
-									<input type="text" ng-model="item.lastName" class="input" ng-class="{'match': item.lastNameMatch}">
+									<input type="text" ng-model="item.lastName" class="input" ng-class="{'match': item.lastNameSearchMatch || item.lastNameCharhMatch}">
 								</td>
 								<td class="first-name-col data-cell trans2"
 									ng-class="{'match': item.match}">
-									<input type="text" ng-model="item.firstName" class="input" ng-class="{'match': item.firstNameMatch}">
+									<input type="text" ng-model="item.firstName" class="input" ng-class="{'match': item.firstNameSearchMatch || item.firstNameCharhMatch}">
 								</td>
 								<td class="row-action-col data-cell trans2"
 									ng-click="removeAlphaEntry(initial, $index)">
@@ -213,60 +216,136 @@
 	
 		<p class="tab-body-title b">Load all raw FLTMPS diversity reports as <span class="code">.csv</span> files</p>
 
-		<table class="cta-layout">
-			<tr>
-				<td>
-					<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-left cta-action button button-primary">Render</p>
-					<label for="fltmps-file-picker"
-						   class="file-picker-input cta-action shadow float-right button button-primary"
-						   ng-click="showFltmpsHTML = false">
-						   <span ng-show="fltmpsObject">
-							Re
-						   </span>
-						   Import
-					</label>
-					
-					<input class=""
-						   id="fltmps-file-picker"
-						   type="file"
-						   multiple
-						   fltmps-reader="fileContent"
-						   fltmps-Object="fltmpsObject"
-						   fltmps-Initial-Array="fltmpsInitialArray"
-						   value="Select Alpha Roster">
-					</input>
-				</td>
-			</tr>
-		</table>
+		<div class="cta-layout clearfix">
+			<p class="cta-label float-left">FLTMPS Actions</p>
+			
+			<label for="fltmps-file-picker"
+				   class="file-picker-input cta-action shadow float-right button button-primary"
+				   ng-click="showFltmpsHTML = false">
+				<span ng-show="fltmpsObject">Re</span>
+				Import
+			</label>
+			
+			<input class=""
+				   id="fltmps-file-picker"
+				   type="file"
+				   multiple
+				   fltmps-reader="fileContent"
+				   fltmps-Object="fltmpsObject"
+				   fltmps-Initial-Array="fltmpsInitialArray"
+				   fltmps-Diversity-Group-Array="fltmpsDiversityGroupArray"
+				   fltmps-Uic-Array="fltmpsUICArray"
+				   value="Select Alpha Roster">
+			</input>
+			
+			<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-right cta-action button button-secondary">Render</p>
+			
+			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
+			
+			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Diversity Filters</p>
+			
+			<div class="filter-group float-right clearfix">
+				<p class="filter float-right trans2"
+				ng-repeat="group in fltmpsDiversityGroupArray"
+				ng-click="setFltmpsDiversityFilter(group)"
+				ng-class="{ 'active': fltmpsDiversityFilter.includes(group) }">
+					{{ group }}
+				</p>
+			</div>
+			
+			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
 
-		<div ng-show="showFltmpsHTML">
-			<table>
-				<tr>
-					<td colspan="6">Imported FLTMPS Sailors</td>
-				</tr>
-				<tr>
-					<th>Rank / Rate</th>
-					<th>Last Name</th>
-					<th>First Name</th>
-					<th>Gender</th>
-					<th>Diversity Group</th>
-					<th>UIC</th>
-				</tr>
+			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">UIC Filters</p>
+
+			<p class="filter float-right trans2"
+			   ng-repeat="uic in fltmpsUICArray"
+			   ng-click="setFltmpsUICFilter(uic)"
+			   ng-class="{ 'active': fltmpsUICFilter.includes(uic) }">
+				{{ uic }}
+			</p>
+
+			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
+
+			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Name &amp; Gender Filters</p>
+
+			<div class="filter-group float-right clearfix" ng-show="fltmpsObject && showFltmpsHTML">
+				<p class="filter float-right trans2"
+				   ng-repeat="gender in genderArray"
+				   ng-click="setFltmpsGenderFilter(gender)"
+				   ng-class="{ 'active': fltmpsGenderFilter.includes(gender) }">
+					{{ gender }}
+				</p>
+
+				<p class="filter float-right trans2"
+				   ng-class="{ 'active': filterFltmpsNameText }">
+					Search Name
+					<input type="text" ng-model="filterFltmpsNameText">
+				</p>
+			</div>
+			
+		</div>
+		
+
+		<div class="roster-table"
+			 id="fltmps-roster"
+			 ng-show="showFltmpsHTML">
+
+			<ul class="initial-anchor-list">
+				<li ng-repeat="initial in fltmpsInitialArray">
+					<a href="#fltmps-initial-{{ initial }}"
+					   ng-if="fltmpsObject[initial].length"
+					   class="trans2">{{ initial }}</a>
+				</li>
+			</ul>
+
+			<table class="data-parent-table shadow">
+				<thead>
+					<tr>
+						<th class="column-header rank-rate-col">Rate / Rank</th>
+						<th class="column-header last-name-col">Last Name</th>
+						<th class="column-header first-name-col">First Name</th>
+						<th class="column-header gender-col">Gender</th>
+						<th class="column-header diversity-group-col">Diversity Group</th>
+						<th class="column-header uic-col">UIC</th>
+					</tr>
+				</thead>
 				<tr ng-repeat="initial in fltmpsInitialArray">
-					<td colspan="6">
-						<table>
-							<tr>
-								<th colspan="6">
+					<td colspan="6" class="data-table-container">
+						<table class="data-table">
+							<tr class="initial-header">
+								<th colspan="6" class="initial-col" id="fltmps-initial-{{ initial }}">
 									{{ initial }}
+									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
 							</tr>
-							<tr ng-repeat="iten in fltmpsObject[initial]">
-								<td>{{ iten.rankRate }}</td>
-								<td>{{ iten.lastName }}</td>
-								<td>{{ iten.firstName }}</td>
-								<td>{{ iten.diversityGroup }}</td>
-								<td>{{ iten.genderGroup }}</td>
-								<td>{{ iten.uic }}</td>
+							<tr ng-repeat="item in fltmpsObject[initial] | filter:fltmpsFilter" class="data-row trans2">
+								<td class="data-cell trans2 rank-rate-col">
+									<p>{{ item.rankRate }}</p>
+								</td>
+								
+								<td class="data-cell trans2 last-name-col"
+									ng-class="{match: item.lastNameSearchMatch}">
+									<p>{{ item.lastName }}</p>
+								</td>
+								
+								<td class="data-cell trans2 first-name-col"
+									ng-class="{match: item.firstNameSearchMatch}">
+									<p>{{ item.firstName }}</p>
+								</td>
+								
+								<td class="data-cell trans2 gender-col"
+									ng-class="{match: item.genderMatch}">
+									<p>{{ item.genderGroup }}</p>
+								</td>
+								
+								<td class="data-cell trans2 diversity-group-col"
+								    ng-class="{match: item.diversityGroupMatch}">
+									<p>{{ item.diversityGroup }}</p>
+								</td>
+								<td class="data-cell trans2 uic-col"
+									ng-class="{match: item.uicMatch}">
+									<p>{{ item.uic }}</p>
+								</td>
 							</tr>
 						</table>
 					</td>

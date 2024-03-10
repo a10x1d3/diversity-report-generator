@@ -9,7 +9,9 @@ app.directive('fltmpsReader', function ()
         scope:
         {
             fltmpsObject: "=fltmpsObject",
-            fltmpsInitialArray: "=fltmpsInitialArray"
+            fltmpsInitialArray: "=fltmpsInitialArray",
+            fltmpsDiversityGroupArray: "=fltmpsDiversityGroupArray",
+            fltmpsUicArray: "=fltmpsUicArray"
         },
         link: function (scope, element)
         {
@@ -19,7 +21,10 @@ app.directive('fltmpsReader', function ()
                 // console.log(files);
 
                 var localFltmpsObject = {};
+                var localFltmpsObject = { recordCount: 0 };
                 var localFltmpsInitialArray = [];
+                var localfltmpsDiversityGroupArray = [];
+                var localFltmpsUICArray = [];
                 
                 if (files.length)
                 {
@@ -100,7 +105,19 @@ app.directive('fltmpsReader', function ()
                                     "genderGroup": genderGroup
                                 };
 
+                                if ( !localfltmpsDiversityGroupArray.includes(diversityGroup) )
+                                {
+                                    localfltmpsDiversityGroupArray.push(diversityGroup);
+                                }
+                                
+                                if (!localFltmpsUICArray.includes(uicList[index]) )
+                                {
+                                    console.log('pushing UIC: ' + uicList[index]);
+                                    localFltmpsUICArray.push(uicList[index]);
+                                }
+
                                 localFltmpsObject[lastInitial].push(recordObject);
+                                localFltmpsObject.recordCount += 1;
                                 
                             }); // END contents.forEach
                             
@@ -119,6 +136,8 @@ app.directive('fltmpsReader', function ()
                 {
                     scope.fltmpsObject = localFltmpsObject;
                     scope.fltmpsInitialArray = localFltmpsInitialArray;
+                    scope.fltmpsDiversityGroupArray = localfltmpsDiversityGroupArray;
+                    scope.fltmpsUicArray = localFltmpsUICArray;
                     console.log(scope.fltmpsInitialArray);
                 }); // END scope.$apply
                 

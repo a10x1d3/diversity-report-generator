@@ -14,10 +14,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	};
 	$scope.showFltmpsHTML = false;
 	$scope.departmentArray = [];
+	$scope.genderArray = ["Male", "Female"];
 	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-	$scope.alphaDeptFilters = [];
-	$scope.filterAlphaNameSpecialChar = false;
-	$scope.filterAlphaRRSpecialChar = false;
 	$scope.alphaNumRegex = new RegExp(/[\W_]+/g);
 
 
@@ -87,6 +85,11 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ Alpha Roster Import Tab Functions    │
 	//└──────────────────────────────────────┘
+	$scope.alphaDeptFilters = [];
+	$scope.filterAlphaNameSpecialChar = false;
+	$scope.filterAlphaRRSpecialChar = false;
+
+
 	$scope.removeAlphaEntry = function (lastInitial, index) {
 		$scope.alphaObject[lastInitial].splice(index, 1);
 	}
@@ -170,6 +173,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.alphaFilter = function (item)
 	{
+		var filteredStatus = false;
 		if ( $scope.alphaDeptFilters.length == 0 &&
 			 !$scope.filterAlphaNameText &&
 			 !$scope.filterAlphaNameSpecialChar &&
@@ -177,52 +181,40 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		{
 			item.deptMatch = false;
 			item.rrMatch = false;
-			item.lastNameMatch = false;
-			item.firstNameMatch = false;
+			item.lastNameSearchMatch = false;
+			item.lastNameCharMatch = false;
+			item.firstNameSearchMatch = false;
+			item.firstNameCharMatch = false;
 			return true;
+		}
+		else
+		{	
+			if ($scope.alphaDeptFilters.includes(item.dept))
+			{ filteredStatus = true; item.deptMatch = true; }
+			else { item.deptMatch = false; }
+			
+			if ($scope.filterAlphaRRSpecialChar && $scope.alphaNumRegex.test(item.rateRank) )
+			{ filteredStatus = true; item.rrMatch = true; }
+			else { item.rrMatch = false; }
+
+			if ($scope.filterAlphaNameText && item.lastName.includes($scope.filterAlphaNameText.toUpperCase()))
+			{ filteredStatus = true; item.lastNameSearchMatch = true; }
+			else { item.lastNameSearchMatch = false; }
+			
+			if ($scope.filterAlphaNameText && item.firstName.includes($scope.filterAlphaNameText.toUpperCase()))
+			{ filteredStatus = true; item.firstNameSearchMatch = true; }
+			else { item.firstNameSearchMatch = false; }
+			
+			if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.lastName))
+			{ filteredStatus = true; item.lastNameCharMatch = true; }
+			else { item.lastNameCharMatch = false; }
+			
+			if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.firstName))
+			{ filteredStatus = true; item.firstNameCharMatch = true; }
+			else { item.firstNameCharMatch = false; }
 		}
 
-		if ($scope.alphaDeptFilters.includes(item.dept))
-		{
-			item.deptMatch = true;
-			return true;
-		}
-	
-		if ($scope.filterAlphaNameText && item.lastName.includes($scope.filterAlphaNameText.toUpperCase()))
-		{
-			item.lastNameMatch = true;
-			return true;
-		}
-
-		if ($scope.filterAlphaNameText && item.firstName.includes($scope.filterAlphaNameText.toUpperCase()))
-		{
-			item.firstNameMatch = true;
-			return true;
-		}
-
-		if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.lastName))
-		{
-			item.lastNameMatch = true;
-			return true;
-		}
-
-		if ($scope.filterAlphaNameSpecialChar && $scope.alphaNumRegex.test(item.firstName))
-		{
-			item.firstNameMatch = true;
-			return true;
-		}
-
-		if ($scope.filterAlphaRRSpecialChar && $scope.alphaNumRegex.test(item.rateRank) )
-		{
-			item.rrMatch = true;
-			return true;
-		}
-
-		item.deptMatch = false;
-		item.rrMatch = false;
-		item.lastNameMatch = false;
-		item.firstNameMatch = false;
-		return false;	
+		return filteredStatus;
 	};
 
 	
@@ -232,11 +224,91 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ FLTMPS Import Tab Functions          │
 	//└──────────────────────────────────────┘
+	$scope.fltmpsDiversityFilter = [];
+	$scope.fltmpsUICFilter = [];
+	$scope.fltmpsGenderFilter = [];
+	
 	$scope.renderFltmpsHTML = function () {
 		$scope.f = $scope.fltmpsRoster;
 		$scope.showFltmpsHTML = true;
 
 		$scope.unmuteTab('diversityRoster');
+	};
+
+	$scope.setFltmpsDiversityFilter = function (group) {
+		if ($scope.fltmpsDiversityFilter.includes(group)) {
+			var index = $scope.fltmpsDiversityFilter.indexOf(group);
+			$scope.fltmpsDiversityFilter.splice(index, 1);
+			return;
+		}
+
+		$scope.fltmpsDiversityFilter.push(group);
+	};
+
+
+	$scope.setFltmpsUICFilter = function (uic) {
+		if ($scope.fltmpsUICFilter.includes(uic)) {
+			var index = $scope.fltmpsUICFilter.indexOf(uic);
+			$scope.fltmpsUICFilter.splice(index, 1);
+			return;
+		}
+
+		$scope.fltmpsUICFilter.push(uic);
+	};
+
+	$scope.setFltmpsGenderFilter = function (gender) {
+		if ($scope.fltmpsGenderFilter.includes(gender)) {
+			var index = $scope.fltmpsGenderFilter.indexOf(gender);
+			$scope.fltmpsGenderFilter.splice(index, 1);
+			return;
+		}
+
+		$scope.fltmpsGenderFilter.push(gender);
+	};
+
+
+	$scope.fltmpsFilter = function (item) {
+		var filteredStatus = false;
+		
+		console.log($scope.fltmpsUICFilter.includes(item.uic));
+
+		if ( $scope.fltmpsDiversityFilter.length == 0 &&
+			 $scope.fltmpsUICFilter.length == 0 &&
+			$scope.fltmpsGenderFilter.length == 0 &&
+			 !$scope.filterFltmpsNameText )
+		{
+			item.diversityGroupMatch = false;
+			item.uicMatch = false;
+			item.genderMatch = false;
+			item.lastNameSearchMatch = false;
+			item.firstNameSearchMatch = false;
+			
+			return true;
+		}
+		else {
+			if ($scope.fltmpsDiversityFilter.includes(item.diversityGroup))
+			{ filteredStatus = true; item.diversityGroupMatch = true; }
+			else { item.diversityGroupMatch = false; }
+
+			if ($scope.fltmpsUICFilter.includes(item.uic))
+			{ filteredStatus = true; item.uicMatch = true; }
+			else { item.uicMatch = false; }
+
+			if ($scope.fltmpsGenderFilter.includes(item.genderGroup))
+			{ filteredStatus = true; item.genderMatch = true; }
+			else { item.genderMatch = false; }
+
+			if ($scope.filterFltmpsNameText && item.lastName.includes($scope.filterFltmpsNameText.toUpperCase()))
+			{ filteredStatus = true; item.lastNameSearchMatch = true; }
+			else { item.lastNameSearchMatch = false; }
+
+			if ($scope.filterFltmpsNameText && item.firstName.includes($scope.filterFltmpsNameText.toUpperCase()))
+			{ filteredStatus = true; item.firstNameSearchMatch = true; }
+			else { item.firstNameSearchMatch = false; }
+			
+		}
+
+		return filteredStatus;
 	};
 
 });
