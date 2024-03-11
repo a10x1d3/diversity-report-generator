@@ -60,9 +60,9 @@
 
 
 	 
-	<!--────────────────────────────────────┐
-	 │ Tab Body | Alpha Roster              │
-	 └─────────────────────────────────────-->
+	<!--───────────────────────────────────┐
+	│ Tab Body | Alpha Roster              │
+	└────────────────────────────────────-->
 	<div ng-show="ui.activeTab == 'alphaRoster'"
 			id="import-tab"
 			class="tab-content shadow"
@@ -183,11 +183,11 @@
 									<input type="text" ng-model="item.rateRank" class="input" ng-class="{'match': item.rrMatch}">
 								</td>
 								<td class="last-name-col data-cell trans2">
-									<input type="text" ng-model="item.lastName" class="input" ng-class="{'match': item.lastNameSearchMatch || item.lastNameCharhMatch}">
+									<input type="text" ng-model="item.lastName" class="input" ng-class="{'match': item.lastNameSearchMatch || item.lastNameCharMatch}">
 								</td>
 								<td class="first-name-col data-cell trans2"
 									ng-class="{'match': item.match}">
-									<input type="text" ng-model="item.firstName" class="input" ng-class="{'match': item.firstNameSearchMatch || item.firstNameCharhMatch}">
+									<input type="text" ng-model="item.firstName" class="input" ng-class="{'match': item.firstNameSearchMatch || item.firstNameCharMatch}">
 								</td>
 								<td class="row-action-col data-cell trans2"
 									ng-click="removeAlphaEntry(initial, $index)">
@@ -206,9 +206,9 @@
 
 
 	
-	<!--────────────────────────────────────┐
-	 │ Tab Body | FLTMPS Import             │
-	 └─────────────────────────────────────-->
+	<!--───────────────────────────────────┐
+	│ Tab Body | FLTMPS Import             │
+	└────────────────────────────────────-->
 	<div ng-show="ui.activeTab == 'fltmpsRoster'"
 			id="fltmps-tab"
 			class="tab-content shadow"
@@ -238,44 +238,19 @@
 				   value="Select Alpha Roster">
 			</input>
 			
-			<p ng-click="renderFltmpsHTML()" ng-show="fltmpsObject" class="file-picker-input shadow float-right cta-action button button-secondary">Render</p>
+			<p ng-click="renderFltmpsHTML()"
+			   ng-show="fltmpsObject && !showFltmpsHTML"
+			   class="shadow float-right cta-action button button-secondary">Render</p>
+
+			<p class="button button-secondary shadow float-right cta-action"
+			   ng-show="fltmpsObject && showFltmpsHTML"
+			   ng-click="deleteFltmpsData()">Clear Data</p>
 			
 			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
 			
-			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Diversity Filters</p>
-			
-			<div class="filter-group float-right clearfix">
-				<p class="filter float-right trans2"
-				ng-repeat="group in fltmpsDiversityGroupArray"
-				ng-click="setFltmpsDiversityFilter(group)"
-				ng-class="{ 'active': fltmpsDiversityFilter.includes(group) }">
-					{{ group }}
-				</p>
-			</div>
-			
-			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
-
-			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">UIC Filters</p>
-
-			<p class="filter float-right trans2"
-			   ng-repeat="uic in fltmpsUICArray"
-			   ng-click="setFltmpsUICFilter(uic)"
-			   ng-class="{ 'active': fltmpsUICFilter.includes(uic) }">
-				{{ uic }}
-			</p>
-
-			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
-
-			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Name &amp; Gender Filters</p>
+			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Name Filter</p>
 
 			<div class="filter-group float-right clearfix" ng-show="fltmpsObject && showFltmpsHTML">
-				<p class="filter float-right trans2"
-				   ng-repeat="gender in genderArray"
-				   ng-click="setFltmpsGenderFilter(gender)"
-				   ng-class="{ 'active': fltmpsGenderFilter.includes(gender) }">
-					{{ gender }}
-				</p>
-
 				<p class="filter float-right trans2"
 				   ng-class="{ 'active': filterFltmpsNameText }">
 					Search Name
@@ -333,17 +308,14 @@
 									<p>{{ item.firstName }}</p>
 								</td>
 								
-								<td class="data-cell trans2 gender-col"
-									ng-class="{match: item.genderMatch}">
+								<td class="data-cell trans2 gender-col">
 									<p>{{ item.genderGroup }}</p>
 								</td>
 								
-								<td class="data-cell trans2 diversity-group-col"
-								    ng-class="{match: item.diversityGroupMatch}">
+								<td class="data-cell trans2 diversity-group-col">
 									<p>{{ item.diversityGroup }}</p>
 								</td>
-								<td class="data-cell trans2 uic-col"
-									ng-class="{match: item.uicMatch}">
+								<td class="data-cell trans2 uic-col">
 									<p>{{ item.uic }}</p>
 								</td>
 							</tr>
@@ -361,18 +333,24 @@
 
 
 
-
-
-	<!-- Tab Content | Tab 3  -->
-	<div ng-show="ui.activeTab == 'Tab 3'"
-			id="tab-three"
-			class="tab-content"
-			ng-hidden>
+	<!--───────────────────────────────────┐
+	│ Tab Body | Diversity Data            │
+	└────────────────────────────────────-->
+	<div ng-show="ui.activeTab == 'diversityRoster'"
+		 id="diversity-tab"
+		 class="tab-content shadow"
+		 ng-hidden>
 	
-		<div class="tab-body app-border-radius shadow">
-			<ul class="ul-content clearfix">
-				<li class="font-p9rem app-orange-text b">Tab 3</li>
-			</ul>
+		<p class="tab-body-title b">Merge Alpha Roster with diversity report data</p>
+
+		<div class="cta-layout clearfix">
+			<p class="cta-label float-left">Diversity Data Actions</p>
+
+			<p class="cta-action float-right button button-primary"
+			   ng-show="alphaObject && fltmpsObject && showFltmpsHTML"
+			   ng-click="mergeDiversityData()">
+				Merge Data
+			</p>
 		</div>
 	</div>
 

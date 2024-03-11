@@ -9,13 +9,9 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ Controller Functions & Variables     │
 	//└──────────────────────────────────────┘
-	$scope.newAlphaRecordObject = {
-		displayDialog: false
-	};
+	$scope.newAlphaRecordObject = { displayDialog: false };
 	$scope.showFltmpsHTML = false;
 	$scope.departmentArray = [];
-	$scope.genderArray = ["Male", "Female"];
-	$scope.initialArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 	$scope.alphaNumRegex = new RegExp(/[\W_]+/g);
 
 
@@ -45,8 +41,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				state: 'inactive'
 			},
 			diversityRoster: {
-				title: 'Tab 3',
-				state: 'muted'
+				title: 'Diversity Data',
+				state: 'inactive'
 			},
 			diversityReport: {
 				title: 'Tab 4',
@@ -224,16 +220,18 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ FLTMPS Import Tab Functions          │
 	//└──────────────────────────────────────┘
-	$scope.fltmpsDiversityFilter = [];
-	$scope.fltmpsUICFilter = [];
-	$scope.fltmpsGenderFilter = [];
-	
 	$scope.renderFltmpsHTML = function () {
 		$scope.f = $scope.fltmpsRoster;
 		$scope.showFltmpsHTML = true;
 
 		$scope.unmuteTab('diversityRoster');
 	};
+
+	$scope.deleteFltmpsData = function()
+	{
+		delete $scope.fltmpsObject;
+		$scope.showFltmpsHTML = false;
+	}
 
 	$scope.setFltmpsDiversityFilter = function (group) {
 		if ($scope.fltmpsDiversityFilter.includes(group)) {
@@ -256,48 +254,18 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.fltmpsUICFilter.push(uic);
 	};
 
-	$scope.setFltmpsGenderFilter = function (gender) {
-		if ($scope.fltmpsGenderFilter.includes(gender)) {
-			var index = $scope.fltmpsGenderFilter.indexOf(gender);
-			$scope.fltmpsGenderFilter.splice(index, 1);
-			return;
-		}
-
-		$scope.fltmpsGenderFilter.push(gender);
-	};
-
 
 	$scope.fltmpsFilter = function (item) {
 		var filteredStatus = false;
 		
-		console.log($scope.fltmpsUICFilter.includes(item.uic));
-
-		if ( $scope.fltmpsDiversityFilter.length == 0 &&
-			 $scope.fltmpsUICFilter.length == 0 &&
-			$scope.fltmpsGenderFilter.length == 0 &&
-			 !$scope.filterFltmpsNameText )
+		if ( !$scope.filterFltmpsNameText )
 		{
-			item.diversityGroupMatch = false;
-			item.uicMatch = false;
-			item.genderMatch = false;
 			item.lastNameSearchMatch = false;
 			item.firstNameSearchMatch = false;
 			
 			return true;
 		}
 		else {
-			if ($scope.fltmpsDiversityFilter.includes(item.diversityGroup))
-			{ filteredStatus = true; item.diversityGroupMatch = true; }
-			else { item.diversityGroupMatch = false; }
-
-			if ($scope.fltmpsUICFilter.includes(item.uic))
-			{ filteredStatus = true; item.uicMatch = true; }
-			else { item.uicMatch = false; }
-
-			if ($scope.fltmpsGenderFilter.includes(item.genderGroup))
-			{ filteredStatus = true; item.genderMatch = true; }
-			else { item.genderMatch = false; }
-
 			if ($scope.filterFltmpsNameText && item.lastName.includes($scope.filterFltmpsNameText.toUpperCase()))
 			{ filteredStatus = true; item.lastNameSearchMatch = true; }
 			else { item.lastNameSearchMatch = false; }
@@ -309,6 +277,25 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		}
 
 		return filteredStatus;
+	};
+
+
+
+	//┌──────────────────────────────────────┐
+	//│ Diversity Data | Vars & Functions    │
+	//└──────────────────────────────────────┘
+
+
+	$scope.mergeDiversityData = function()
+	{
+		$scope.alphaInitialArray.forEach(initial => {
+
+			$scope.alphaObject[initial].forEach(alphaRecord => {
+				console.log(alphaRecord);
+
+				
+			});
+		});
 	};
 
 });

@@ -49,6 +49,7 @@ app.directive('fltmpsReader', function ()
                             {
                                 
                                 fltmpsRecord = fltmpsRecord.replaceAll('"', '');
+                                fltmpsRecord = fltmpsRecord.trim();
                                 fltmpsSailor = {};
                                 rate = '';
                                 fullName = '';
@@ -58,8 +59,8 @@ app.directive('fltmpsReader', function ()
                                 
                                 if (fltmpsRecord.includes("No Data Found")) { return; }
                                 if (fltmpsRecord.includes("For Official Use Only")) { return; }
-                                if (fltmpsRecord.includes("Rate,Name,Projected Gain Date")) { return; }
-                                if (!fltmpsRecord) { return; }
+                                if (fltmpsRecord.includes("Rate,Name")) { return; }
+                                if (!fltmpsRecord || fltmpsRecord.length <= 0) { return; }
                                 
                                 if (fltmpsRecord.includes("Diversity Grouping") )
                                 {
@@ -74,7 +75,7 @@ app.directive('fltmpsReader', function ()
                                     genderGroup = fltmpsRecord.split(': ')[1];
                                     return;
                                 }
-
+                                
                                 if ( fltmpsRecord )
                                 {
                                     fltmpsRecord = fltmpsRecord.split(',');
@@ -91,8 +92,6 @@ app.directive('fltmpsReader', function ()
                                 }
 
                                 if (localFltmpsInitialArray.indexOf(lastInitial) < 0) {
-
-                                    console.log('index hit of: ' + localFltmpsInitialArray.indexOf(lastInitial));
                                     localFltmpsInitialArray.push(lastInitial);
                                 }
 
@@ -112,7 +111,6 @@ app.directive('fltmpsReader', function ()
                                 
                                 if (!localFltmpsUICArray.includes(uicList[index]) )
                                 {
-                                    console.log('pushing UIC: ' + uicList[index]);
                                     localFltmpsUICArray.push(uicList[index]);
                                 }
 
@@ -126,7 +124,6 @@ app.directive('fltmpsReader', function ()
                         }; // END r.onload
                         
                         r.readAsText(files[index]);
-                        console.log(localFltmpsObject);
 
                     } // END for (const [index, [key, value]] of Object.entries(Object.entries(files)))
 
