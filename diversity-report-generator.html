@@ -49,11 +49,17 @@
 			  ng-class="content.state"
 			  class="b trans2 shadow">
 			{{ content.title }}
-			<span ng-show="content.title == 'Alpha Roster' && alphaObject" class="tab-record-count">
+			<span ng-show="content.title == 'Alpha Roster' && alphaObject"
+				  class="tab-record-count">
 				{{ alphaObject.recordCount }}
 			</span>
-			<span ng-show="content.title == 'FLTMPS' && fltmpsObject && showFltmpsHTML" class="tab-record-count">
+			<span ng-show="content.title == 'FLTMPS' && fltmpsObject && showFltmpsHTML"
+				  class="tab-record-count">
 				{{ fltmpsObject.recordCount }}
+			</span>
+			<span ng-show="content.title == 'Diversity Data' && diversityObject"
+				  class="tab-record-count">
+				{{ diversityObject.recordCount }}
 			</span>
 		</span>
 	</tabs>
@@ -234,7 +240,7 @@
 				   fltmps-Object="fltmpsObject"
 				   fltmps-Initial-Array="fltmpsInitialArray"
 				   fltmps-Diversity-Group-Array="fltmpsDiversityGroupArray"
-				   fltmps-Uic-Array="fltmpsUICArray"
+				   fltmps-Uic-Array="fltmpsUicArray"
 				   value="Select Alpha Roster">
 			</input>
 			
@@ -337,7 +343,7 @@
 	│ Tab Body | Diversity Data            │
 	└────────────────────────────────────-->
 	<div ng-show="ui.activeTab == 'diversityRoster'"
-		 id="diversity-tab"
+		 id="diversity-roster"
 		 class="tab-content shadow"
 		 ng-hidden>
 	
@@ -351,6 +357,137 @@
 			   ng-click="mergeDiversityData()">
 				Merge Data
 			</p>
+
+			<hr class="cta-action-separator clearfix" ng-show="diversityObject">
+			
+			<p class="cta-label float-left" ng-show="diversityObject">Name Filters</p>
+			<!-- {{ alphaDeptFilters }} -->
+			<div class="filter-group float-right clearfix" ng-show="diversityObject">
+				<p class="filter float-right trans2" ng-class="{ 'active': filterDiversityNameText }">
+					Search Name
+					<input type="text" ng-model="filterDiversityNameText">
+				</p>
+			</div>
+		</div>
+
+		<div class="roster-table" ng-show="diversityObject">
+		
+			<ul class="initial-anchor-list">
+				<li ng-repeat="initial in alphaInitialArray">
+					<a href="#diversity-initial-{{ initial }}"
+					ng-if="alphaObject[initial].length"
+					class="trans2">{{ initial }}</a>
+				</li>
+			</ul>
+			
+			<table class="data-parent-table shadow">
+				<thead>
+					<tr>
+						<th class="column-header dept-col">Dept</th>
+						<th class="column-header rank-rate-col">Rate / Rank</th>
+						<th class="column-header last-name-col">Last Name</th>
+						<th class="column-header first-name-col">First Name</th>
+						<th class="column-header gender-col">Gender</th>
+						<th class="column-header diversity-group-col">Diversity Group</th>
+						<th class="column-header uic-col">UIC</th>
+						<th class="column-header dept-triad-role-col">Dept Triad Role</th>
+						<th class="column-header row-action-col"></th>
+					</tr>
+				</thead>
+				<tr ng-repeat="initial in alphaInitialArray">
+					<td colspan="9" class="data-table-container">
+						<table class="data-table">
+							<tr class="initial-header">
+								<th colspan="9" class="initial-col" id="diversity-initial-{{ initial }}">
+									{{ initial }}
+									<a href="#app-title" class="float-right trans2">Top</a>
+								</th>
+							</tr>
+							<tr ng-repeat="item in diversityObject[initial] | filter:diversityFilter track by $index"
+								class="data-row trans2"
+								ng-class="{'merged': item.merged, 'unmerged': !item.merged}">
+								<td class="data-cell trans2 dept-col">
+									<select name=""
+											id=""
+											ng-options="dept for dept in departmentArray"
+											ng-model="item.dept">
+									</select>
+								</td>
+
+								<td class="data-cell trans2 rank-rate-col">
+									<input type="text"
+										   ng-model="item.rateRank"
+										   class="input">
+								</td>
+			
+								<td class="data-cell trans2 last-name-col">
+									<input type="text"
+										   ng-model="item.lastName"
+										   class="input"
+										   ng-class="{'match': item.lastNameSearchMatch}">
+								</td>
+			
+								<td class="data-cell trans2 first-name-col">
+									<input type="text"
+										   ng-model="item.firstName"
+										   class="input"
+										   ng-class="{'match': item.firstNameSearchMatch}">
+								</td>
+			
+								<td class="data-cell trans2 gender-col">
+									<select name=""
+											id=""
+											ng-options="gender for gender in genderOptions"
+											ng-model="item.genderGroup"
+											on-change="validateDiversityRecord(item.lastInitial, $index)">
+									</select>
+								</td>
+			
+								<td class="data-cell trans2 diversity-group-col">
+									<select name=""
+											id=""
+											ng-options="group for group in fltmpsDiversityGroupArray"
+											ng-model="item.diversityGroup"
+											on-change="validateDiversityRecord(item.lastInitial, $index)">
+									</select>
+								</td>
+								<td class="data-cell trans2 uic-col">
+									<select name=""
+											id=""
+											ng-options="uic for uic in fltmpsUicArray"
+											ng-model="item.uic"
+											ng-change="validateDiversityRecord(item.lastInitial, $index)">
+									</select>
+								</td>
+								<td class="data-cell trans2 dept-triad-role-col">
+									<select name=""
+											id=""
+											ng-options="role for role in deptTriadRoleOptions"
+											ng-model="item.deptTriadRole">
+									</select>
+									<span class="clear trans2"
+										  ng-click="clearDeptRoleSelection(item.lastInitial, $index)"
+										  ng-show="item.deptTriadRole">clear</span>
+								</td>
+								<td class="row-action-col data-cell trans2"
+									ng-click="removeDiversityEntry(initial, $index)">
+									<svg id="Layer_1"
+										 data-name="Layer 1"
+										 xmlns="http://www.w3.org/2000/svg"
+										 viewBox="0 0 384 384">
+										<path class="cls-1 trans2"
+											d="m192,0C85.96,0,0,85.96,0,192s85.96,192,192,192,192-85.96,192-192S298.04,0,192,0Zm106.06,252.8c12.49,12.5,12.49,32.76,0,45.26-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.13-22.63-9.37l-60.8-60.8-60.8,60.8c-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.12-22.63-9.37c-12.49-12.5-12.49-32.76.01-45.26l60.8-60.8-60.8-60.8c-12.5-12.5-12.5-32.76-.01-45.26,12.5-12.49,32.76-12.49,45.26,0l60.8,60.8,60.8-60.8c12.5-12.49,32.76-12.49,45.26,0,12.49,12.5,12.49,32.76,0,45.26l-60.8,60.8,60.8,60.8Z" />
+									</svg>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<!-- <tr ng-repeat="item in fltmpsObject[initial]">
+									<td>{{ item.rankRate }}</td>
+								</tr> -->
+				</tr>
+			</table>
+
 		</div>
 	</div>
 

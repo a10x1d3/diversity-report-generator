@@ -14,12 +14,12 @@ section {
 }
 input[type="file"] {
 	display: none;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 table {
 	position: relative;
 	top: 0;
 }
-
 th {
 	position: sticky;
 	top: 0;
@@ -29,6 +29,7 @@ th {
 tr
 {
 	height: 30px;
+	white-space: nowrap;
 }
 td {
 	vertical-align: middle;
@@ -70,6 +71,7 @@ select {
 	-webkit-appearance: none;
 	appearance: none;
 	background-color: #fff;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 select:hover {
 	border: 2px solid #c9d4f6;
@@ -127,7 +129,7 @@ select:focus {
 	color: #333;
 }
 .column-header {
-	padding: 0px 5px 0px 5px;
+	padding: 0px 5px 0px 6px;
 	height: 30px;
 	line-height: 30px;
 	font-weight: bold;
@@ -307,12 +309,14 @@ tabs .active .tab-record-count {
 .data-parent-table .initial-header th {
 	padding: 0px 0px 0px 5px;
 	background-color: #f7f9fc;
+	color: #c9d4f6;
+	font-weight: 500;
 }
 .data-parent-table .initial-header a {
 	margin: 0 5px 0 0;
 	font-size: .8rem;
 	color: #c9d4f6;
-	font-weight: bold;
+	font-weight: 500;
 }
 .data-parent-table .initial-header a:hover { color: #ff1282; }
 .data-parent-table select {
@@ -357,6 +361,70 @@ tabs .active .tab-record-count {
 #fltmps-roster .gender-col { width: 60px; }
 #fltmps-roster .diversity-group-col { width: 360px; }
 #fltmps-roster .uic-col { width: 55px; }
+
+#diversity-roster .first-name-col {	width: 155px; }
+#diversity-roster .gender-col {
+	height: 30px;
+	width: 55px;
+}
+#diversity-roster .dept-col { height: 30px; }
+#diversity-roster .gender-col select { width: 60px; }
+#diversity-roster .diversity-group-col {
+	height: 30px;
+	width: 360px;
+}
+#diversity-roster .diversity-group-col select { width: 100%; }
+#diversity-roster .uic-col {
+	padding-left: 0px;
+	width: 45px;
+	height: 30px;
+}
+#diversity-roster .uic-col select { width: 50px; }
+#diversity-roster .dept-triad-role-col {
+	height: 30px;
+	width: 165px;
+}
+#diversity-roster .dept-triad-role-col .clear {
+	font-size: .8rem;
+	line-height: 30px;
+	color: #c9d4f6;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+#diversity-roster .dept-triad-role-col select { width: 130px; }
+
+.data-parent-table .gender-col {
+	width: 60px;
+}
+
+
+#diversity-roster .data-row.unmerged td {
+	padding-bottom: 3px;
+	background: pink;
+}
+#diversity-roster .data-row.unmerged p {
+	border-color: pink;
+}
+#diversity-roster .data-row.unmerged .gender-col select {
+	border-color: #ff1282;
+}
+#diversity-roster .data-row.unmerged .diversity-group-col select {
+	border-color: #ff1282;
+}
+#diversity-roster .data-row.unmerged .uic-col select {
+	border-color: #ff1282;
+}
+#diversity-roster .data-row.unmerged svg path {
+	fill: pink;
+}
+#diversity-roster .data-row.unmerged .clear {
+	color: #fff;
+}
+#diversity-roster .dept-triad-role-col .clear:hover {
+	color: #ff1282;
+}
+
 
 
 
