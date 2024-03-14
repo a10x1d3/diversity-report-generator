@@ -390,7 +390,8 @@
 						<th class="column-header gender-col">Gender</th>
 						<th class="column-header diversity-group-col">Diversity Group</th>
 						<th class="column-header uic-col">UIC</th>
-						<th class="column-header dept-triad-role-col">Dept Triad Role</th>
+						<th class="column-header dept-triad-role-col">Leadership</th>
+						<th class="column-header coll-duty-col">Collateral Duties</th>
 						<th class="column-header row-action-col"></th>
 					</tr>
 				</thead>
@@ -462,12 +463,28 @@
 								<td class="data-cell trans2 dept-triad-role-col">
 									<select name=""
 											id=""
-											ng-options="role for role in deptTriadRoleOptions"
-											ng-model="item.deptTriadRole">
+											ng-options="role.shortTitle for role in leadershipRoleOptions"
+											ng-model="item.leadershipRole">
 									</select>
-									<span class="clear trans2"
-										  ng-click="clearDeptRoleSelection(item.lastInitial, $index)"
-										  ng-show="item.deptTriadRole">clear</span>
+									<span class="trans2 row-action clear"
+										  ng-click="clearLeadershipRole(item.lastInitial, $index)"
+										  ng-show="item.leadershipRole">clear</span>
+								</td>
+								<td class="data-cell trans2 coll-duty-col">
+									<div class="data-row-bubble-group">
+										<span ng-repeat="duty in item.collateralDuties"
+											  class="duty-bubble">{{ duty.collateralLevel }} {{ duty.collateralTitle }}</span>
+									</div>
+									<span class="trans2 row-action edit"
+										  ng-click="openDiversityCollDialog(item.lastInitial, $index)"
+										  ng-show="item.collateralDuties">
+										  Edit
+									</span>
+									<span class="trans2 row-action clear"
+										  ng-click="openDiversityCollDialog(item.lastInitial, $index)"
+										 ng-show="!item.collateralDuties">
+										Add
+									</span>
 								</td>
 								<td class="row-action-col data-cell trans2"
 									ng-click="removeDiversityEntry(initial, $index)">
@@ -507,9 +524,9 @@
 
 
 
-	<!--───────────────────────────────────────┐
-	 │ Dialog Body | New Alpha Roster Record   │
-	 └────────────────────────────────────────-->
+	<!--──────────────────────────────────────┐
+	│ Dialog Body | New Alpha Roster Record   │
+	└───────────────────────────────────────-->
 	<div id="new-alpha-record-dialog"
 		 class="ngdialog ngdialog-theme-default ngDialog-content"
 		 ng-show="newAlphaRecordObject.displayDialog"
@@ -555,6 +572,73 @@
 			<div class="dialog-actions clearfix">
 				<p ng-click="addAlphaRecord()" class="button button-primary shadow float-right">Add Record</p>
 				<p ng-click="closeAlphaRecordDialog()" class="button float-right m-r-10">Cancel</p>
+			</div>
+			<!-- <p>{{ newAlphaRecordObject }}</p> -->
+		</div>
+	</div>
+
+
+
+	<!--──────────────────────────────────────┐
+	│ Dialog Body | Diversity Collaterals     │
+	└───────────────────────────────────────-->
+	<div id="diversity-coll-dialog"
+		 class="ngdialog ngdialog-theme-default ngDialog-content"
+		 ng-show="EditDiversityCollObject.displayDialog"
+		 role="document">
+		<div class="ngdialog-overlay"></div>
+		<div class="ngdialog-content">
+			<h4>Modify Collateral Duty Ownership</h4>
+			<button class="ngdialog-close trans2" ng-click="CloseDiversityCollDialog()"></button>
+	
+			<table class="dialog-table data-parent-table">
+				<thead>
+					<tr>
+						<th class="column-header level-col">Level</th>
+						<th class="column-header title-col">Collateral Duty</th>
+						<th class="column-header row-action-col"></th>
+					</tr>
+				</thead>
+				<tr ng-repeat="coll in EditDiversityCollObject.selectedArray track by $index">
+					<td class="data-row level-col">
+						<select name=""
+								id=""
+								ng-options="level for level in EditDiversityCollObject.collateralLevels"
+								ng-model="EditDiversityCollObject.selectedArray[$index].collateralLevel">
+						</select>
+					</td>
+					<td class="data-row title-col">
+						<select name=""
+								id=""
+								ng-options="title for title in EditDiversityCollObject.collateralTitles"
+								ng-model="EditDiversityCollObject.selectedArray[$index].collateralTitle">
+						</select>
+					</td>
+					<td class="data-row row-action-col">
+						<svg id="Layer_1"
+							 data-name="Layer 1"
+							 xmlns="http://www.w3.org/2000/svg"
+							 viewBox="0 0 384 384"
+							 ng-click="removeDiversityCollDuty($index)">
+							<path class="cls-1 trans2"
+								  d="m192,0C85.96,0,0,85.96,0,192s85.96,192,192,192,192-85.96,192-192S298.04,0,192,0Zm106.06,252.8c12.49,12.5,12.49,32.76,0,45.26-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.13-22.63-9.37l-60.8-60.8-60.8,60.8c-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.12-22.63-9.37c-12.49-12.5-12.49-32.76.01-45.26l60.8-60.8-60.8-60.8c-12.5-12.5-12.5-32.76-.01-45.26,12.5-12.49,32.76-12.49,45.26,0l60.8,60.8,60.8-60.8c12.5-12.49,32.76-12.49,45.26,0,12.49,12.5,12.49,32.76,0,45.26l-60.8,60.8,60.8,60.8Z" />
+						</svg>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<span class="trans2 row-action edit" ng-click="addDiversityCollDuty()">Add</span>
+					</td>
+				</tr>
+			</table>
+
+			<p>
+				{{ EditDiversityCollObject.selectedArray }}
+			</p>
+	
+			<div class="dialog-actions clearfix">
+				<p ng-click="setDiversityCollDuty()" class="button button-primary shadow float-right">Add Record</p>
+				<p ng-click="CloseDiversityCollDialog()" class="button float-right m-r-10">Cancel</p>
 			</div>
 			<!-- <p>{{ newAlphaRecordObject }}</p> -->
 		</div>

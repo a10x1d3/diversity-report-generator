@@ -38,7 +38,7 @@ input {
 	padding: 0 0 0 5px;
 	line-height: 20px;
 	border: 2px solid #f8f9fc;
-	border-radius: 3px;
+	border-radius: 5px;
 	-o-transition: .2s;
 	-ms-transition: .2s;
 	-moz-transition: .2s;
@@ -61,7 +61,7 @@ select {
 	line-height: 21px;
 	height: 25px;
 	border: 2px solid #f8f9fc;
-	border-radius: 3px;
+	border-radius: 5px;
 	-o-transition: .2s;
 	-ms-transition: .2s;
 	-moz-transition: .2s;
@@ -105,13 +105,13 @@ select:focus {
 	background-color: #eee;
 	font-family: Courier, monospace;
 	color: #333;
-	border-radius: 3px;;
+	border-radius: 5px;
 }
 .button {
 	margin: 10px 10px 10px 0px;
 	padding: 8px 20px 8px 20px;
 	display: inline-block;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-size: .8rem;
 	font-weight: bold;
 	cursor: pointer;
@@ -135,7 +135,24 @@ select:focus {
 	font-weight: bold;
 	font-size: .9rem;
 }
-
+.ngdialog-content {
+	background: #fff !important;
+}
+.row-action {
+	font-size: .8rem;
+	line-height: 30px;
+	cursor: pointer;
+	font-weight: 500;
+}
+.row-action.clear {
+	color: #c9d4f6;
+}
+.row-action.clear:hover {
+	color: #ff1282;
+}
+.row-action.edit {
+	color: #006fff;
+}
 
 
 
@@ -145,7 +162,7 @@ select:focus {
 tabs {
 	margin: 40px 0px 10px 0px;
 	display: block;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 tabs span {
 	margin: 0px 2px 0px 0px;
@@ -176,7 +193,7 @@ tabs .tab-record-count {
 	padding: 0px 4px 1px 4px;
 	display: inline;
 	border: 1px solid #cc0f67;
-	border-radius: 3px;
+	border-radius: 5px;
 	color: #cc0f67;
 	font-size: 0.65rem;
 }
@@ -194,7 +211,7 @@ tabs .active .tab-record-count {
 	margin: 40px 0px 0px 0px;
 	padding: 5px 0 5px 0;
 	width: 100%;
-	border-radius: 3px;
+	border-radius: 5px;
 	text-align: center;
 }
 .cta-layout .cta-label {
@@ -259,7 +276,7 @@ tabs .active .tab-record-count {
 	margin: 20px 0px 0px 0px;
 	padding: 10px;
 	background-color: #fff;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 .tab-content .tab-body-title {
 	margin: 0px 0px 0px 0px;
@@ -272,7 +289,7 @@ tabs .active .tab-record-count {
 	padding: 0 4px 0 4px;
 	color: #006fff;
 	background: #f8f9fc;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 .initial-anchor-list li a:hover {
 	background-color: #006fff;
@@ -348,14 +365,16 @@ tabs .active .tab-record-count {
 .data-parent-table .data-cell p {
 	padding: 0px 0px 0px 2px;
 	border: 2px solid #fff;
-	border-radius: 3px;
+	border-radius: 5px;
 	height: 22px;
 	line-height: 22px;
 }
 .data-parent-table .data-cell.match p {
 	border-color: #ff1282;
 }
-
+.data-parent-table .gender-col {
+	width: 60px;
+}
 
 #fltmps-roster .rank-rate-col {	width: 90px; }
 #fltmps-roster .gender-col { width: 60px; }
@@ -382,23 +401,14 @@ tabs .active .tab-record-count {
 #diversity-roster .uic-col select { width: 50px; }
 #diversity-roster .dept-triad-role-col {
 	height: 30px;
-	width: 165px;
+	width: 110px;
 }
-#diversity-roster .dept-triad-role-col .clear {
-	font-size: .8rem;
-	line-height: 30px;
-	color: #c9d4f6;
-	cursor: pointer;
-	font-weight: 500;
+#diversity-roster .coll-duty-col {
+	height: 30px;
+	width: 500px;
 }
 
-#diversity-roster .dept-triad-role-col select { width: 130px; }
-
-.data-parent-table .gender-col {
-	width: 60px;
-}
-
-
+#diversity-roster .dept-triad-role-col select { width: 60px; }
 #diversity-roster .data-row.unmerged td {
 	padding-bottom: 3px;
 	background: pink;
@@ -421,15 +431,26 @@ tabs .active .tab-record-count {
 #diversity-roster .data-row.unmerged .clear {
 	color: #fff;
 }
-#diversity-roster .dept-triad-role-col .clear:hover {
-	color: #ff1282;
+
+#diversity-roster .coll-duty-col .edit {
+	margin: 3px 0 0px 0;
+	display: inline-block;
+	line-height: 30px;
+}
+#diversity-roster .data-row-bubble-group {
+	display: inline-block;
+}
+#diversity-roster .data-row-bubble-group .duty-bubble{
+	margin: 0 3px 0 0;
+	padding: 0 5px 0 5px;
+	border-radius: 15px;
+	background: #ff1282;
+	color: #fff;
 }
 
 
-
-
 /*\
-|*| Dialog UI
+|*| Alpha Roster | New Record Dialog UI
 \*/
 .ngdialog-content .ng-empty {
 	border: 2px solid pink;
@@ -464,6 +485,34 @@ tabs .active .tab-record-count {
 }
 #new-alpha-record-dialog .dialog-actions {
 	margin: 20px 0px 0px 0px;
+}
+
+
+
+/*\
+|*| Diversity Roster | Edit Coll Duty Dialog UI
+\*/
+#diversity-coll-dialog .data-parent-table {
+	margin: 20px 0 0 0;
+}
+#diversity-coll-dialog .level-col {
+	width: 90px;
+}
+#diversity-coll-dialog .title-col {
+	width: 160px;
+}
+#diversity-coll-dialog .title-col select {
+	width: 160px;
+	/* border-width: 2px; */
+}
+#diversity-coll-dialog .row-action-col {
+	width: 40px;
+}
+
+#diversity-coll-dialog svg {
+	height: 20px;
+	width: 20px;
+	margin: 0px 0px -6px 5px;
 }
 
 

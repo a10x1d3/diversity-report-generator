@@ -14,7 +14,32 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.departmentArray = [];
 	$scope.alphaNumRegex = new RegExp(/[\W_]+/g);
 	$scope.genderOptions = ['Male', 'Female'];
-	$scope.deptTriadRoleOptions = ['Department Head', 'Department LCPO', 'Department LPO'];
+	$scope.leadershipRoleOptions = [
+		{
+			longTitle: 'Commanding Officer',
+			shortTitle: 'CO'
+		},
+		{
+			longTitle: 'Executive Officer',
+			shortTitle: 'XO'
+		},
+		{
+			longTitle: 'Command Senior Enlisted Leader',
+			shortTitle: 'CSEL'
+		},
+		{
+			longTitle: 'Department Head',
+			shortTitle: 'DH'
+		},
+		{
+			longTitle: 'Department LCPO',
+			shortTitle: 'DLCPO'
+		},
+		{
+			longTitle: 'Department LPO',
+			shortTitle: 'DLPO'
+		}
+	];
 
 
 	byLastName = function(lastNameA, lastNameB)
@@ -285,7 +310,40 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ Diversity Data | Vars & Functions    │
 	//└──────────────────────────────────────┘
-
+	$scope.EditDiversityCollObject = {
+		displayDialog: false,
+		collateralLevels: [
+			'Command',
+			'CB',
+			'CG',
+			'CSA',
+			'RDNS',
+			'RFO'
+		],
+		collateralTitles: [
+			'CC',
+			'CFL',
+			'CFS',
+			'CMEO',
+			'CWO/IWO',
+			'DAPA',
+			'DAO',
+			'EFMP',
+			'EIWS',
+			'ESO',
+			'FAP',
+			'LEGAL',
+			'Muster',
+			'MWR Rep',
+			'SAPR',
+			'SPC',
+			'Enlisted Sponsorship',
+			'Officer Sponsorship',
+			'SWO',
+			'Training'
+		],
+		selectedArray: []
+	};
 
 	$scope.mergeDiversityData = function()
 	{
@@ -367,7 +425,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	}
 
 
-	$scope.clearDeptRoleSelection = function(lastInitial, index)
+	$scope.clearLeadershipRole = function(lastInitial, index)
 	{
 		delete $scope.diversityObject[lastInitial][index].deptTriadRole;
 	};
@@ -393,6 +451,69 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		}
 		
 		return filteredStatus;
+	};
+
+
+	$scope.openDiversityCollDialog = function (lastInitial, index) {
+		console.log('opening diversity collateral dialog: ' + lastInitial + ' ' + index);
+
+		$scope.openDiversityCollDialog.lastInitial = lastInitial;
+		$scope.openDiversityCollDialog.index = index;
+
+		if ($scope.diversityObject[lastInitial][index].collateralDuties)
+		{
+			console.log('item has collateral duties present');
+			$scope.EditDiversityCollObject.selectedArray = $scope.diversityObject[lastInitial][index].collateralDuties;
+		}
+
+		$scope.EditDiversityCollObject.displayDialog = true;
+	};
+	
+
+	$scope.addDiversityCollDuty = function()
+	{
+		$scope.EditDiversityCollObject.selectedArray.push({collateralLevel: '', collateralTitle: ''})
+	};
+
+	$scope.removeDiversityCollDuty = function(index)
+	{
+		$scope.EditDiversityCollObject.selectedArray.splice(index, 1);
+	};
+
+	$scope.setDiversityCollDuty = function()
+	{
+		console.log('passing lastInitial, index to merge as: ' + $scope.openDiversityCollDialog.lastInitial + ' ' + $scope.openDiversityCollDialog.index);
+		var lastInitial = $scope.openDiversityCollDialog.lastInitial
+		var index = $scope.openDiversityCollDialog.index
+		var selectedCollateralDuties = $scope.EditDiversityCollObject.selectedArray;
+
+		if ($scope.EditDiversityCollObject.selectedArray.length == 0 )
+		{
+			console.log('no duty added; clearing diversityobject collateral duties');
+			delete $scope.diversityObject[lastInitial][index].collateralDuties;
+			return;
+		}
+
+		$scope.EditDiversityCollObject.selectedArray.forEach(field => {
+
+			if ( !field.collateralLevel || !field.collateralTitle )
+			{
+				console.log('field not set; returning');
+				return;
+			}
+		});
+
+		
+		$scope.diversityObject[lastInitial][index].collateralDuties = selectedCollateralDuties;
+	}
+	
+	$scope.CloseDiversityCollDialog = function() {
+		console.log('closing diversity collateral dialog');
+
+		$scope.EditDiversityCollObject.selectedArray = [];
+		$scope.openDiversityCollDialog.lastInitial = null;
+		$scope.openDiversityCollDialog.index = null;
+		$scope.EditDiversityCollObject.displayDialog = false;
 	};
 
 });
