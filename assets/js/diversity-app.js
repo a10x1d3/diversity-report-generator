@@ -1,4 +1,4 @@
-var app = angular.module('diversity-report', ['ngDialog', 'alpha-roster-import', 'fltmps-import']);
+var app = angular.module('diversity-report', ["alpha-roster-import", "fltmps-import", "chart.js"]);
 
 // Table column resizing
 // https://unpkg.com/browse/angular-table-resize@2.0.1/demo/ 
@@ -353,6 +353,23 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		}
 		$scope.diversityObject = {};
 		$scope.diversityObject.recordCount = 0;
+
+		$scope.departmentArray.forEach(dept => {
+			$scope.leadershipRoleOptions.push({
+				longTitle: dept + ' Department Head',
+				shortTitle: dept + ' DH',
+			});
+
+			$scope.leadershipRoleOptions.push({
+				longTitle: dept + ' Leading Chief Petty Officer',
+				shortTitle: dept + ' DLCPO',
+			});
+
+			$scope.leadershipRoleOptions.push({
+				longTitle: dept + ' Leading Petty Officer',
+				shortTitle: dept + ' DLPO',
+			});
+		});
 		
 		$scope.alphaInitialArray.forEach(initial => {
 			
@@ -460,10 +477,14 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.openDiversityCollDialog.lastInitial = lastInitial;
 		$scope.openDiversityCollDialog.index = index;
 
+		$scope.EditDiversityCollObject.memberRateRank = $scope.diversityObject[lastInitial][index].rateRank;
+		$scope.EditDiversityCollObject.memberLastName = $scope.diversityObject[lastInitial][index].lastName;
+		$scope.EditDiversityCollObject.memberfirstName = $scope.diversityObject[lastInitial][index].firstName;
+
 		if ($scope.diversityObject[lastInitial][index].collateralDuties)
 		{
 			console.log('item has collateral duties present');
-			$scope.EditDiversityCollObject.selectedArray = $scope.diversityObject[lastInitial][index].collateralDuties;
+			$scope.EditDiversityCollObject.selectedArray = angular.copy($scope.diversityObject[lastInitial][index].collateralDuties);
 		}
 
 		$scope.EditDiversityCollObject.displayDialog = true;
@@ -483,6 +504,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.setDiversityCollDuty = function()
 	{
 		console.log('passing lastInitial, index to merge as: ' + $scope.openDiversityCollDialog.lastInitial + ' ' + $scope.openDiversityCollDialog.index);
+		var missingFields = false;
 		var lastInitial = $scope.openDiversityCollDialog.lastInitial
 		var index = $scope.openDiversityCollDialog.index
 		var selectedCollateralDuties = $scope.EditDiversityCollObject.selectedArray;
@@ -491,6 +513,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		{
 			console.log('no duty added; clearing diversityobject collateral duties');
 			delete $scope.diversityObject[lastInitial][index].collateralDuties;
+			$scope.CloseDiversityCollDialog();
 			return;
 		}
 
@@ -498,13 +521,19 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 			if ( !field.collateralLevel || !field.collateralTitle )
 			{
-				console.log('field not set; returning');
-				return;
+				missingFields = true;
 			}
 		});
-
+		console.log('about to set vars and exit');
 		
+		if ( missingFields )
+		{
+			console.log('field not set; returning');
+			return;
+		}
+
 		$scope.diversityObject[lastInitial][index].collateralDuties = selectedCollateralDuties;
+		$scope.CloseDiversityCollDialog();
 	}
 	
 	$scope.CloseDiversityCollDialog = function() {
@@ -514,6 +543,9 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.openDiversityCollDialog.lastInitial = null;
 		$scope.openDiversityCollDialog.index = null;
 		$scope.EditDiversityCollObject.displayDialog = false;
+		$scope.EditDiversityCollObject.memberRateRank = false;
+		$scope.EditDiversityCollObject.memberLastName = false;
+		$scope.EditDiversityCollObject.memberfirstName = false;
 	};
 
 });

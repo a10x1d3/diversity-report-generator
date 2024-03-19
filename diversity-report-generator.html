@@ -17,7 +17,9 @@
 
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="assets/js/lib/angular.min.js"></script>
-<script type="text/javascript" src="assets/js/lib/ngDialog.js"></script>
+<script type="text/javascript" src="assets/js/lib/chart.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/angular-chart.min.js"></script>
+<!-- <script type="text/javascript" src="assets/js/lib/ngDialog.js"></script> -->
 <script type="text/javascript" src="assets/js/directives/alpha-roster-import.js"></script>
 <script type="text/javascript" src="assets/js/directives/fltmps-import.js"></script>
 <script type="text/javascript" src="assets/js/diversity-app.js"></script>
@@ -144,6 +146,13 @@
 				</p>
 			</div>
 		</div>
+
+		<!-- <div>
+			<p>Chart.js Demo | <a href="https://www.npmjs.com/package/angular-chart.js/v/1.0.0" target="_blank" style="color: #006fff">Docs</a></p>
+			
+			<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series">
+			</canvas>
+		</div> -->
 		
 		<div class="roster-table" ng-show="alphaObject">
 			
@@ -392,14 +401,15 @@
 						<th class="column-header uic-col">UIC</th>
 						<th class="column-header dept-triad-role-col">Leadership</th>
 						<th class="column-header coll-duty-col">Collateral Duties</th>
+						<th class="column-header bool-col">RE-EN</th>
 						<th class="column-header row-action-col"></th>
 					</tr>
 				</thead>
 				<tr ng-repeat="initial in alphaInitialArray">
-					<td colspan="9" class="data-table-container">
+					<td colspan="11" class="data-table-container">
 						<table class="data-table">
 							<tr class="initial-header">
-								<th colspan="9" class="initial-col" id="diversity-initial-{{ initial }}">
+								<th colspan="11" class="initial-col" id="diversity-initial-{{ initial }}">
 									{{ initial }}
 									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
@@ -468,23 +478,30 @@
 									</select>
 									<span class="trans2 row-action clear"
 										  ng-click="clearLeadershipRole(item.lastInitial, $index)"
-										  ng-show="item.leadershipRole">clear</span>
+										  ng-show="item.leadershipRole">Clear</span>
 								</td>
 								<td class="data-cell trans2 coll-duty-col">
-									<div class="data-row-bubble-group">
-										<span ng-repeat="duty in item.collateralDuties"
-											  class="duty-bubble">{{ duty.collateralLevel }} {{ duty.collateralTitle }}</span>
-									</div>
 									<span class="trans2 row-action edit"
 										  ng-click="openDiversityCollDialog(item.lastInitial, $index)"
 										  ng-show="item.collateralDuties">
 										  Edit
 									</span>
+									<div class="data-row-bubble-group">
+										<span ng-repeat="duty in item.collateralDuties"
+											  class="duty-bubble">{{ duty.collateralLevel }} {{ duty.collateralTitle }}</span>
+									</div>
 									<span class="trans2 row-action clear"
 										  ng-click="openDiversityCollDialog(item.lastInitial, $index)"
 										 ng-show="!item.collateralDuties">
 										Add
 									</span>
+								</td>
+								<td class="data-cell trans2 bool-col">
+									<label type="checkbox" name="checkbox"></label>
+									<input type="checkbox"
+										   ng-model="item.reenlisted"
+										   name=""
+										   id="">
 								</td>
 								<td class="row-action-col data-cell trans2"
 									ng-click="removeDiversityEntry(initial, $index)">
@@ -535,8 +552,9 @@
 		<div class="ngdialog-content">
 			<h4>Add new Alpha Roster record</h4>
 			<button class="ngdialog-close trans2"
-					ng-click="closeAlphaRecordDialog()"></button>
-	
+					ng-click="closeAlphaRecordDialog()">
+			</button>
+			
 			<table class="dialog-table">
 				<tr>
 					<td class="column-header float-right">Dept</td>
@@ -591,6 +609,11 @@
 			<h4>Modify Collateral Duty Ownership</h4>
 			<button class="ngdialog-close trans2" ng-click="CloseDiversityCollDialog()"></button>
 	
+			<div class="selected-sailor">
+				<p>{{ EditDiversityCollObject.memberRateRank }} {{ EditDiversityCollObject.memberLastName }}, {{ EditDiversityCollObject.memberfirstName }}</p>
+			</div>
+
+
 			<table class="dialog-table data-parent-table">
 				<thead>
 					<tr>
@@ -627,14 +650,14 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<span class="trans2 row-action edit" ng-click="addDiversityCollDuty()">Add</span>
+						<span class="trans2 row-action clear" ng-click="addDiversityCollDuty()">Add</span>
 					</td>
 				</tr>
 			</table>
 
-			<p>
+			<!-- <p>
 				{{ EditDiversityCollObject.selectedArray }}
-			</p>
+			</p> -->
 	
 			<div class="dialog-actions clearfix">
 				<p ng-click="setDiversityCollDuty()" class="button button-primary shadow float-right">Add Record</p>

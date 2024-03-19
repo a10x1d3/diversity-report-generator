@@ -129,7 +129,7 @@ select:focus {
 	color: #333;
 }
 .column-header {
-	padding: 0px 5px 0px 6px;
+	padding: 0px 5px 0px 5px;
 	height: 30px;
 	line-height: 30px;
 	font-weight: bold;
@@ -401,14 +401,18 @@ tabs .active .tab-record-count {
 #diversity-roster .uic-col select { width: 50px; }
 #diversity-roster .dept-triad-role-col {
 	height: 30px;
-	width: 110px;
+	width: 140px;
 }
 #diversity-roster .coll-duty-col {
 	height: 30px;
 	width: 500px;
+	overflow: hidden;
 }
 
-#diversity-roster .dept-triad-role-col select { width: 60px; }
+
+
+
+#diversity-roster .dept-triad-role-col select { width: 105px; }
 #diversity-roster .data-row.unmerged td {
 	padding-bottom: 3px;
 	background: pink;
@@ -433,7 +437,7 @@ tabs .active .tab-record-count {
 }
 
 #diversity-roster .coll-duty-col .edit {
-	margin: 3px 0 0px 0;
+	margin: 3px 0 0px 4px;
 	display: inline-block;
 	line-height: 30px;
 }
@@ -495,6 +499,9 @@ tabs .active .tab-record-count {
 #diversity-coll-dialog .data-parent-table {
 	margin: 20px 0 0 0;
 }
+#diversity-coll-dialog .data-parent-table th {
+	border-bottom: 1px solid #eee;
+}
 #diversity-coll-dialog .level-col {
 	width: 90px;
 }
@@ -508,11 +515,24 @@ tabs .active .tab-record-count {
 #diversity-coll-dialog .row-action-col {
 	width: 40px;
 }
-
 #diversity-coll-dialog svg {
 	height: 20px;
 	width: 20px;
 	margin: 0px 0px -6px 5px;
+}
+#diversity-coll-dialog  .selected-sailor {
+	margin: 20px 0px 0px 0px;
+	padding: 0px 5px 0px 5px;
+	font-size: .9rem;
+	color: #c9d4f6;
+	background: #f8f9fc;
+	border: 2px solid #eee;
+	border-radius: 5px;
+	font-weight: 600;
+}
+#diversity-coll-dialog .clear {
+	margin: 0px 0px 0px 5px;
+	font-weight: 600;
 }
 
 
