@@ -257,18 +257,28 @@ tabs .active .tab-record-count {
 	background-color: #fefefe;
 	text-transform: uppercase;
 }
+.filter svg {
+	height: 12px;
+	margin: 0 -5px 0 0;
+	fill: #c9d4f6;
+}
 .filter.active input {
 	background-color: #ff4099;
 	border-color: #ff4099;
 	color: #fff;
 }
-
+.filter.active svg {
+	fill: pink;
+}
+.filter.active svg:hover {
+	fill: #fff;
+}
 
 
 /*\
 |*| Tab Body Content UI
 \*/
-.roster-table {
+#roster-table {
 	margin: 20px 0px 0px 0px;
 }
 .tab-content {
@@ -280,6 +290,9 @@ tabs .active .tab-record-count {
 }
 .tab-content .tab-body-title {
 	margin: 0px 0px 0px 0px;
+}
+.initial-anchor-list {
+	margin: 20px 0px 0px 0px;
 }
 .initial-anchor-list li {
 	margin: 0px 4px 0px 0px;
@@ -298,7 +311,7 @@ tabs .active .tab-record-count {
 
 
 /*\
-|*| Table Ui
+|*| General Table Ui
 \*/
 .data-parent-table { table-layout: fixed; }
 .data-parent-table .data-table { width: 100%; }
@@ -338,17 +351,21 @@ tabs .active .tab-record-count {
 .data-parent-table .initial-header a:hover { color: #ff1282; }
 .data-parent-table select {
 	margin: 4px 0px 0px 0px;
-	width: 84px;
+	width: 60px;
 }
-.data-parent-table .dept-col { width: 80px; }
+.data-parent-table .dept-col { width: 55px; }
 .data-parent-table .rank-rate-col {
 	padding: 0px 0px 0px 5px;
-	width: 120px;
+	width: 90px;
 }
-.data-parent-table .last-name-col { width: 180px; }
-.data-parent-table .first-name-col { width: 180px; }
-.data-parent-table .rank-rate-col input { width: 110px; }
-.data-parent-table .last-name-col input { width: 175px; }
+.data-parent-table .paygrade-col {
+	height: 30px;
+	width: 55px;
+}
+.data-parent-table .last-name-col { width: 150px; }
+.data-parent-table .first-name-col { width: 155px; }
+.data-parent-table .rank-rate-col input { width: 80px; }
+.data-parent-table .last-name-col input { width: 145px; }
 .data-parent-table .row-action-col svg {
 	margin: 0px 0px -5px 0px;
 	height: 20px;
@@ -375,12 +392,36 @@ tabs .active .tab-record-count {
 .data-parent-table .gender-col {
 	width: 60px;
 }
+.data-parent-table .bool-col {
+	width: 45px;
+}
 
+
+/*\
+|*| Alpha Roster Table Ui
+\*/
+#alpha-roster .row-action-reverse:hover svg path {
+	fill: #006fff;
+}
+#alpha-roster .highlightName input {
+	border-color: #006fff;
+}
+#alpha-roster select.missing-paygrade {
+	border-color: #ff1282;
+}
+
+/*\
+|*| FLTMPS Table Ui
+\*/
 #fltmps-roster .rank-rate-col {	width: 90px; }
 #fltmps-roster .gender-col { width: 60px; }
 #fltmps-roster .diversity-group-col { width: 360px; }
 #fltmps-roster .uic-col { width: 55px; }
 
+
+/*\
+|*| Diversity Table Ui
+\*/
 #diversity-roster .first-name-col {	width: 155px; }
 #diversity-roster .gender-col {
 	height: 30px;
@@ -408,10 +449,6 @@ tabs .active .tab-record-count {
 	width: 500px;
 	overflow: hidden;
 }
-
-
-
-
 #diversity-roster .dept-triad-role-col select { width: 105px; }
 #diversity-roster .data-row.unmerged td {
 	padding-bottom: 3px;
@@ -432,10 +469,15 @@ tabs .active .tab-record-count {
 #diversity-roster .data-row.unmerged svg path {
 	fill: pink;
 }
+#diversity-roster .data-row.unmerged:hover svg path {
+	fill: #c9d4f6;
+}
+#diversity-roster .data-row.unmerged svg:hover path {
+	fill: #ff1282;
+}
 #diversity-roster .data-row.unmerged .clear {
 	color: #fff;
 }
-
 #diversity-roster .coll-duty-col .edit {
 	margin: 3px 0 0px 4px;
 	display: inline-block;
@@ -500,7 +542,8 @@ tabs .active .tab-record-count {
 	margin: 20px 0 0 0;
 }
 #diversity-coll-dialog .data-parent-table th {
-	border-bottom: 1px solid #eee;
+	border: none;
+	background-color: #fff;
 }
 #diversity-coll-dialog .level-col {
 	width: 90px;
@@ -540,5 +583,48 @@ tabs .active .tab-record-count {
 
 
 /*\
-|*| Application Button UI
+|*| Diversity Report
 \*/
+#print-target {
+	margin: 20px auto;
+	width: 1000px;
+	border: 1px solid lightblue;
+}
+#print-target .page {
+	border: 1px solid orange;
+	margin: 0px 0px 10px 0px;
+	padding: 20px;
+	height: 1305px;
+	width: 100%;
+	position: relative;
+}
+#print-target .page .footer {
+	position: absolute;
+	bottom: 20px;
+}
+#print-target .page .footer table {
+	table-layout: fixed;
+	width: 100%;
+}
+#print-target .page .footer td {
+	border: 1px solid black;
+}
+#print-target .page .footer td.page-number {
+	text-align: center;
+}
+#print-target .page .footer td.enclosure-label {
+	text-align: right;
+}
+
+@media print {
+	body {
+		visibility: hidden;
+	}
+
+	#print-target {
+		visibility: visible;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}

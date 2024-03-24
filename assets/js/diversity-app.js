@@ -26,20 +26,17 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		{
 			longTitle: 'Command Senior Enlisted Leader',
 			shortTitle: 'CSEL'
-		},
-		{
-			longTitle: 'Department Head',
-			shortTitle: 'DH'
-		},
-		{
-			longTitle: 'Department LCPO',
-			shortTitle: 'DLCPO'
-		},
-		{
-			longTitle: 'Department LPO',
-			shortTitle: 'DLPO'
 		}
 	];
+	$scope.paygradeArray = [
+		'E-1', 'E-2', 'E-3', 
+		'E-4', 'E-5', 'E-6', 
+		'E-7', 'E-8', 'E-9', 
+		'W-1', 'W-2', 'W-3', 
+		'W-4', 'W-5', 
+		'O-1', 'O-2', 'O-3', 
+		'O-4', 'O-5'
+	]
 
 
 	byLastName = function(lastNameA, lastNameB)
@@ -65,18 +62,19 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			},
 			fltmpsRoster: {
 				title: 'FLTMPS',
-				state: 'inactive'
+				state: 'muted'
 			},
 			diversityRoster: {
 				title: 'Diversity Data',
-				state: 'inactive'
+				state: 'muted'
 			},
 			diversityReport: {
-				title: 'Tab 4',
-				state: 'muted'
+				title: 'Diversity Report',
+				state: 'inactive'
 			}
 		}
 	};
+
 
 	$scope.setTabState = function (tab)
 	{
@@ -102,19 +100,42 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.ui.tabs[tab].state = 'inactive';
 	};
 
+	$scope.toUpper = function(targetObject, index, lastInitial, property)
+	{
+		$scope[targetObject][lastInitial][index][property] = $scope[targetObject][lastInitial][index][property].toUpperCase();
+	};
+
+
 
 
 
 	//┌──────────────────────────────────────┐
 	//│ Alpha Roster Import Tab Functions    │
 	//└──────────────────────────────────────┘
+	$scope.activeFilters = false;
 	$scope.alphaDeptFilters = [];
 	$scope.filterAlphaNameSpecialChar = false;
 	$scope.filterAlphaRRSpecialChar = false;
+	
+
+	$scope.validatePaygrade = function(lastInitial, index)
+	{
+		if ( $scope.alphaObject[lastInitial][index].paygrade )
+		{
+			$scope.alphaObject[lastInitial][index].missingPaygrade = false;
+		}
+	};
 
 
-	$scope.removeAlphaEntry = function (lastInitial, index) {
+	$scope.removeAlphaRecord = function (lastInitial, index) {
 		$scope.alphaObject[lastInitial].splice(index, 1);
+		$scope.alphaObject.recordCount -= 1;
+
+		if ( $scope.alphaObject[lastInitial].length == 0 )
+		{
+			var alphaIndex = $scope.alphaInitialArray.indexOf(lastInitial);
+			$scope.alphaInitialArray.splice(alphaIndex, 1)
+		}
 	}
 
 	$scope.logAlphaRoster = function ()
@@ -131,6 +152,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	{
 		$scope.newAlphaRecordObject.dept = null;
 		$scope.newAlphaRecordObject.rateRank = null;
+		$scope.newAlphaRecordObject.paygrade = null;
 		$scope.newAlphaRecordObject.lastInitial = null;
 		$scope.newAlphaRecordObject.lastName = null;
 		$scope.newAlphaRecordObject.firstName = null;
@@ -140,7 +162,11 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.addAlphaRecord = function() {
 		console.log($scope.newAlphaRecordObject);
-		if (!$scope.newAlphaRecordObject.dept || !$scope.newAlphaRecordObject.rateRank || !$scope.newAlphaRecordObject.lastName || !$scope.newAlphaRecordObject.firstName )
+		if ( !$scope.newAlphaRecordObject.dept ||
+			 !$scope.newAlphaRecordObject.rateRank ||
+			 !$scope.newAlphaRecordObject.paygrade ||
+			 !$scope.newAlphaRecordObject.lastName ||
+			 !$scope.newAlphaRecordObject.firstName )
 		{
 			return;
 		}
@@ -148,6 +174,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		var recordObject = {
 			"dept": $scope.newAlphaRecordObject.dept,
 			"rateRank": $scope.newAlphaRecordObject.rateRank.toUpperCase(),
+			"paygrade": $scope.newAlphaRecordObject.paygrade,
 			"lastInitial": $scope.newAlphaRecordObject.lastName[0].toUpperCase(),
 			"lastName": $scope.newAlphaRecordObject.lastName.toUpperCase(),
 			"firstName": $scope.newAlphaRecordObject.firstName.toUpperCase()
@@ -155,16 +182,76 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 		if ( !$scope.alphaObject[recordObject.lastInitial] )
 		{
+			console.log('found missing initial array');
 			$scope.alphaObject[recordObject.lastInitial] = new Array;
-			$scope.alphaInitialArray.push(recordObject.lastInitial);
-			$scope.alphaInitialArray.sort();
 		}
+		
+		$scope.alphaInitialArray.push(recordObject.lastInitial);
+		$scope.alphaInitialArray.sort();
 		
 		$scope.alphaObject[recordObject.lastInitial].push(recordObject);
 		$scope.alphaObject[recordObject.lastInitial].sort(byLastName);
+		$scope.alphaObject.recordCount += 1;
 
 		$scope.closeAlphaRecordDialog();
 	};
+
+
+	$scope.reverseAlphaLastFirstName = function(index, lastInitial)
+	{
+		var targetRecord = angular.copy($scope.alphaObject[lastInitial][index]);
+
+		targetRecord.lastName = angular.copy($scope.alphaObject[lastInitial][index].firstName);
+		targetRecord.firstName = angular.copy($scope.alphaObject[lastInitial][index].lastName);
+		targetRecord.lastInitial = targetRecord.lastName[0];
+		targetRecord.highlightName = false;		
+		$scope.alphaObject[lastInitial].splice(index, 1);
+
+		if ( $scope.alphaObject[lastInitial].length == 0 )
+		{
+			var alphaIndex = $scope.alphaInitialArray.indexOf(lastInitial);
+			$scope.alphaInitialArray.splice(alphaIndex, 1)
+		}
+
+		if ( !$scope.alphaObject[targetRecord.lastInitial] )
+		{
+			$scope.alphaObject[targetRecord.lastInitial] = new Array;
+			$scope.alphaInitialArray.push(targetRecord.lastInitial);
+			$scope.alphaInitialArray.sort();
+		}
+
+		$scope.alphaObject[targetRecord.lastInitial].push(targetRecord);
+		$scope.alphaObject[targetRecord.lastInitial].sort(byLastName);
+	};
+
+
+	$scope.validateAlphaRoster = function()
+	{
+		console.log('validateAlphaRoster firing');
+		var validRoster = true;
+
+		$scope.alphaInitialArray.forEach(initial => {
+			$scope.alphaObject[initial].forEach(record => {
+				if ( !record.rateRank ||
+					 !record.paygrade ||
+					 !record.lastName ||
+					 !record.lastName )
+				{
+					validRoster = false;
+					return;
+				}
+			});
+		});
+
+		if ( !validRoster )
+		{
+			alert('One or more records are missing:\n • Rate / Rank\n • Last Name\n • First Name');
+			return;
+		}
+
+		$scope.unmuteTab('fltmpsRoster')
+	}
+
 
 	$scope.setAlphaDeptFilter = function(dept)
 	{
@@ -178,15 +265,18 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.alphaDeptFilters.push(dept);
 	};
 
+
 	$scope.setAlphaRRFilter = function()
 	{
 		$scope.filterAlphaRRSpecialChar = !$scope.filterAlphaRRSpecialChar;
 	};
 
+
 	$scope.setAlphaNameSpecialChar = function ()
 	{
 		$scope.filterAlphaNameSpecialChar = !$scope.filterAlphaNameSpecialChar;
 	}
+
 
 	$scope.setAlphaNameSpaceFilter = function()
 	{
@@ -208,10 +298,12 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			item.lastNameCharMatch = false;
 			item.firstNameSearchMatch = false;
 			item.firstNameCharMatch = false;
+			$scope.activeFilters = false;
 			return true;
 		}
 		else
 		{	
+			$scope.activeFilters = true;
 			if ($scope.alphaDeptFilters.includes(item.dept))
 			{ filteredStatus = true; item.deptMatch = true; }
 			else { item.deptMatch = false; }
@@ -310,6 +402,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//┌──────────────────────────────────────┐
 	//│ Diversity Data | Vars & Functions    │
 	//└──────────────────────────────────────┘
+	$scope.filterDiversityUnmerged = false;
+
 	$scope.EditDiversityCollObject = {
 		displayDialog: false,
 		collateralLevels: [
@@ -343,6 +437,17 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			'Training'
 		],
 		selectedArray: []
+	};
+
+	$scope.loadDiversityObject = function()
+	{
+		// $scope.alphaInitialArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z"]
+		$scope.diversityObject = savedDiversityObject;
+	}
+
+	$scope.logDiversityObject = function()
+	{
+		console.log(JSON.stringify($scope.diversityObject));
 	};
 
 	$scope.mergeDiversityData = function()
@@ -382,11 +487,12 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 					$scope.diversityObject[alphaRecord.lastInitial] = new Array;
 				}
 				
-				diversityRecord.dept = alphaRecord.dept
-				diversityRecord.rateRank = alphaRecord.rateRank
-				diversityRecord.lastInitial = alphaRecord.lastInitial
-				diversityRecord.lastName = alphaRecord.lastName
-				diversityRecord.firstName = alphaRecord.firstName
+				diversityRecord.dept = alphaRecord.dept;
+				diversityRecord.rateRank = alphaRecord.rateRank;
+				diversityRecord.paygrade = alphaRecord.paygrade;
+				diversityRecord.lastInitial = alphaRecord.lastInitial;
+				diversityRecord.lastName = alphaRecord.lastName;
+				diversityRecord.firstName = alphaRecord.firstName;
 				
 
 				$scope.fltmpsObject[alphaRecord.lastInitial].forEach(fltmpsRecord => {
@@ -421,39 +527,45 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.removeDiversityEntry = function (lastInitial, index) {
 		$scope.diversityObject[lastInitial].splice(index, 1);
-
 		$scope.diversityObject.recordCount -= 1;
 	}
 
 
 	$scope.validateDiversityRecord = function(lastInitial, index)
 	{
-		if ( $scope.diversityObject[lastInitial][index].merged )
-		{
+		if ($scope.diversityObject[lastInitial][index].merged) {
 			return;
 		}
 
 		if ( $scope.diversityObject[lastInitial][index].genderGroup &&
 			 $scope.diversityObject[lastInitial][index].diversityGroup &&
-			 $scope.diversityObject[lastInitial][index].uic )
+			 $scope.diversityObject[lastInitial][index].uic)
 		{
 			$scope.diversityObject[lastInitial][index].merged = true;
+			return;
 		}
 	}
 
 
 	$scope.clearLeadershipRole = function(lastInitial, index)
 	{
-		delete $scope.diversityObject[lastInitial][index].deptTriadRole;
+		delete $scope.diversityObject[lastInitial][index].leadershipRole;
+	};
+
+
+	$scope.setDiversityUnmergedFilter = function () {
+		$scope.filterDiversityUnmerged = !$scope.filterDiversityUnmerged;
 	};
 
 
 	$scope.diversityFilter = function (item) {
 		var filteredStatus = false;
 
-		if ( !$scope.filterDiversityNameText ) {
+		if ( !$scope.filterDiversityNameText &&
+			 !$scope.filterDiversityUnmerged ) {
 			item.lastNameSearchMatch = false;
 			item.firstNameSearchMatch = false;
+			item.unmergedMatch = false
 			return true;
 		}
 		else
@@ -465,6 +577,15 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			if ($scope.filterDiversityNameText && item.firstName.includes($scope.filterDiversityNameText.toUpperCase()))
 			{ filteredStatus = true; item.firstNameSearchMatch = true; }
 			else { item.firstNameSearchMatch = false; }
+
+			if ( $scope.filterDiversityUnmerged && item.merged == false )
+			{
+				filteredStatus = true; item.unmergedMatch = true;
+			}
+			else
+			{
+				item.unmergedMatch = false;
+			}
 		}
 		
 		return filteredStatus;
