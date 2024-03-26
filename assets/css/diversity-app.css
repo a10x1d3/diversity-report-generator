@@ -585,29 +585,130 @@ tabs .active .tab-record-count {
 /*\
 |*| Diversity Report
 \*/
-#print-target {
+#report-globals {
 	margin: 20px auto;
 	width: 1000px;
+	border: 1px solid purple;
+}
+#report-globals table {
+	table-layout: fixed;
+	width: 100%;
+}
+#report-globals td.report-label {
+    padding: 0 5px 0 0;
+	width: 20%;
+    text-align: right;
+}
+#report-globals .report-input select {
+	border: 2px solid #c9d4f6;
+	width: 100px;
+}
+#report-globals .report-input select:focus,
+#report-globals .report-input input:focus {
+	border-color: #006fff;
+}
+#report-globals .report-input input {
+	border: 2px solid #c9d4f6;
+}
+
+#print-target {
 	border: 1px solid lightblue;
+	background-color: #fff;
+	margin: 20px auto;
+	width: 1000px;
 }
 #print-target .page {
 	border: 1px solid orange;
+	background-color: #fff;
 	margin: 0px 0px 10px 0px;
 	padding: 20px;
 	height: 1305px;
 	width: 100%;
 	position: relative;
 }
+#print-target .page-label {
+	text-align: center;
+	margin: 27px 0 0 0;
+	font-weight: 500;
+}
+#print-target h4 {
+	margin: 5px 0 5px 0;
+	font-weight: 400;
+	text-align: center;
+}
+#print-target section {
+	margin: 35px auto 35px auto;
+	height: 325px;
+    position: relative;
+    width: 85%;
+	border: 2px solid #c9d4f6;
+	border-radius: 5px;
+}
+#print-target .button {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+#print-target section .chart-label {
+	position: absolute;
+	top: -23px;
+	left: 5px;
+}
+#print-target section .chart-container {
+	/* border: 1px solid red; */
+	width: 69%;
+	float: left;
+	height: 100%;
+}
+#print-target section .legend {
+	/* border: 1px solid blue; */
+	width: 29%;
+	float: right;
+	height: 100%;
+}
+#print-target section tr.paygrade {
+	width: 50%;
+	float: left;
+	height: auto;
+}
+#print-target section tr.paygrade td {
+	padding: 8px 0px 8px 0px;
+}
+#print-target section .legend td {
+	padding: 3px 0 3px 0;
+	word-wrap: break-word;
+	white-space: normal;
+	border-bottom: 1px solid #c9d4f6;
+	font-size: .9rem;
+}
+#print-target section .legend tr:last-child td {
+	border: none;
+}
+#print-target .legend .color {
+	margin: 0px 4px 0px 0px;
+	height: 8px;
+	width: 23px;
+	border-radius: 3px;
+}
+#print-target canvas {
+	margin: -10px 0 0 0px !important;
+	height: 350px !important;
+	width: 695px !important;
+	position: absolute;
+}
+
+
 #print-target .page .footer {
 	position: absolute;
 	bottom: 20px;
+	width: 96%
 }
 #print-target .page .footer table {
 	table-layout: fixed;
 	width: 100%;
 }
 #print-target .page .footer td {
-	border: 1px solid black;
+	/* border: 1px solid black; */
 }
 #print-target .page .footer td.page-number {
 	text-align: center;
@@ -619,10 +720,15 @@ tabs .active .tab-record-count {
 @media print {
 	body {
 		visibility: hidden;
+		background-color: #fff;
+	}
+	.button {
+		visibility: hidden;
 	}
 
 	#print-target {
 		visibility: visible;
+		background-color: #fff;
 		position: absolute;
 		left: 0;
 		top: 0;

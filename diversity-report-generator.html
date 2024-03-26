@@ -20,6 +20,7 @@
 <script type="text/javascript" src="assets/js/lib/angular.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/chart.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/angular-chart.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/Chart.PieceLabel.min.js"></script>
 <!-- <script type="text/javascript" src="assets/js/lib/ngDialog.js"></script> -->
 <script type="text/javascript" src="assets/js/directives/alpha-roster-import.js"></script>
 <script type="text/javascript" src="assets/js/directives/fltmps-import.js"></script>
@@ -585,27 +586,19 @@
 								</td>
 								<td class="data-cell trans2 bool-col">
 									<input type="checkbox"
-										   ng-model="item.reenlisted"
-										   name=""
-										   id="">
+										   ng-model="item.reenlisted">
 								</td>
 								<td class="data-cell trans2 bool-col">
 									<input type="checkbox"
-										   ng-model="item.advanced"
-										   name=""
-										   id="">
+										   ng-model="item.advanced">
 								</td>
 								<td class="data-cell trans2 bool-col">
 									<input type="checkbox"
-										   ng-model="item.awarded"
-										   name=""
-										   id="">
+										   ng-model="item.awarded">
 								</td>
 								<td class="data-cell trans2 bool-col">
 									<input type="checkbox"
-										   ng-model="item.disciplined"
-										   name=""
-										   id="">
+										   ng-model="item.disciplined">
 								</td>
 								<td class="row-action-col data-cell trans2"
 									ng-click="removeDiversityEntry(initial, $index)"
@@ -647,6 +640,42 @@
 			<p class="cta-action float-right button button-primary">Generate Report</p>
 		</div>
 
+		<div id="report-globals">
+			<table>
+				<tr>
+					<td class="report-label">
+						Command Acronym
+					</td>
+					<td class="report-input">
+						<input type="text"
+							   ng-model="report.commandAcronym"
+							   class="report-input">
+					</td>
+				</tr>
+				<tr>
+					<td class="report-label">
+						Reporting Quarter
+					</td>
+					<td class="report-input">
+						<select ng-options="qtr for qtr in fiscalQuarters"
+								ng-model="report.quarter"
+								class="report-select">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="report-label">
+						Fiscal Year
+					</td>
+					<td class="report-input">
+						<input type="text"
+							   ng-model="report.fiscalYear"
+							   class="report-input">
+					</td>
+				</tr>
+			</table>
+		</div>
+
 		<div id="print-target">
 			<div class="page">
 				<p>Page 1</p>
@@ -664,10 +693,104 @@
 
 
 			<div class="page">
-				<p>Page 2</p>
-				
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+
+				<p class="page-label">Command All Hands</p>
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getAllChartData('allHands', 'byRace')">Generate</p>
+
+					<p class="chart-label">By Race/Ethnicity</p>
+					
+					<div class="chart-container">
+						<canvas id="allHandsByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.allHands.byRace.data"
+								chart-labels="chartObject.allHands.byRace.labels"
+								chart-options="chartObject.allHands.byRace.options">
+						</canvas>
+					</div>
+
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.allHands.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.allHands.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getAllChartData('allHands', 'bySex')">
+					   Generate
+					</p>
+					<p class="chart-label">By Sex</p>
+
+					<div class="chart-container">
+						<canvas id="allHandsByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.allHands.bySex.data"
+								chart-labels="chartObject.allHands.bySex.labels"
+								chart-options="chartObject.allHands.byRace.options">
+						</canvas>
+					</div>
+
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.allHands.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.allHands.bySex.legendColors[$index] }};"></p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getAllChartData('allHands', 'byPaygrade')">
+						Generate
+					</p>
+					<p class="chart-label">By Paygrade/Rank</p>
+					
+					<div class="chart-container">
+						<canvas id="allHandsByRace"
+								class="chart chart-pie chart-xs"
+								chart-data="chartObject.allHands.byPaygrade.data"
+								chart-labels="chartObject.allHands.byPaygrade.labels"
+								chart-options="chartObject.allHands.byRace.options">
+						</canvas>
+					</div>
+
+					<div class="legend">
+						<table>
+							<tr class="paygrade" ng-repeat="label in chartObject.allHands.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.allHands.byPaygrade.legendColors[$index] }};"></p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
+
 					<table>
 						<tr>
 							<td></td>
@@ -680,8 +803,109 @@
 
 
 			<div class="page">
-				<p>Page 3</p>
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
+				<p class="page-label">Command TRIAD</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('cmdTriad', 'byRace', 'TRIAD')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdTriad.byRace.data"
+								chart-labels="chartObject.cmdTriad.byRace.labels"
+								chart-options="chartObject.cmdTriad.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdTriad.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdTriad.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('cmdTriad', 'bySex', 'TRIAD')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdTriad.bySex.data"
+								chart-labels="chartObject.cmdTriad.bySex.labels"
+								chart-options="chartObject.cmdTriad.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdTriad.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdTriad.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('cmdTriad', 'byPaygrade', 'TRIAD')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdTriad.byPaygrade.data"
+								chart-labels="chartObject.cmdTriad.byPaygrade.labels"
+								chart-options="chartObject.cmdTriad.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdTriad.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdTriad.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
 					<table>
@@ -696,8 +920,109 @@
 
 
 			<div class="page">
-				<p>Page 4</p>
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: Department Heads</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptHead', 'byRace', 'DH')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptHead.byRace.data"
+								chart-labels="chartObject.deptHead.byRace.labels"
+								chart-options="chartObject.deptHead.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptHead.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptHead.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptHead', 'bySex', 'DH')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptHead.bySex.data"
+								chart-labels="chartObject.deptHead.bySex.labels"
+								chart-options="chartObject.deptHead.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptHead.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptHead.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptHead', 'byPaygrade', 'DH')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptHead.byPaygrade.data"
+								chart-labels="chartObject.deptHead.byPaygrade.labels"
+								chart-options="chartObject.deptHead.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptHead.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptHead.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
 					<table>
@@ -711,8 +1036,109 @@
 			</div>
 
 			<div class="page">
-				<p>Page 5</p>
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
+				<p class="page-label">Collateral Duty Assignments: Department LCPOs</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLCPO', 'byRace', 'DLCPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLCPO.byRace.data"
+								chart-labels="chartObject.deptLCPO.byRace.labels"
+								chart-options="chartObject.deptLCPO.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLCPO.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLCPO.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLCPO', 'bySex', 'DLCPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLCPO.bySex.data"
+								chart-labels="chartObject.deptLCPO.bySex.labels"
+								chart-options="chartObject.deptLCPO.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLCPO.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLCPO.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLCPO', 'byPaygrade', 'DLCPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLCPO.byPaygrade.data"
+								chart-labels="chartObject.deptLCPO.byPaygrade.labels"
+								chart-options="chartObject.deptLCPO.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLCPO.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLCPO.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
 					<table>
@@ -727,8 +1153,109 @@
 
 
 			<div class="page">
-				<p>Page 6</p>
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: Department LPOs</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLPO', 'byRace', 'DLPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLPO.byRace.data"
+								chart-labels="chartObject.deptLPO.byRace.labels"
+								chart-options="chartObject.deptLPO.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLPO.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLPO.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLPO', 'bySex', 'DLPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLPO.bySex.data"
+								chart-labels="chartObject.deptLPO.bySex.labels"
+								chart-options="chartObject.deptLPO.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLPO.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLPO.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getRoleChartData('deptLPO', 'byPaygrade', 'DLPO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.deptLPO.byPaygrade.data"
+								chart-labels="chartObject.deptLPO.byPaygrade.labels"
+								chart-options="chartObject.deptLPO.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.deptLPO.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.deptLPO.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
 					<table>
@@ -743,8 +1270,109 @@
 
 
 			<div class="page">
-				<p>Page 7</p>
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
+				<p class="page-label">Collateral Duty Assignments: Command-level Collateral Duties</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollLevelChartData('cmdColl', 'byRace', 'Command')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdColl.byRace.data"
+								chart-labels="chartObject.cmdColl.byRace.labels"
+								chart-options="chartObject.cmdColl.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdColl.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdColl.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollLevelChartData('cmdColl', 'bySex', 'Command')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdColl.bySex.data"
+								chart-labels="chartObject.cmdColl.bySex.labels"
+								chart-options="chartObject.cmdColl.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdColl.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdColl.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollLevelChartData('cmdColl', 'byPaygrade', 'Command')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdColl.byPaygrade.data"
+								chart-labels="chartObject.cmdColl.byPaygrade.labels"
+								chart-options="chartObject.cmdColl.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdColl.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdColl.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
 
 				<div class="footer">
 					<table>
@@ -757,53 +1385,6 @@
 				</div>
 			</div>
 
-
-			<div class="page">
-				<p>Page 8</p>
-				
-
-				<div class="footer">
-					<table>
-						<tr>
-							<td></td>
-							<td class="page-number">8</td>
-							<td class="enclosure-label">Enclosure (2)</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-
-
-			<div class="page">
-				<p>Page 9</p>
-				
-
-				<div class="footer">
-					<table>
-						<tr>
-							<td></td>
-							<td class="page-number">9</td>
-							<td class="enclosure-label">Enclosure (2)</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-
-
-			<div class="page">
-				<p>Page 10</p>
-				
-
-				<div class="footer">
-					<table>
-						<tr>
-							<td></td>
-							<td class="page-number">10</td>
-							<td class="enclosure-label">Enclosure (2)</td>
-						</tr>
-					</table>
-				</div>
-			</div>
 		</div>
 	</div>
 
