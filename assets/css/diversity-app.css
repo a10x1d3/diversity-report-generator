@@ -610,15 +610,15 @@ tabs .active .tab-record-count {
 #report-globals .report-input input {
 	border: 2px solid #c9d4f6;
 }
-
 #print-target {
-	border: 1px solid lightblue;
+	/* border: 1px solid lightblue; */
 	background-color: #fff;
 	margin: 20px auto;
 	width: 1000px;
 }
 #print-target .page {
-	border: 1px solid orange;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+	border: 2px solid #eee;
 	background-color: #fff;
 	margin: 0px 0px 10px 0px;
 	padding: 20px;
@@ -722,6 +722,7 @@ tabs .active .tab-record-count {
 		visibility: hidden;
 		background-color: #fff;
 	}
+
 	.button {
 		visibility: hidden;
 	}
@@ -732,5 +733,10 @@ tabs .active .tab-record-count {
 		position: absolute;
 		left: 0;
 		top: 0;
+	}
+
+	#print-target .page {
+		box-shadow: none;
+		border: 2px solid #fff;
 	}
 }

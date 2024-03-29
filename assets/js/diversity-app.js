@@ -95,17 +95,36 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.ui.tabs[currentActiveTab].state = 'inactive';
 	};
 
+
 	$scope.unmuteTab = function(tab)
 	{
 		$scope.ui.tabs[tab].state = 'inactive';
 	};
 
-	$scope.toUpper = function(targetObject, index, lastInitial, property)
+
+	$scope.getTrueIndex = function(targetObject, lastInitial, record)
 	{
-		$scope[targetObject][lastInitial][index][property] = $scope[targetObject][lastInitial][index][property].toUpperCase();
+		var counter = 0
+		var trueIndex = 0;
+		
+		$scope[targetObject][lastInitial].forEach(item => {
+			if ( JSON.stringify(item) == JSON.stringify(record) )
+			{
+				trueIndex = counter;
+			}
+
+			counter += 1;
+		});
+
+		return trueIndex;
 	};
 
 
+	$scope.toUpper = function(targetObject, record, lastInitial, property)
+	{
+		var index = $scope.getTrueIndex(targetObject, lastInitial, record);
+		$scope[targetObject][lastInitial][index][property] = $scope[targetObject][lastInitial][index][property].toUpperCase();
+	};
 
 
 
@@ -118,8 +137,10 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.filterAlphaRRSpecialChar = false;
 	
 
-	$scope.validatePaygrade = function(lastInitial, index)
+	$scope.validatePaygrade = function(lastInitial, record)
 	{
+		var index = $scope.getTrueIndex('alphaObject', lastInitial, record);
+
 		if ( $scope.alphaObject[lastInitial][index].paygrade )
 		{
 			$scope.alphaObject[lastInitial][index].missingPaygrade = false;
@@ -127,7 +148,10 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	};
 
 
-	$scope.removeAlphaRecord = function (lastInitial, index) {
+	$scope.removeAlphaRecord = function (lastInitial, record) {
+
+		var index = $scope.getTrueIndex('alphaObject', lastInitial, record);
+
 		$scope.alphaObject[lastInitial].splice(index, 1);
 		$scope.alphaObject.recordCount -= 1;
 
@@ -197,8 +221,9 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	};
 
 
-	$scope.reverseAlphaLastFirstName = function(index, lastInitial)
+	$scope.reverseAlphaLastFirstName = function(lastInitial, record)
 	{
+		var index = $scope.getTrueIndex('alphaObject', lastInitial, record);
 		var targetRecord = angular.copy($scope.alphaObject[lastInitial][index]);
 
 		targetRecord.lastName = angular.copy($scope.alphaObject[lastInitial][index].firstName);
@@ -525,14 +550,18 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	};
 
 
-	$scope.removeDiversityEntry = function (lastInitial, index) {
+	$scope.removeDiversityEntry = function (lastInitial, record) {
+		var index = $scope.getTrueIndex('diversityObject', lastInitial, record);
+
 		$scope.diversityObject[lastInitial].splice(index, 1);
 		$scope.diversityObject.recordCount -= 1;
 	}
 
 
-	$scope.validateDiversityRecord = function(lastInitial, index)
+	$scope.validateDiversityRecord = function(lastInitial, record)
 	{
+		var index = $scope.getTrueIndex('diversityObject', lastInitial, record);
+
 		if ($scope.diversityObject[lastInitial][index].merged) {
 			return;
 		}
@@ -547,8 +576,10 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	}
 
 
-	$scope.clearLeadershipRole = function(lastInitial, index)
+	$scope.clearLeadershipRole = function(lastInitial, record)
 	{
+		var index = $scope.getTrueIndex('diversityObject', lastInitial, record);
+
 		delete $scope.diversityObject[lastInitial][index].leadershipRole;
 	};
 
@@ -592,7 +623,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	};
 
 
-	$scope.openDiversityCollDialog = function (lastInitial, index) {
+	$scope.openDiversityCollDialog = function (lastInitial, record) {
+		var index = $scope.getTrueIndex('diversityObject', lastInitial, record);
 		console.log('opening diversity collateral dialog: ' + lastInitial + ' ' + index);
 
 		$scope.openDiversityCollDialog.lastInitial = lastInitial;
@@ -836,6 +868,166 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				legendColors: [],
 				options: $scope.pieceLabelOptions
 			}
+		},
+		cbDeptColl: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cgDeptColl: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		csaDeptColl: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		rdnsDeptColl: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		rfoDeptColl: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptCC: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptCFL: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptCFS: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
 		}
 	}
 
@@ -948,7 +1140,58 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				var limitMet = false;
 				record.collateralDuties.forEach(duty => {
 					if (duty.collateralLevel == level)
-					{
+					{	
+						if (limitMet)
+						{
+							return;
+						}
+						limitMet = true;
+						if (!$scope.chartObject[chartObj][byTrait].labels.includes(record[trait])) {
+							$scope.chartObject[chartObj][byTrait].labels.push(record[trait]);
+							var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(record[trait])
+							$scope.chartObject[chartObj][byTrait].data.push(1);
+							$scope.chartObject[chartObj][byTrait].legendColors.push($scope.chartColors[index]);
+							return;
+						}
+
+						if ($scope.chartObject[chartObj][byTrait].labels.includes(record[trait])) {
+							var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(record[trait]);
+							$scope.chartObject[chartObj][byTrait].data[index] += 1;
+						}
+
+						if (limitMet)
+						{
+							return;
+						}
+					}
+				});
+			});
+		});
+
+		console.log($scope.chartObject[chartObj][byTrait]);
+		$scope.setChartLabel(chartObj, byTrait);
+	};
+
+
+	$scope.getCollRoleChartData = function (chartObj, byTrait, role) {
+		var trait = $scope.mapRecord[byTrait];
+		console.log(trait);
+
+
+		$scope.alphaInitialArray.forEach(initial => {
+			$scope.diversityObject[initial].forEach(record => {
+				if (!record.collateralDuties) {
+					return;
+				}
+
+				var limitMet = false;
+				record.collateralDuties.forEach(duty => {
+					if (duty.collateralTitle == role)
+					{	
+						if (limitMet)
+						{
+							return;
+						}
 						limitMet = true;
 						if (!$scope.chartObject[chartObj][byTrait].labels.includes(record[trait])) {
 							$scope.chartObject[chartObj][byTrait].labels.push(record[trait]);
