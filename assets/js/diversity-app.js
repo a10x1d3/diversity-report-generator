@@ -1028,6 +1028,86 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				legendColors: [],
 				options: $scope.pieceLabelOptions
 			}
+		},
+		cmdDeptCMEO: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptCWOIWO: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptDAPA: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptDAO: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
 		}
 	}
 

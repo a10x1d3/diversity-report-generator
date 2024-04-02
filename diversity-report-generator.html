@@ -671,11 +671,53 @@
 		<div id="print-target">
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 1            │
+			│ Page 1 | Table of Contents           │
 			└────────────────────────────────────-->
-			<div class="page">
-				<p>Page 1</p>
+			<div class="page" id="table-of-contents">
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+
+				<p class="page-label">Table of Contents</p>
 				
+				<table id="toc">
+					<tr><td class="page-number">2</td><td class="page-title"><a href="#cmd-all-hands">Command All Hands</a></td></tr>
+					<tr><td class="page-number">3</td><td class="page-title"><a href="#cmd-triad">Command Triad</a></td></tr>
+					<tr><td class="page-number">4</td><td class="page-title"><a href="#dept-heads">Collateral Duty Assignments: Department Heads</a></td></tr>
+					<tr><td class="page-number">5</td><td class="page-title"><a href="#dept-lcpos">Collateral Duty Assignments: Department LCPOs</a></td></tr>
+					<tr><td class="page-number">6</td><td class="page-title"><a href="#dept-lpos">Collateral Duty Assignments: Department LPOs</a></td></tr>
+					<tr><td class="page-number">7</td><td class="page-title"><a href="#all-cmd-coll">Collateral Duty Assignments: Command-level Collateral Duties</a></td></tr>
+					<tr><td class="page-number">8</td><td class="page-title"><a href="#cb-dept-coll">Collateral Duty Assignments: CB Dept Collateral Duties</a></td></tr>
+					<tr><td class="page-number">9</td><td class="page-title"><a href="#cg-dept-coll">Collateral Duty Assignments: CG Dept Collateral Duties</a></td></tr>
+					<tr><td class="page-number">10</td><td class="page-title"><a href="#csa-dept-coll">Collateral Duty Assignments: CSA Dept Collateral Duties</a></td></tr>
+					<tr><td class="page-number">11</td><td class="page-title"><a href="#rdns-dept-coll">Collateral Duty Assignments: RDNS Dept Collateral Duties</a></td></tr>
+					<tr><td class="page-number">12</td><td class="page-title"><a href="#rfo-dept-coll">Collateral Duty Assignments: RFO Dept Collateral Duties</a></td></tr>
+					<tr><td class="page-number">13</td><td class="page-title"><a href="#cmd-dept-cc">Collateral Duty Assignments: Cmd/Dept Career Counselors</a></td></tr>
+					<tr><td class="page-number">14</td><td class="page-title"><a href="#cmd-dept-cfl">Collateral Duty Assignments: Cmd/Dept Fitness Leaders</a></td></tr>
+					<tr><td class="page-number">15</td><td class="page-title"><a href="#cmd-dept-cfs">Collateral Duty Assignments: Command Financial Specialists</a></td></tr>
+					<tr><td class="page-number">16</td><td class="page-title"><a href="#cmd-dept-cmeo">Collateral Duty Assignments: Command Managed Equal Opportunity Program Managers</a></td></tr>
+					<tr><td class="page-number">17</td><td class="page-title"><a href="#cmd-dept-cwoiwo">Collateral Duty Assignments: CWO/IWO Program Manager</a></td></tr>
+					<tr><td class="page-number">18</td><td class="page-title"><a href="#cmd-dept-dapa">Collateral Duty Assignments: Command Drug and Alcohol Program Advisor</a></td></tr>
+					<tr><td class="page-number">19</td><td class="page-title"><a href="#cmd-dept-dao">Collateral Duty Assignments: Command Diversity Action Officers</a></td></tr>
+					<tr><td class="page-number">20</td><td class="page-title"><a href="#cmd-dept-efmp">Collateral Duty Assignments: Command Exceptional Family Member Program Manager</a></td></tr>
+					<tr><td class="page-number">21</td><td class="page-title"><a href="#cmd-dept-eiws">Collateral Duty Assignments: Cmd/Dept EIWS Program Managers</a></td></tr>
+					<tr><td class="page-number">22</td><td class="page-title"><a href="#cmd-dept-eso">Collateral Duty Assignments: Cmd/Dept Education Services Officers</a></td></tr>
+					<tr><td class="page-number">23</td><td class="page-title"><a href="#cmd-dept-fap">Collateral Duty Assignments: Command Family Advocacy Program Manager</a></td></tr>
+					<tr><td class="page-number">24</td><td class="page-title"><a href="#all-dept-legalo">Collateral Duty Assignments: Command Legal Officers / Clerks</a></td></tr>
+					<tr><td class="page-number">25</td><td class="page-title"><a href="#all-dept-muster">Collateral Duty Assignments: Dept Muster Petty Officers</a></td></tr>
+					<tr><td class="page-number">26</td><td class="page-title"><a href="#cmd-dept-mwr">Collateral Duty Assignments: Cmd/Dept MWR Representatives</a></td></tr>
+					<tr><td class="page-number">27</td><td class="page-title"><a href="#cmd-dept-sapr">Collateral Duty Assignments: Cmd/Dept Sexual Assault Prevention & Response POCs</a></td></tr>
+					<tr><td class="page-number">28</td><td class="page-title"><a href="#cmd-dept-spc">Collateral Duty Assignments: Command Suicide Prevention Coordinator</a></td></tr>
+					<tr><td class="page-number">29</td><td class="page-title"><a href="#cmd-dept-esponsor">Collateral Duty Assignments: Cmd/Dept Enlisted Sponsor Coordinators</a></td></tr>
+					<tr><td class="page-number">30</td><td class="page-title"><a href="#cmd-dept-osponsor">Collateral Duty Assignments: Cmd/Dept Officer Sponsor Coordinators (not assigned)</a></td></tr>
+					<tr><td class="page-number">31</td><td class="page-title"><a href="#cmd-dept-swo">Collateral Duty Assignments: Command Senior Watch Officers</a></td></tr>
+					<tr><td class="page-number">32</td><td class="page-title"><a href="#cmd-dept-tpo">Collateral Duty Assignments: Cmd/Dept Training Officers</a></td></tr>
+					<tr><td class="page-number">33</td><td class="page-title"><a href="#cmd-reen">Re-Enlistments</a></td></tr>
+					<tr><td class="page-number">34</td><td class="page-title"><a href="#cmd-njp">Disciplined</a></td></tr>
+					<tr><td class="page-number">35</td><td class="page-title"><a href="#cmd-adv">Advanced</a></td></tr>
+					<tr><td class="page-number">36</td><td class="page-title"><a href="#cmd-awd">Awarded</a></td></tr>
+				</table>
+
 				<div class="footer">
 					<table>
 						<tr>
@@ -689,12 +731,14 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 2            │
+			│ Page 2 | All Hands                   │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cmd-all-hands">
+				<a href="#table-of-contents" class="top-anchor trans2">To Top</a>
+
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 
 				<p class="page-label">Command All Hands</p>
 
@@ -802,12 +846,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 3            │
+			│ Page 3 | Command Triad               │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cmd-triad">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Command TRIAD</p>
 				
@@ -922,12 +966,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 4            │
+			│ Page 4 | Dept Heads                  │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="dept-heads">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Department Heads</p>
 				
@@ -1042,12 +1086,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 5            │
+			│ Page 5 | Dept LCPOs                  │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="dept-lcpos">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Department LCPOs</p>
 				
@@ -1162,12 +1206,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 6            │
+			│ Page 6 | Dept LPOs                   │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="dept-lpos">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Department LPOs</p>
 				
@@ -1282,12 +1326,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 7            │
+			│ Page 7 | All Cmd Collaterals         │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="all-cmd-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Command-level Collateral Duties</p>
 				
@@ -1402,12 +1446,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 8            │
+			│ Page 8 | All CB Dept Collaterals     │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cb-dept-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: CB Dept Collateral Duties</p>
 				
@@ -1522,12 +1566,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 9            │
+			│ Page 9 | All CG Dept Collaterals     │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cg-dept-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: CG Dept Collateral Duties</p>
 				
@@ -1642,12 +1686,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 10           │
+			│ Page 10 | All CSA Dept Collaterals   │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="csa-dept-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: CSA Dept Collateral Duties</p>
 				
@@ -1762,12 +1806,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 11           │
+			│ Page 11 | All RDNS Dept Collaterals  │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="rdns-dept-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: RDNS Dept Collateral Duties</p>
 				
@@ -1882,12 +1926,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 12           │
+			│ Page 12 | All RFO Dept Collaterals   │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="rfo-dept-coll">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: RFO Dept Collateral Duties</p>
 				
@@ -2002,12 +2046,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 13           │
+			│ Page 13 | Cmd + Dept CCs             │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cmd-dept-cc">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Cmd/Dept Career Counselors</p>
 				
@@ -2122,12 +2166,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 14           │
+			│ Page 14 | Cmd + Dept CFLs            │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cmd-dept-cfl">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Cmd/Dept Fitness Leaders</p>
 				
@@ -2242,12 +2286,12 @@
 
 
 			<!--───────────────────────────────────┐
-			│ Diversity Report | Page 15           │
+			│ Page 15 | Cmd CFSs                   │
 			└────────────────────────────────────-->
-			<div class="page">
+			<div class="page" id="cmd-dept-cfs">
 				<h4>{{ report.commandAcronym }}</h4>
 				<h4>Command Demographics Report</h4>
-				<h4>Quarter {{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
 				
 				<p class="page-label">Collateral Duty Assignments: Command Financial Specialists</p>
 				
@@ -2354,6 +2398,486 @@
 						<tr>
 							<td></td>
 							<td class="page-number">15</td>
+							<td class="enclosure-label">Enclosure (2)</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!--───────────────────────────────────┐
+			│ Page 16 | Cmd CMEOs                  │
+			└────────────────────────────────────-->
+			<div class="page" id="cmd-dept-cmeo">
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: Command Managed Equal Opportunity Program Managers</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'byRace', 'CMEO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCMEO.byRace.data"
+								chart-labels="chartObject.cmdDeptCMEO.byRace.labels"
+								chart-options="chartObject.cmdDeptCMEO.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCMEO.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCMEO.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'bySex', 'CMEO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCMEO.bySex.data"
+								chart-labels="chartObject.cmdDeptCMEO.bySex.labels"
+								chart-options="chartObject.cmdDeptCMEO.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCMEO.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCMEO.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'byPaygrade', 'CMEO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCMEO.byPaygrade.data"
+								chart-labels="chartObject.cmdDeptCMEO.byPaygrade.labels"
+								chart-options="chartObject.cmdDeptCMEO.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCMEO.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCMEO.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<div class="footer">
+					<table>
+						<tr>
+							<td></td>
+							<td class="page-number">16</td>
+							<td class="enclosure-label">Enclosure (2)</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!--───────────────────────────────────┐
+			│ Page 17 | Cmd CWO / IWO              │
+			└────────────────────────────────────-->
+			<div class="page" id="cmd-dept-cwoiwo">
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: CWO/IWO Program Manager</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'byRace', 'CWO/IWO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCWOIWO.byRace.data"
+								chart-labels="chartObject.cmdDeptCWOIWO.byRace.labels"
+								chart-options="chartObject.cmdDeptCWOIWO.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCWOIWO.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCWOIWO.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'bySex', 'CWO/IWO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCWOIWO.bySex.data"
+								chart-labels="chartObject.cmdDeptCWOIWO.bySex.labels"
+								chart-options="chartObject.cmdDeptCWOIWO.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCWOIWO.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCWOIWO.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'byPaygrade', 'CWO/IWO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptCWOIWO.byPaygrade.data"
+								chart-labels="chartObject.cmdDeptCWOIWO.byPaygrade.labels"
+								chart-options="chartObject.cmdDeptCWOIWO.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptCWOIWO.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptCWOIWO.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<div class="footer">
+					<table>
+						<tr>
+							<td></td>
+							<td class="page-number">17</td>
+							<td class="enclosure-label">Enclosure (2)</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!--───────────────────────────────────┐
+			│ Page 18 | Cmd DAPA                   │
+			└────────────────────────────────────-->
+			<div class="page" id="cmd-dept-dapa">
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: Command Drug and Alcohol Program Advisor</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'byRace', 'DAPA')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAPA.byRace.data"
+								chart-labels="chartObject.cmdDeptDAPA.byRace.labels"
+								chart-options="chartObject.cmdDeptDAPA.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAPA.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAPA.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'bySex', 'DAPA')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAPA.bySex.data"
+								chart-labels="chartObject.cmdDeptDAPA.bySex.labels"
+								chart-options="chartObject.cmdDeptDAPA.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAPA.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAPA.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'byPaygrade', 'DAPA')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAPA.byPaygrade.data"
+								chart-labels="chartObject.cmdDeptDAPA.byPaygrade.labels"
+								chart-options="chartObject.cmdDeptDAPA.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAPA.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAPA.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<div class="footer">
+					<table>
+						<tr>
+							<td></td>
+							<td class="page-number">18</td>
+							<td class="enclosure-label">Enclosure (2)</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!--───────────────────────────────────┐
+			│ Page 19 | Cmd DAO                    │
+			└────────────────────────────────────-->
+			<div class="page" id="cmd-dept-dao">
+				<h4>{{ report.commandAcronym }}</h4>
+				<h4>Command Demographics Report</h4>
+				<h4>Quarter <span class="missing-quarter" ng-show="!report.quarter"><#></span>{{ report.quarter }} FY{{ report.fiscalYear }}</h4>
+				
+				<p class="page-label">Collateral Duty Assignments: Command Diversity Action Officers</p>
+				
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAO', 'byRace', 'DAO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Race/Ethnicity</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByRace"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAO.byRace.data"
+								chart-labels="chartObject.cmdDeptDAO.byRace.labels"
+								chart-options="chartObject.cmdDeptDAO.byRace.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAO.byRace.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAO.byRace.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAO', 'bySex', 'DAO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Sex</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadBySex"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAO.bySex.data"
+								chart-labels="chartObject.cmdDeptDAO.bySex.labels"
+								chart-options="chartObject.cmdDeptDAO.bySex.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAO.bySex.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAO.bySex.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+
+				<section>
+					<p class="button button-primary float-right"
+					   ng-click="getCollRoleChartData('cmdDeptDAO', 'byPaygrade', 'DAO')">
+						Generate
+					</p>
+				
+					<p class="chart-label">By Paygrade</p>
+				
+					<div class="chart-container">
+						<canvas id="TriadByPaygrade"
+								class="chart chart-doughnut chart-xs"
+								chart-data="chartObject.cmdDeptDAO.byPaygrade.data"
+								chart-labels="chartObject.cmdDeptDAO.byPaygrade.labels"
+								chart-options="chartObject.cmdDeptDAO.byPaygrade.options">
+						</canvas>
+					</div>
+				
+					<div class="legend">
+						<table>
+							<tr ng-repeat="label in chartObject.cmdDeptDAO.byPaygrade.labels track by $index">
+								<td>
+									<p class="color" style="background-color: {{ chartObject.cmdDeptDAO.byPaygrade.legendColors[$index] }};">
+									</p>
+								</td>
+								<td>
+									<p>{{ label }}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+
+				<div class="footer">
+					<table>
+						<tr>
+							<td></td>
+							<td class="page-number">19</td>
 							<td class="enclosure-label">Enclosure (2)</td>
 						</tr>
 					</table>

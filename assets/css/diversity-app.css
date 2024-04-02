@@ -626,6 +626,28 @@ tabs .active .tab-record-count {
 	width: 100%;
 	position: relative;
 }
+#print-target .page .top-anchor {
+	position: absolute;
+	color: #006fff;
+	right: 64px;
+	background: #fff;
+	padding: 5px 10px 7px 10px;
+	border-radius: 5px;
+}
+#print-target .page .top-anchor:hover {
+	background-color: #006fff;
+	color: #fff;
+}
+#print-target .page .missing-quarter {
+	background: #ff1282;
+    color: #fff;
+    border-radius: 5px;
+    height: 19px;
+    display: inline-block;
+    font-size: .9rem;
+    font-family: consolas;
+    padding: 0 2px 0 2px;
+}
 #print-target .page-label {
 	text-align: center;
 	margin: 27px 0 0 0;
@@ -635,6 +657,18 @@ tabs .active .tab-record-count {
 	margin: 5px 0 5px 0;
 	font-weight: 400;
 	text-align: center;
+}
+#print-target #toc {
+	margin: 0 auto;
+	width: 80%;
+	table-layout: fixed;
+}
+#print-target #toc .page-number {
+	width: 100px;
+	text-align: center;
+}
+#print-target #toc .page-title {
+	/* border: 1px solid blue; */
 }
 #print-target section {
 	margin: 35px auto 35px auto;
@@ -738,5 +772,9 @@ tabs .active .tab-record-count {
 	#print-target .page {
 		box-shadow: none;
 		border: 2px solid #fff;
+	}
+
+	#print-target .page .top-anchor {
+		display: none;
 	}
 }
