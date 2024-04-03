@@ -1108,37 +1108,380 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				legendColors: [],
 				options: $scope.pieceLabelOptions
 			}
+		},
+		cmdDeptEFMP: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptEIWS: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptESO: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptFAP: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptLegal: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptMuster: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptMWR: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptSAPR: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptSPC: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptESponsor: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptOSponsor: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptSWO: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdDeptTrain: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdReen: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdNJP: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdAdv: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
+		},
+		cmdAwd: {
+			byRace: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			bySex: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			},
+			byPaygrade: {
+				labels: [],
+				data: [],
+				legendColors: [],
+				options: $scope.pieceLabelOptions
+			}
 		}
 	}
 
 
-	$scope.setChartLabel = function(chartobj, byTrait)
+	$scope.setChartLabel = function(chartObj, byTrait)
 	{	
 		var dataTotal = 0;
 
-		$scope.chartObject[chartobj][byTrait].data.forEach(datum => {
+		$scope.chartObject[chartObj][byTrait].data.forEach(datum => {
 			dataTotal += datum;
 		});
 
 		console.log(dataTotal);
 
-		$scope.chartObject[chartobj][byTrait].labels.forEach(label => {
-			var index = $scope.chartObject[chartobj][byTrait].labels.indexOf(label);
-			var labelTotal = $scope.chartObject[chartobj][byTrait].data[index];
+		$scope.chartObject[chartObj][byTrait].labels.forEach(label => {
+			var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(label);
+			var labelTotal = $scope.chartObject[chartObj][byTrait].data[index];
 			var labelAvg = Math.floor( (labelTotal / dataTotal) * 100 );
 
 			var compiledLabel = label + ', ' + labelTotal + ', ' + labelAvg + '%';
-			$scope.chartObject[chartobj][byTrait].labels[index] = compiledLabel;
+			$scope.chartObject[chartObj][byTrait].labels[index] = compiledLabel;
 		});
+
+		$scope.chartObject[chartObj][byTrait].noData = false;
 	};
 
 
 	$scope.getAllChartData = function(chartObj, byTrait)
 	{
 		console.log('firing getChartData()');
+		$scope.chartObject[chartObj][byTrait].labels = [];
+		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
-		console.log(trait);
 
 		$scope.alphaInitialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
@@ -1167,6 +1510,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.getRoleChartData = function (chartObj, byTrait, role) {
 		console.log('firing getRoleChartData()');
+		$scope.chartObject[chartObj][byTrait].labels = [];
+		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
 		console.log(trait);
@@ -1206,6 +1551,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.getCollLevelChartData = function (chartObj, byTrait, level) {
 		console.log('firing getRoleChartData()');
+		$scope.chartObject[chartObj][byTrait].labels = [];
+		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
 		console.log(trait);
@@ -1254,9 +1601,10 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 
 	$scope.getCollRoleChartData = function (chartObj, byTrait, role) {
-		var trait = $scope.mapRecord[byTrait];
-		console.log(trait);
+		$scope.chartObject[chartObj][byTrait].labels = [];
+		$scope.chartObject[chartObj][byTrait].data = [];
 
+		var trait = $scope.mapRecord[byTrait];
 
 		$scope.alphaInitialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
@@ -1296,6 +1644,51 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		});
 
 		console.log($scope.chartObject[chartObj][byTrait]);
+		$scope.setChartLabel(chartObj, byTrait);
+	};
+
+
+	$scope.getBooleanChartData = function (chartObj, byTrait, boolValue) {
+		console.log('getBooleanChartData()');
+		$scope.chartObject[chartObj][byTrait].labels = [];
+		$scope.chartObject[chartObj][byTrait].data = [];
+
+		var trait = $scope.mapRecord[byTrait];
+		console.log(trait);
+		
+		
+		$scope.alphaInitialArray.forEach(initial => {
+			$scope.diversityObject[initial].forEach(record => {
+				
+				if ( !record[boolValue] )
+				{
+					return;
+				}
+
+				if (!$scope.chartObject[chartObj][byTrait].labels.includes(record[trait])) {
+					$scope.chartObject[chartObj][byTrait].labels.push(record[trait]);
+					var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(record[trait])
+					$scope.chartObject[chartObj][byTrait].data.push(1);
+					$scope.chartObject[chartObj][byTrait].legendColors.push($scope.chartColors[index]);
+					return;
+				}
+
+				if ($scope.chartObject[chartObj][byTrait].labels.includes(record[trait])) {
+					var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(record[trait]);
+					$scope.chartObject[chartObj][byTrait].data[index] += 1;
+				}
+			});
+		});
+
+		console.log($scope.chartObject[chartObj][byTrait]);
+
+		if ( $scope.chartObject[chartObj][byTrait].data.length == 0 )
+		{
+			console.log('no data');
+			$scope.chartObject[chartObj][byTrait].noData = true;
+			return;
+		}
+
 		$scope.setChartLabel(chartObj, byTrait);
 	};
 });

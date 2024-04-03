@@ -683,6 +683,13 @@ tabs .active .tab-record-count {
 	bottom: 0;
 	right: 0;
 }
+#print-target .no-data-label {
+	position: absolute;
+    left: 47%;
+    top: 47%;
+    font-size: 1rem;
+    font-weight: 500;
+}
 #print-target section .chart-label {
 	position: absolute;
 	top: -23px;
