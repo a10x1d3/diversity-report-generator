@@ -6,7 +6,6 @@ body {
 	background-color: #eeeeee;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 section {
 	height: 100%;
 	border: 1px solid green;
@@ -116,7 +115,6 @@ select:focus {
 	font-weight: bold;
 	cursor: pointer;
 	line-height: 1rem;
-
 }
 .button-primary {
 	border: 1px solid #0369ee;
@@ -203,6 +201,7 @@ tabs .active .tab-record-count {
 }
 
 
+
 /*\
 |*| CTA Layout
 \*/
@@ -275,6 +274,7 @@ tabs .active .tab-record-count {
 }
 
 
+
 /*\
 |*| Tab Body Content UI
 \*/
@@ -282,7 +282,6 @@ tabs .active .tab-record-count {
 	margin: 20px 0px 0px 0px;
 }
 .tab-content {
-	/* border: 1px solid purple; */
 	margin: 20px 0px 0px 0px;
 	padding: 10px;
 	background-color: #fff;
@@ -308,6 +307,7 @@ tabs .active .tab-record-count {
 	background-color: #006fff;
 	color: #fff;
 }
+
 
 
 /*\
@@ -397,6 +397,7 @@ tabs .active .tab-record-count {
 }
 
 
+
 /*\
 |*| Alpha Roster Table Ui
 \*/
@@ -409,6 +410,8 @@ tabs .active .tab-record-count {
 #alpha-roster select.missing-paygrade {
 	border-color: #ff1282;
 }
+
+
 
 /*\
 |*| FLTMPS Table Ui
@@ -495,6 +498,7 @@ tabs .active .tab-record-count {
 }
 
 
+
 /*\
 |*| Alpha Roster | New Record Dialog UI
 \*/
@@ -548,6 +552,9 @@ tabs .active .tab-record-count {
 #diversity-coll-dialog .level-col {
 	width: 90px;
 }
+#diversity-coll-dialog .level-col select {
+	width: 85px;
+}
 #diversity-coll-dialog .title-col {
 	width: 160px;
 }
@@ -580,15 +587,12 @@ tabs .active .tab-record-count {
 
 
 
-
-
 /*\
 |*| Diversity Report
 \*/
 #report-globals {
 	margin: 20px auto;
 	width: 1000px;
-	border: 1px solid purple;
 }
 #report-globals table {
 	table-layout: fixed;
@@ -596,7 +600,7 @@ tabs .active .tab-record-count {
 }
 #report-globals td.report-label {
     padding: 0 5px 0 0;
-	width: 20%;
+	width: 50%;
     text-align: right;
 }
 #report-globals .report-input select {
@@ -611,7 +615,6 @@ tabs .active .tab-record-count {
 	border: 2px solid #c9d4f6;
 }
 #print-target {
-	/* border: 1px solid lightblue; */
 	background-color: #fff;
 	margin: 20px auto;
 	width: 1000px;
@@ -667,9 +670,6 @@ tabs .active .tab-record-count {
 	width: 100px;
 	text-align: center;
 }
-#print-target #toc .page-title {
-	/* border: 1px solid blue; */
-}
 #print-target section {
 	margin: 35px auto 35px auto;
 	height: 325px;
@@ -696,13 +696,11 @@ tabs .active .tab-record-count {
 	left: 5px;
 }
 #print-target section .chart-container {
-	/* border: 1px solid red; */
 	width: 69%;
 	float: left;
 	height: 100%;
 }
 #print-target section .legend {
-	/* border: 1px solid blue; */
 	width: 29%;
 	float: right;
 	height: 100%;
@@ -737,8 +735,6 @@ tabs .active .tab-record-count {
 	width: 695px !important;
 	position: absolute;
 }
-
-
 #print-target .page .footer {
 	position: absolute;
 	bottom: 20px;
@@ -748,15 +744,13 @@ tabs .active .tab-record-count {
 	table-layout: fixed;
 	width: 100%;
 }
-#print-target .page .footer td {
-	/* border: 1px solid black; */
-}
 #print-target .page .footer td.page-number {
 	text-align: center;
 }
 #print-target .page .footer td.enclosure-label {
 	text-align: right;
 }
+
 
 @media print {
 	body {

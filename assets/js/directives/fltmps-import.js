@@ -1,6 +1,3 @@
-// Reference
-// https://jsfiddle.net/maxisam/QrCXh/
-
 var app = angular.module('fltmps-import', []);
 
 app.directive('fltmpsReader', function ()
@@ -18,8 +15,6 @@ app.directive('fltmpsReader', function ()
             element.on('change', function (changeEvent)
             {
                 var files = changeEvent.target.files;
-                // console.log(files);
-
                 var localFltmpsObject = {};
                 var localFltmpsObject = { recordCount: 0 };
                 var localFltmpsInitialArray = [];
@@ -42,8 +37,6 @@ app.directive('fltmpsReader', function ()
 
                         r.onload = function (value)
                         {
-                            // console.log("Current UIC: " + uicList[index]);
-                            
                             var contents = value.target.result.split('\n');
                             contents.forEach(fltmpsRecord =>
                             {
@@ -135,7 +128,6 @@ app.directive('fltmpsReader', function ()
                     scope.fltmpsInitialArray = localFltmpsInitialArray;
                     scope.fltmpsDiversityGroupArray = localfltmpsDiversityGroupArray;
                     scope.fltmpsUicArray = localFltmpsUICArray;
-                    console.log(scope.fltmpsInitialArray);
                 }); // END scope.$apply
                 
             }); // END element.on('change')

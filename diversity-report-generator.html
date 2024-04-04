@@ -21,9 +21,9 @@
 <script type="text/javascript" src="assets/js/lib/chart.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/angular-chart.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/Chart.PieceLabel.min.js"></script>
-<!-- <script type="text/javascript" src="assets/js/lib/ngDialog.js"></script> -->
 <script type="text/javascript" src="assets/js/directives/alpha-roster-import.js"></script>
 <script type="text/javascript" src="assets/js/directives/fltmps-import.js"></script>
+<script type="text/javascript" src="assets/js/directives/diversity-object-import.js"></script>
 <script type="text/javascript" src="assets/js/diversity-app.js"></script>
 
 
@@ -39,11 +39,10 @@
 		 id="diversity-app"
 		 class="light-scheme">
 
-
 	<h5 id="app-title">CMEO | Diversity Report Generator</h5>
 
-
 	
+
 	<!--────────────────────────────────────┐
 	 │ Tab UI                               │
 	 └─────────────────────────────────────-->
@@ -193,7 +192,8 @@
 									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
 							</tr>
-							<tr ng-repeat="item in alphaObject[initial] | filter:alphaFilter" class="data-row trans2">
+							<tr ng-repeat="item in alphaObject[initial] | filter:alphaFilter"
+								class="data-row trans2">
 								<td class="dept-col data-cell trans2">
 									<select name=""
 											id=""
@@ -290,8 +290,7 @@
 				Import
 			</label>
 			
-			<input class=""
-				   id="fltmps-file-picker"
+			<input id="fltmps-file-picker"
 				   type="file"
 				   multiple
 				   fltmps-reader="fileContent"
@@ -310,20 +309,30 @@
 			   ng-show="fltmpsObject && showFltmpsHTML"
 			   ng-click="deleteFltmpsData()">Clear Data</p>
 			
-			<hr class="cta-action-separator clearfix" ng-show="fltmpsObject && showFltmpsHTML">
+			<hr class="cta-action-separator clearfix"
+				ng-show="fltmpsObject && showFltmpsHTML">
 			
-			<p class="cta-label float-left" ng-show="fltmpsObject && showFltmpsHTML">Name Filter</p>
+			<p class="cta-label float-left"
+			   ng-show="fltmpsObject && showFltmpsHTML">Name Filter</p>
 
-			<div class="filter-group float-right clearfix" ng-show="fltmpsObject && showFltmpsHTML">
+			<div class="filter-group float-right clearfix"
+				 ng-show="fltmpsObject && showFltmpsHTML">
 				<p class="filter float-right trans2"
 				   ng-class="{ 'active': filterFltmpsNameText }">
 					Search Name
 					<input type="text" ng-model="filterFltmpsNameText">
+					<svg id="Layer_1"
+						 data-name="Layer 1"
+						 xmlns="http://www.w3.org/2000/svg"
+						 viewBox="0 0 384 384"
+						 ng-click="filterFltmpsNameText = ''">
+						<path class="cls-1 trans2"
+							d="m192,0C85.96,0,0,85.96,0,192s85.96,192,192,192,192-85.96,192-192S298.04,0,192,0Zm106.06,252.8c12.49,12.5,12.49,32.76,0,45.26-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.13-22.63-9.37l-60.8-60.8-60.8,60.8c-6.25,6.24-14.44,9.37-22.63,9.37s-16.38-3.12-22.63-9.37c-12.49-12.5-12.49-32.76.01-45.26l60.8-60.8-60.8-60.8c-12.5-12.5-12.5-32.76-.01-45.26,12.5-12.49,32.76-12.49,45.26,0l60.8,60.8,60.8-60.8c12.5-12.49,32.76-12.49,45.26,0,12.49,12.5,12.49,32.76,0,45.26l-60.8,60.8,60.8,60.8Z" />
+					</svg>
 				</p>
 			</div>
 			
 		</div>
-		
 
 		<div class="roster-table"
 			 id="fltmps-roster"
@@ -352,12 +361,15 @@
 					<td colspan="6" class="data-table-container">
 						<table class="data-table">
 							<tr class="initial-header">
-								<th colspan="6" class="initial-col" id="fltmps-initial-{{ initial }}">
+								<th colspan="6" 
+									class="initial-col"
+									id="fltmps-initial-{{ initial }}">
 									{{ initial }}
 									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
 							</tr>
-							<tr ng-repeat="item in fltmpsObject[initial] | filter:fltmpsFilter" class="data-row trans2">
+							<tr ng-repeat="item in fltmpsObject[initial] | filter:fltmpsFilter"
+								class="data-row trans2">
 								<td class="data-cell trans2 rank-rate-col">
 									<p>{{ item.rankRate }}</p>
 								</td>
@@ -385,9 +397,6 @@
 							</tr>
 						</table>
 					</td>
-					<!-- <tr ng-repeat="item in fltmpsObject[initial]">
-						<td>{{ item.rankRate }}</td>
-					</tr> -->
 				</tr>
 			</table>
 		</div>
@@ -416,22 +425,47 @@
 				Merge Data
 			</p>
 
-			<p class="cta-action float-right button button-secondary"
+			<!-- <p class="cta-action float-right button button-secondary"
 			   ng-click="logDiversityObject()">
 				Log Diversity Object
-			</p>
+			</p> -->
+
+			<!-- <p class="cta-action float-right button button-secondary"
+			   ng-click="loadDiversityObject()">
+				Load From Memory
+			</p> -->
 
 			<p class="cta-action float-right button button-secondary"
-			   ng-click="loadDiversityObject()">
-				Load Diversity Data
+			   ng-click="validateDiversityObject()"
+			   ng-if="diversityObject">
+				Validate Data
+			</p>
+
+			<label for="diversity-object-picker"
+				   class="file-picker-input cta-action button button-primary shadow float-right">
+					Load From File
+			</label>
+			<input type="file"
+				   id="diversity-object-picker"
+				   diversity-reader="fileContent"
+				   diversity-Object="diversityObject"
+				   value="Select Alpha Roster">
+			</input>
+
+			<p class="cta-action float-right button button-secondary"
+			   ng-click="downloadDiversityObject()"
+			   ng-show="diversityObject">
+				Download Data
 			</p>
 
 			<hr class="cta-action-separator clearfix" ng-show="diversityObject">
 			
 			<p class="cta-label float-left" ng-show="diversityObject">Name Filters</p>
-			<!-- {{ alphaDeptFilters }} -->
-			<div class="filter-group float-right clearfix" ng-show="diversityObject">
-				<p class="filter float-right trans2" ng-class="{ 'active': filterDiversityNameText }">
+			
+			<div class="filter-group float-right clearfix"
+				 ng-show="diversityObject">
+				<p class="filter float-right trans2"
+				   ng-class="{ 'active': filterDiversityNameText }">
 					Search Name
 					<input type="text" ng-model="filterDiversityNameText">
 					<svg id="Layer_1"
@@ -461,10 +495,10 @@
 		<div class="roster-table" ng-show="diversityObject">
 		
 			<ul class="initial-anchor-list">
-				<li ng-repeat="initial in alphaInitialArray">
+				<li ng-repeat="initial in diversityObject.initialArray">
 					<a href="#diversity-initial-{{ initial }}"
-					ng-if="alphaObject[initial].length"
-					class="trans2">{{ initial }}</a>
+					   ng-if="diversityObject[initial].length"
+					   class="trans2">{{ initial }}</a>
 				</li>
 			</ul>
 			
@@ -488,11 +522,14 @@
 						<th class="column-header row-action-col"></th>
 					</tr>
 				</thead>
-				<tr ng-repeat="initial in alphaInitialArray">
+				<tr ng-repeat="initial in diversityObject.initialArray">
 					<td colspan="15" class="data-table-container">
 						<table class="data-table">
 							<tr class="initial-header">
-								<th colspan="15" class="initial-col" id="diversity-initial-{{ initial }}">
+								<th colspan="15"
+									class="initial-col"
+									id="diversity-initial-{{ initial }}"
+									ng-if="diversityObject[initial].length">
 									{{ initial }}
 									<a href="#app-title" class="float-right trans2">Top</a>
 								</th>
@@ -501,7 +538,7 @@
 								class="data-row trans2"
 								ng-class="{'merged': item.merged, 'unmerged': !item.merged}">
 								<td class="data-cell trans2 dept-col">
-									<select ng-options="dept for dept in departmentArray"
+									<select ng-options="dept for dept in diversityObject.departmentArray"
 											ng-model="item.dept">
 									</select>
 								</td>
@@ -541,19 +578,19 @@
 								</td>
 			
 								<td class="data-cell trans2 diversity-group-col">
-									<select ng-options="group for group in fltmpsDiversityGroupArray"
+									<select ng-options="group for group in diversityObject.diversityGroupArray"
 											ng-model="item.diversityGroup"
 											ng-change="validateDiversityRecord(initial, item)">
 									</select>
 								</td>
 								<td class="data-cell trans2 uic-col">
-									<select ng-options="uic for uic in fltmpsUicArray"
+									<select ng-options="uic for uic in diversityObject.uicArray"
 											ng-model="item.uic"
 											ng-change="validateDiversityRecord(initial, item)">
 									</select>
 								</td>
 								<td class="data-cell trans2 dept-triad-role-col">
-									<select ng-options="role.shortTitle for role in leadershipRoleOptions"
+									<select ng-options="role for role in leadershipRoleOptions"
 											ng-model="item.leadershipRole">
 									</select>
 									<span class="trans2 row-action clear"
@@ -572,7 +609,7 @@
 									</div>
 									<span class="trans2 row-action clear"
 										  ng-click="openDiversityCollDialog(initial, item)"
-										 ng-show="!item.collateralDuties">
+										  ng-show="!item.collateralDuties">
 										Add
 									</span>
 								</td>
@@ -593,8 +630,7 @@
 										   ng-model="item.disciplined">
 								</td>
 								<td class="row-action-col data-cell trans2"
-									ng-click="removeDiversityEntry(initial, item)"
-									ng-show="!filterDiversityNameText">
+									ng-click="removeDiversityEntry(initial, item)">
 									<svg id="Layer_1"
 										 data-name="Layer 1"
 										 xmlns="http://www.w3.org/2000/svg"
@@ -606,14 +642,12 @@
 							</tr>
 						</table>
 					</td>
-					<!-- <tr ng-repeat="item in fltmpsObject[initial]">
-									<td>{{ item.rankRate }}</td>
-								</tr> -->
 				</tr>
 			</table>
 
 		</div>
 	</div>
+
 
 
 	<!--───────────────────────────────────┐
@@ -744,7 +778,14 @@
 
 				<section>
 					<p class="button button-primary float-right"
-					   ng-click="getAllChartData('allHands', 'byRace')">Generate</p>
+					   ng-click="getAllChartData('allHands', 'byRace')">
+					   Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.allHands.byRace.data.length == 0">
+					   No Data
+					</p>
 
 					<p class="chart-label">By Race/Ethnicity</p>
 					
@@ -777,6 +818,12 @@
 					   ng-click="getAllChartData('allHands', 'bySex')">
 					   Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.allHands.bySex.data.length == 0">
+					   No Data
+					</p>
+
 					<p class="chart-label">By Sex</p>
 
 					<div class="chart-container">
@@ -807,6 +854,12 @@
 					   ng-click="getAllChartData('allHands', 'byPaygrade')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.allHands.byPaygrade.data.length == 0">
+					   No Data
+					</p>
+
 					<p class="chart-label">By Paygrade/Rank</p>
 					
 					<div class="chart-container">
@@ -862,6 +915,11 @@
 					   ng-click="getRoleChartData('cmdTriad', 'byRace', 'TRIAD')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdTriad.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -895,6 +953,11 @@
 					   ng-click="getRoleChartData('cmdTriad', 'bySex', 'TRIAD')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdTriad.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -927,6 +990,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getRoleChartData('cmdTriad', 'byPaygrade', 'TRIAD')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdTriad.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -984,6 +1052,11 @@
 					   ng-click="getRoleChartData('deptHead', 'byRace', 'DH')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptHead.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1017,6 +1090,11 @@
 					   ng-click="getRoleChartData('deptHead', 'bySex', 'DH')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptHead.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1049,6 +1127,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getRoleChartData('deptHead', 'byPaygrade', 'DH')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptHead.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1106,6 +1189,11 @@
 					   ng-click="getRoleChartData('deptLCPO', 'byRace', 'DLCPO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLCPO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1139,6 +1227,11 @@
 					   ng-click="getRoleChartData('deptLCPO', 'bySex', 'DLCPO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLCPO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1171,6 +1264,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getRoleChartData('deptLCPO', 'byPaygrade', 'DLCPO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLCPO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1228,6 +1326,11 @@
 					   ng-click="getRoleChartData('deptLPO', 'byRace', 'DLPO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLPO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1261,6 +1364,11 @@
 					   ng-click="getRoleChartData('deptLPO', 'bySex', 'DLPO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLPO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1293,6 +1401,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getRoleChartData('deptLPO', 'byPaygrade', 'DLPO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.deptLPO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1350,6 +1463,11 @@
 					   ng-click="getCollLevelChartData('cmdColl', 'byRace', 'Command')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1383,6 +1501,11 @@
 					   ng-click="getCollLevelChartData('cmdColl', 'bySex', 'Command')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1415,6 +1538,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('cmdColl', 'byPaygrade', 'Command')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1472,6 +1600,11 @@
 					   ng-click="getCollLevelChartData('cbDeptColl', 'byRace', 'CB')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cbDeptColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1505,6 +1638,11 @@
 					   ng-click="getCollLevelChartData('cbDeptColl', 'bySex', 'CB')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cbDeptColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1537,6 +1675,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('cbDeptColl', 'byPaygrade', 'CB')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cbDeptColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1594,6 +1737,11 @@
 					   ng-click="getCollLevelChartData('cgDeptColl', 'byRace', 'CG')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cgDeptColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1627,6 +1775,11 @@
 					   ng-click="getCollLevelChartData('cgDeptColl', 'bySex', 'CG')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cgDeptColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1659,6 +1812,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('cgDeptColl', 'byPaygrade', 'CG')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cgDeptColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1716,6 +1874,11 @@
 					   ng-click="getCollLevelChartData('csaDeptColl', 'byRace', 'CSA')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.csaDeptColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1749,6 +1912,11 @@
 					   ng-click="getCollLevelChartData('csaDeptColl', 'bySex', 'CSA')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.csaDeptColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1781,6 +1949,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('csaDeptColl', 'byPaygrade', 'CSA')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.csaDeptColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1838,6 +2011,11 @@
 					   ng-click="getCollLevelChartData('rdnsDeptColl', 'byRace', 'RDNS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rdnsDeptColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1871,6 +2049,11 @@
 					   ng-click="getCollLevelChartData('rdnsDeptColl', 'bySex', 'RDNS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rdnsDeptColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -1903,6 +2086,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('rdnsDeptColl', 'byPaygrade', 'RDNS')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rdnsDeptColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -1960,6 +2148,11 @@
 					   ng-click="getCollLevelChartData('rfoDeptColl', 'byRace', 'RFO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rfoDeptColl.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -1993,6 +2186,11 @@
 					   ng-click="getCollLevelChartData('rfoDeptColl', 'bySex', 'RFO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rfoDeptColl.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2025,6 +2223,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollLevelChartData('rfoDeptColl', 'byPaygrade', 'RFO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.rfoDeptColl.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2082,6 +2285,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCC', 'byRace', 'CC')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCC.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2115,6 +2323,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCC', 'bySex', 'CC')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCC.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2147,6 +2360,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptCC', 'byPaygrade', 'CC')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCC.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2204,6 +2422,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCFL', 'byRace', 'CFL')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFL.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2237,6 +2460,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCFL', 'bySex', 'CFL')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFL.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2269,6 +2497,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptCFL', 'byPaygrade', 'CFL')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFL.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2326,6 +2559,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCFS', 'byRace', 'CFS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFS.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2359,6 +2597,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCFS', 'bySex', 'CFS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFS.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2391,6 +2634,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptCFS', 'byPaygrade', 'CFS')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCFS.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2448,6 +2696,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'byRace', 'CMEO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCMEO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2481,6 +2734,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'bySex', 'CMEO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCMEO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2513,6 +2771,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptCMEO', 'byPaygrade', 'CMEO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCMEO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2570,6 +2833,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'byRace', 'CWO/IWO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCWOIWO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2603,6 +2871,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'bySex', 'CWO/IWO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCWOIWO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2635,6 +2908,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptCWOIWO', 'byPaygrade', 'CWO/IWO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptCWOIWO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2692,6 +2970,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'byRace', 'DAPA')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAPA.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2725,6 +3008,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'bySex', 'DAPA')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAPA.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2757,6 +3045,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptDAPA', 'byPaygrade', 'DAPA')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAPA.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2814,6 +3107,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptDAO', 'byRace', 'DAO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2847,6 +3145,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptDAO', 'bySex', 'DAO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -2879,6 +3182,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptDAO', 'byPaygrade', 'DAO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptDAO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -2936,6 +3244,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptEFMP', 'byRace', 'EFMP')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEFMP.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -2969,6 +3282,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptEFMP', 'bySex', 'EFMP')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEFMP.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3001,6 +3319,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptEFMP', 'byPaygrade', 'EFMP')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEFMP.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3058,6 +3381,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptEIWS', 'byRace', 'EIWS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEIWS.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3091,6 +3419,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptEIWS', 'bySex', 'EIWS')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEIWS.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3123,6 +3456,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptEIWS', 'byPaygrade', 'EIWS')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptEIWS.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3180,6 +3518,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptESO', 'byRace', 'ESO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3213,6 +3556,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptESO', 'bySex', 'ESO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3245,6 +3593,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptESO', 'byPaygrade', 'ESO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3302,6 +3655,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptFAP', 'byRace', 'FAP')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptFAP.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3335,6 +3693,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptFAP', 'bySex', 'FAP')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptFAP.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3367,6 +3730,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptFAP', 'byPaygrade', 'FAP')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptFAP.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3424,6 +3792,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptLegal', 'byRace', 'LEGAL')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptLegal.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3457,6 +3830,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptLegal', 'bySex', 'LEGAL')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptLegal.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3489,6 +3867,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptLegal', 'byPaygrade', 'LEGAL')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptLegal.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3546,6 +3929,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptMuster', 'byRace', 'Muster')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMuster.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3579,6 +3967,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptMuster', 'bySex', 'Muster')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMuster.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3611,6 +4004,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptMuster', 'byPaygrade', 'Muster')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMuster.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3668,6 +4066,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptMWR', 'byRace', 'MWR Rep')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMWR.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3701,6 +4104,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptMWR', 'bySex', 'MWR Rep')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMWR.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3733,6 +4141,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptMWR', 'byPaygrade', 'MWR Rep')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptMWR.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3790,6 +4203,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSAPR', 'byRace', 'SAPR')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSAPR.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3823,6 +4241,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSAPR', 'bySex', 'SAPR')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSAPR.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3855,6 +4278,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptSAPR', 'byPaygrade', 'SAPR')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSAPR.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -3912,6 +4340,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSPC', 'byRace', 'SPC')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSPC.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -3945,6 +4378,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSPC', 'bySex', 'SPC')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSPC.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -3977,6 +4415,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptSPC', 'byPaygrade', 'SPC')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSPC.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4034,6 +4477,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptESponsor', 'byRace', 'Enlisted Sponsorship')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESponsor.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4067,6 +4515,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptESponsor', 'bySex', 'Enlisted Sponsorship')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESponsor.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4099,6 +4552,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptESponsor', 'byPaygrade', 'Enlisted Sponsorship')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptESponsor.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4156,6 +4614,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptOSponsor', 'byRace', 'Officer Sponsorship')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptOSponsor.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4189,6 +4652,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptOSponsor', 'bySex', 'Officer Sponsorship')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptOSponsor.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4221,6 +4689,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptOSponsor', 'byPaygrade', 'Officer Sponsorship')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptOSponsor.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4278,6 +4751,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSWO', 'byRace', 'SWO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSWO.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4311,6 +4789,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptSWO', 'bySex', 'SWO')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSWO.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4343,6 +4826,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptSWO', 'byPaygrade', 'SWO')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptSWO.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4400,6 +4888,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptTrain', 'byRace', 'Training')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptTrain.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4433,6 +4926,11 @@
 					   ng-click="getCollRoleChartData('cmdDeptTrain', 'bySex', 'Training')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptTrain.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4465,6 +4963,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getCollRoleChartData('cmdDeptTrain', 'byPaygrade', 'Training')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdDeptTrain.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4525,7 +5028,7 @@
 					</p>
 					
 					<p class="no-data-label"
-					   ng-show="chartObject.cmdReen.byRace.noData">
+					   ng-show="chartObject.cmdReen.byRace.data.length == 0">
 					   No Data
 					</p>
 				
@@ -4563,7 +5066,7 @@
 					</p>
 
 					<p class="no-data-label"
-					   ng-show="chartObject.cmdReen.bySex.noData">
+					   ng-show="chartObject.cmdReen.bySex.data.length == 0">
 					   No Data
 					</p>
 				
@@ -4601,7 +5104,7 @@
 					</p>
 
 					<p class="no-data-label"
-					   ng-show="chartObject.cmdReen.byPaygrade.noData">
+					   ng-show="chartObject.cmdReen.byPaygrade.data.length == 0">
 					   No Data
 					</p>
 				
@@ -4660,6 +5163,11 @@
 					   ng-click="getBooleanChartData('cmdNJP', 'byRace', 'disciplined')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdNJP.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4693,6 +5201,11 @@
 					   ng-click="getBooleanChartData('cmdNJP', 'bySex', 'disciplined')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdNJP.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4725,6 +5238,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getBooleanChartData('cmdNJP', 'byPaygrade', 'disciplined')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdNJP.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4782,6 +5300,11 @@
 					   ng-click="getBooleanChartData('cmdAdv', 'byRace', 'advanced')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAdv.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4815,6 +5338,11 @@
 					   ng-click="getBooleanChartData('cmdAdv', 'bySex', 'advanced')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAdv.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4847,6 +5375,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getBooleanChartData('cmdAdv', 'byPaygrade', 'advanced')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAdv.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -4904,6 +5437,11 @@
 					   ng-click="getBooleanChartData('cmdAwd', 'byRace', 'awarded')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAwd.byRace.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Race/Ethnicity</p>
 				
@@ -4937,6 +5475,11 @@
 					   ng-click="getBooleanChartData('cmdAwd', 'bySex', 'awarded')">
 						Generate
 					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAwd.bySex.data.length == 0">
+					   No Data
+					</p>
 				
 					<p class="chart-label">By Sex</p>
 				
@@ -4969,6 +5512,11 @@
 					<p class="button button-primary float-right"
 					   ng-click="getBooleanChartData('cmdAwd', 'byPaygrade', 'awarded')">
 						Generate
+					</p>
+
+					<p class="no-data-label"
+					   ng-show="chartObject.cmdAwd.byPaygrade.data.length == 0">
+					   No Data
 					</p>
 				
 					<p class="chart-label">By Paygrade</p>
@@ -5129,21 +5677,13 @@
 					</td>
 				</tr>
 			</table>
-
-			<!-- <p>
-				{{ EditDiversityCollObject.selectedArray }}
-			</p> -->
 	
 			<div class="dialog-actions clearfix">
 				<p ng-click="setDiversityCollDuty()" class="button button-primary shadow float-right">Add Record</p>
 				<p ng-click="CloseDiversityCollDialog()" class="button float-right m-r-10">Cancel</p>
 			</div>
-			<!-- <p>{{ newAlphaRecordObject }}</p> -->
 		</div>
 	</div>
-
-
-
 	
 </section>
 

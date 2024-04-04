@@ -1,7 +1,4 @@
-var app = angular.module('diversity-report', ["alpha-roster-import", "fltmps-import", "chart.js"]);
-
-// Table column resizing
-// https://unpkg.com/browse/angular-table-resize@2.0.1/demo/ 
+var app = angular.module('diversity-report', ["alpha-roster-import", "fltmps-import", "diversity-object-import", "chart.js"]);
 
 app.config(function (ChartJsProvider) {
 	// Configure all charts
@@ -22,12 +19,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	$scope.departmentArray = [];
 	$scope.alphaNumRegex = new RegExp(/[\W_]+/g);
 	$scope.genderOptions = ['Male', 'Female'];
-	$scope.leadershipRoleOptions = [
-		{
-			longTitle: 'Command TRIAD',
-			shortTitle: 'TRIAD'
-		}
-	];
+	$scope.leadershipRoleOptions = ['TRIAD', 'DH', 'DLCPO', 'DLPO'];
 	$scope.paygradeArray = [
 		'E-1', 'E-2', 'E-3', 
 		'E-4', 'E-5', 'E-6', 
@@ -36,7 +28,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		'W-4', 'W-5', 
 		'O-1', 'O-2', 'O-3', 
 		'O-4', 'O-5'
-	]
+	];
 
 
 	byLastName = function(lastNameA, lastNameB)
@@ -49,6 +41,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		}
 		return 0;
 	}
+
+
 
 	//┌──────────────────────────────────────┐
 	//│ Tab UI Functions                     │
@@ -66,11 +60,11 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			},
 			diversityRoster: {
 				title: 'Diversity Data',
-				state: 'muted'
+				state: 'inactive'
 			},
 			diversityReport: {
 				title: 'Diversity Report',
-				state: 'inactive'
+				state: 'muted'
 			}
 		}
 	};
@@ -357,8 +351,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		return filteredStatus;
 	};
 
-	
-
 
 
 	//┌──────────────────────────────────────┐
@@ -371,11 +363,13 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.unmuteTab('diversityRoster');
 	};
 
+
 	$scope.deleteFltmpsData = function()
 	{
 		delete $scope.fltmpsObject;
 		$scope.showFltmpsHTML = false;
 	}
+
 
 	$scope.setFltmpsDiversityFilter = function (group) {
 		if ($scope.fltmpsDiversityFilter.includes(group)) {
@@ -417,10 +411,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		item.lastNameSearchMatch = false;
 		return false;
 	}
-			
-		
-
-	
 
 
 
@@ -428,7 +418,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 	//│ Diversity Data | Vars & Functions    │
 	//└──────────────────────────────────────┘
 	$scope.filterDiversityUnmerged = false;
-
 	$scope.EditDiversityCollObject = {
 		displayDialog: false,
 		collateralLevels: [
@@ -464,11 +453,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		selectedArray: []
 	};
 
-	$scope.loadDiversityObject = function()
-	{
-		// $scope.alphaInitialArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z"]
-		$scope.diversityObject = savedDiversityObject;
-	}
 
 	$scope.logDiversityObject = function()
 	{
@@ -481,30 +465,19 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		{
 			delete $scope.diversityObject
 		}
-		$scope.diversityObject = {};
-		$scope.diversityObject.recordCount = 0;
-
-		$scope.departmentArray.forEach(dept => {
-			$scope.leadershipRoleOptions.push({
-				longTitle: dept + ' Department Head',
-				shortTitle: dept + ' DH',
-			});
-
-			$scope.leadershipRoleOptions.push({
-				longTitle: dept + ' Leading Chief Petty Officer',
-				shortTitle: dept + ' DLCPO',
-			});
-
-			$scope.leadershipRoleOptions.push({
-				longTitle: dept + ' Leading Petty Officer',
-				shortTitle: dept + ' DLPO',
-			});
-		});
+		$scope.diversityObject = {
+			initialArray: $scope.alphaInitialArray,
+			departmentArray: $scope.departmentArray,
+			diversityGroupArray: $scope.fltmpsDiversityGroupArray,
+			uicArray: $scope.fltmpsUicArray
+		};
 		
+
+		$scope.diversityObject.recordCount = 0;
+	
 		$scope.alphaInitialArray.forEach(initial => {
 			
 			$scope.alphaObject[initial].forEach(alphaRecord => {
-				// console.log('working: ' + alphaRecord.lastName);
 				var diversityRecord = {};
 				
 				if (!$scope.diversityObject[alphaRecord.lastInitial])
@@ -518,7 +491,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				diversityRecord.lastInitial = alphaRecord.lastInitial;
 				diversityRecord.lastName = alphaRecord.lastName;
 				diversityRecord.firstName = alphaRecord.firstName;
-				
 
 				$scope.fltmpsObject[alphaRecord.lastInitial].forEach(fltmpsRecord => {
 					if ( alphaRecord.lastName.trim() == fltmpsRecord.lastName &&
@@ -541,12 +513,31 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 					$scope.diversityObject[alphaRecord.lastInitial].push(diversityRecord)
 					$scope.diversityObject.recordCount += 1;
 				}
-				
-				//  console.log(diversityRecord);
-
-				
 			});
 		});
+	};
+
+
+	$scope.downloadDiversityObject = function()
+	{
+		$scope.filterDiversityNameText = '';
+
+		var anchor = angular.element('<a/>');
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		var day = date.getDay();
+		var exportFileName = year + '-' + month + '-' + day + ' - Diversity Object File.txt (DO NOT EDIT).txt';
+
+		angular.element(document.body).append(anchor); // Attach to document
+
+		anchor.attr({
+			href: 'data:attachment/csv;charset=utf-8,' + encodeURI(JSON.stringify($scope.diversityObject)),
+			target: '_blank',
+			download: exportFileName
+		})[0].click(); // fire a click event.
+
+		anchor.remove(); // Clean it now ...
 	};
 
 
@@ -556,6 +547,37 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.diversityObject[lastInitial].splice(index, 1);
 		$scope.diversityObject.recordCount -= 1;
 	}
+
+
+	$scope.validateDiversityObject = function()
+	{
+		var validRoster = true;
+
+		$scope.diversityObject.initialArray.forEach(initial => {
+			$scope.diversityObject[initial].forEach(record => {
+				if ( !record.dept ||
+					 !record.rateRank ||
+					 !record.paygrade ||
+					 !record.lastName ||
+					 !record.lastName ||
+					 !record.genderGroup ||
+					 !record.diversityGroup ||
+					 !record.uic )
+				{
+					validRoster = false;
+					return;
+				}
+			});
+		});
+
+		if ( !validRoster )
+		{
+			alert('One or more records are missing:\n • Department\n • Rate / Rank\n • Paygrade\n • Last Name\n • First Name\n • Gender Group\n • Diversity Group\n • UIC');
+			return;
+		}
+
+		$scope.unmuteTab('diversityReport')
+	};
 
 
 	$scope.validateDiversityRecord = function(lastInitial, record)
@@ -625,7 +647,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.openDiversityCollDialog = function (lastInitial, record) {
 		var index = $scope.getTrueIndex('diversityObject', lastInitial, record);
-		console.log('opening diversity collateral dialog: ' + lastInitial + ' ' + index);
 
 		$scope.openDiversityCollDialog.lastInitial = lastInitial;
 		$scope.openDiversityCollDialog.index = index;
@@ -636,7 +657,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 		if ($scope.diversityObject[lastInitial][index].collateralDuties)
 		{
-			console.log('item has collateral duties present');
 			$scope.EditDiversityCollObject.selectedArray = angular.copy($scope.diversityObject[lastInitial][index].collateralDuties);
 		}
 
@@ -649,14 +669,15 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.EditDiversityCollObject.selectedArray.push({collateralLevel: '', collateralTitle: ''})
 	};
 
+
 	$scope.removeDiversityCollDuty = function(index)
 	{
 		$scope.EditDiversityCollObject.selectedArray.splice(index, 1);
 	};
 
+
 	$scope.setDiversityCollDuty = function()
 	{
-		console.log('passing lastInitial, index to merge as: ' + $scope.openDiversityCollDialog.lastInitial + ' ' + $scope.openDiversityCollDialog.index);
 		var missingFields = false;
 		var lastInitial = $scope.openDiversityCollDialog.lastInitial
 		var index = $scope.openDiversityCollDialog.index
@@ -664,7 +685,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 		if ($scope.EditDiversityCollObject.selectedArray.length == 0 )
 		{
-			console.log('no duty added; clearing diversityobject collateral duties');
 			delete $scope.diversityObject[lastInitial][index].collateralDuties;
 			$scope.CloseDiversityCollDialog();
 			return;
@@ -677,11 +697,9 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 				missingFields = true;
 			}
 		});
-		console.log('about to set vars and exit');
 		
 		if ( missingFields )
 		{
-			console.log('field not set; returning');
 			return;
 		}
 
@@ -689,9 +707,8 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.CloseDiversityCollDialog();
 	}
 	
-	$scope.CloseDiversityCollDialog = function() {
-		console.log('closing diversity collateral dialog');
 
+	$scope.CloseDiversityCollDialog = function() {
 		$scope.EditDiversityCollObject.selectedArray = [];
 		$scope.openDiversityCollDialog.lastInitial = null;
 		$scope.openDiversityCollDialog.index = null;
@@ -700,7 +717,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		$scope.EditDiversityCollObject.memberLastName = false;
 		$scope.EditDiversityCollObject.memberfirstName = false;
 	};
-
 
 
 
@@ -730,7 +746,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		bySex: 'genderGroup',
 		byPaygrade: 'paygrade'
 	}
-	
 	$scope.testChart = {
 		type: 'pie',
 		labels: ['BLACK OR AFRICAN AMERICAN, 32, 10%', 'AMERICAN INDIAN OR ALASKA NATIVE, 4, 1%', 'NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER, 2, 1%'],
@@ -746,8 +761,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 		},
 		legendColors: ['#97bbcd', '#dcdcdc', '#edb96a']
 	};
-
-
 	$scope.chartObject = {
 		allHands: {
 			byRace: {
@@ -1460,8 +1473,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			dataTotal += datum;
 		});
 
-		console.log(dataTotal);
-
 		$scope.chartObject[chartObj][byTrait].labels.forEach(label => {
 			var index = $scope.chartObject[chartObj][byTrait].labels.indexOf(label);
 			var labelTotal = $scope.chartObject[chartObj][byTrait].data[index];
@@ -1477,13 +1488,12 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 	$scope.getAllChartData = function(chartObj, byTrait)
 	{
-		console.log('firing getChartData()');
 		$scope.chartObject[chartObj][byTrait].labels = [];
 		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
 
-		$scope.alphaInitialArray.forEach(initial => {
+		$scope.diversityObject.initialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
 				
 				if ( !$scope.chartObject[chartObj][byTrait].labels.includes(record[trait]) )
@@ -1503,28 +1513,24 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			});
 		});
 
-		console.log($scope.chartObject[chartObj][byTrait]);
 		$scope.setChartLabel(chartObj, byTrait);
 	};
 
 
 	$scope.getRoleChartData = function (chartObj, byTrait, role) {
-		console.log('firing getRoleChartData()');
 		$scope.chartObject[chartObj][byTrait].labels = [];
 		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
-		console.log(trait);
 		
-		
-		$scope.alphaInitialArray.forEach(initial => {
+		$scope.diversityObject.initialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
 				if ( !record.leadershipRole )
 				{
 					return;
 				}
 
-				if ( !record.leadershipRole.shortTitle.includes(role) )
+				if ( !record.leadershipRole.includes(role) )
 				{
 					return;
 				}
@@ -1544,21 +1550,17 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			});
 		});
 
-		console.log($scope.chartObject[chartObj][byTrait]);
 		$scope.setChartLabel(chartObj, byTrait);
 	};
 
 
 	$scope.getCollLevelChartData = function (chartObj, byTrait, level) {
-		console.log('firing getRoleChartData()');
 		$scope.chartObject[chartObj][byTrait].labels = [];
 		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
-		console.log(trait);
 
-
-		$scope.alphaInitialArray.forEach(initial => {
+		$scope.diversityObject.initialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
 				if (!record.collateralDuties) {
 					return;
@@ -1595,7 +1597,6 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			});
 		});
 
-		console.log($scope.chartObject[chartObj][byTrait]);
 		$scope.setChartLabel(chartObj, byTrait);
 	};
 
@@ -1606,7 +1607,7 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 
 		var trait = $scope.mapRecord[byTrait];
 
-		$scope.alphaInitialArray.forEach(initial => {
+		$scope.diversityObject.initialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
 				if (!record.collateralDuties) {
 					return;
@@ -1643,21 +1644,17 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			});
 		});
 
-		console.log($scope.chartObject[chartObj][byTrait]);
 		$scope.setChartLabel(chartObj, byTrait);
 	};
 
 
 	$scope.getBooleanChartData = function (chartObj, byTrait, boolValue) {
-		console.log('getBooleanChartData()');
 		$scope.chartObject[chartObj][byTrait].labels = [];
 		$scope.chartObject[chartObj][byTrait].data = [];
 
 		var trait = $scope.mapRecord[byTrait];
-		console.log(trait);
 		
-		
-		$scope.alphaInitialArray.forEach(initial => {
+		$scope.diversityObject.initialArray.forEach(initial => {
 			$scope.diversityObject[initial].forEach(record => {
 				
 				if ( !record[boolValue] )
@@ -1680,15 +1677,9 @@ app.controller('diversityReportCtrl', function ($scope, $http) {
 			});
 		});
 
-		console.log($scope.chartObject[chartObj][byTrait]);
-
-		if ( $scope.chartObject[chartObj][byTrait].data.length == 0 )
+		if ( $scope.chartObject[chartObj][byTrait].data.length > 0 )
 		{
-			console.log('no data');
-			$scope.chartObject[chartObj][byTrait].noData = true;
-			return;
+			$scope.setChartLabel(chartObj, byTrait);
 		}
-
-		$scope.setChartLabel(chartObj, byTrait);
 	};
 });

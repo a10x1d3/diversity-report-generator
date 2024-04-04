@@ -1,6 +1,3 @@
-// Reference
-// https://jsfiddle.net/maxisam/QrCXh/
-
 var app = angular.module('alpha-roster-import', []);
 
 app.directive('alphaReader', function ()
@@ -17,8 +14,6 @@ app.directive('alphaReader', function ()
             element.on('change', function (changeEvent)
             {
                 var files = changeEvent.target.files;
-                // console.log(files);
-
                 var localAlphaObject = { recordCount: 0 };
                 var localAlphaInitialArray = [];
                 var pgArray = [
@@ -113,8 +108,6 @@ app.directive('alphaReader', function ()
                                         "match": false
                                 }
                                 
-                                if (missingPaygrade) { console.log(recordObject); }
-
                                 if ( !localAlphaObject[lastInitial] )
                                 {
                                     localAlphaObject[lastInitial] = new Array;
@@ -131,8 +124,6 @@ app.directive('alphaReader', function ()
                                 {
                                     localDepartmentArray.push(sailor[0]);
                                 }
-
-
                             });
 
                             localAlphaInitialArray.sort();
